@@ -1,13 +1,14 @@
 <#import "parts/common.ftl" as c>
+<#import "parts/card.ftl" as card>
 <@c.page>
     <h2>Список одежды</h2>
-    <#list clothes as clothesOne>
-        <span>${clothesOne.article}</span>
-        <span>${clothesOne.name}</span>
-        <i>${clothesOne.price} рублей</i>
-        <a href="/clothes/${clothesOne.article}">Подробнее</a>
-        <br>
-    <#else>
-    No Clothes
-    </#list>
+    <div class="card-deck">
+        <#list clothes as clothesOne>
+            <@card.card clothesOne />
+            <br>
+        <#else>
+        No Clothes
+        </#list>
+    </div>
+    <a href="/admin">Admin</a>
 </@c.page>

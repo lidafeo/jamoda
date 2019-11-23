@@ -1,6 +1,8 @@
 package com.jamoda.model;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "clothes")
@@ -17,6 +19,7 @@ public class Clothes {
     private String name;
     private int price;
     private String season;
+    private String filename;
 
     public Clothes() {
     }
@@ -111,5 +114,28 @@ public class Clothes {
 
     public void setSeason(String season) {
         this.season = season;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public static List<String> getGenderForSelect() {
+        List<String> gender = new LinkedList<>();
+        gender.add("женский");
+        gender.add("мужской");
+        gender.add("унисекс");
+        return gender;
+    }
+
+    public static List<String> getSeasonForSelect() {
+        List<String> season = new LinkedList<>();
+        season.add("зима");
+        season.add("лето");
+        return season;
     }
 }
