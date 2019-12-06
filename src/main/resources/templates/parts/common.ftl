@@ -12,7 +12,14 @@
 <body>
     <#include "navbar.ftl">
     <div class="container">
-    <#nested>
+        <div class="row">
+            <div class="col-sm-3">
+                <#include "filter.ftl">
+            </div>
+            <div class="col-sm-9">
+                <#nested>
+            </div>
+        </div>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

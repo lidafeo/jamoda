@@ -1,25 +1,32 @@
 package com.jamoda.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
+    @Column(name = "name_en")
     private String nameEn;
+    @Column(name = "name_rus")
     private String nameRus;
+
+    private int parentId;
+    private String type;
+
+    public Category() {
+    }
+
+    public Category(String nameEn, String nameRus, int parentId, String type) {
+        this.nameEn = nameEn;
+        this.nameRus = nameRus;
+        this.parentId = parentId;
+        this.type = type;
+    }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getNameEn() {
@@ -36,5 +43,21 @@ public class Category {
 
     public void setNameRus(String nameRus) {
         this.nameRus = nameRus;
+    }
+
+    public int getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -10,7 +10,7 @@
     <form action="/admin/add_clothes" method="post">
         <div class="form-group"><label> Категория : <select name="category" placeholder="Верхняя одежда" required >
             <#list category as categoryOne>
-                <option>${categoryOne}</option>
+                <option>${categoryOne.nameRus}</option>
             </#list>
         </select></label></div>
         <div class="form-group"><label> Артикул : <input type="text" name="article" placeholder="MP002XW0RBO8" required/> </label></div>

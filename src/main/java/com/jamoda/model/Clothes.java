@@ -1,8 +1,6 @@
 package com.jamoda.model;
 import javax.persistence.*;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "clothes")
@@ -10,30 +8,49 @@ public class Clothes {
     @Id
     private String article;
 
-    private String brand;
     private String category;
-    private String composition;
     private Date date_added;
-    private String gender;
-    private String made_in;
     private String name;
     private int price;
-    private String season;
-    private String filename;
+
+    @OneToMany(targetEntity = AttributeGroup.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<AttributeGroup> attributeGroups = new ArrayList<>();
+
+    @OneToMany(targetEntity = Image.class, mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Image> images = new ArrayList<>();
+
+    @OneToMany(mappedBy = "clothes")
+    @MapKeyColumn(name = "attribute_id")
+    //@MapKey(name = "article")
+    private Map<String, AttributeValue> attributeValues = new HashMap<String, AttributeValue>();
+
+    /*
+    @ManyToMany
+    @JoinTable(
+            name = "attribute_value_product",
+            joinColumns={@JoinColumn(name="fk_clothes", referencedColumnName="article")},
+            inverseJoinColumns={@JoinColumn(name="fk_attribute_value", referencedColumnName="id")}
+    )
+    @MapKey(name = "productArticle")
+    private Map<String, AttributeValue> attributeValues = new HashMap<String, AttributeValue>();
+     */
 
     public Clothes() {
     }
 
-    public Clothes(String article, String brand, String category, String composition, String gender, String made_in, String name, int price, String season) {
+    public Clothes(String article, String category, String name, int price) {
         this.article = article;
-        this.brand = brand;
         this.category = category;
-        this.composition = composition;
-        this.gender = gender;
-        this.made_in = made_in;
         this.name = name;
         this.price = price;
-        this.season = season;
+    }
+
+    public Map<String, AttributeValue> getAttributeValues() {
+        return attributeValues;
+    }
+
+    public void setAttributeValues(Map<String, AttributeValue> attributeValues) {
+        this.attributeValues = attributeValues;
     }
 
     public String getArticle() {
@@ -44,14 +61,6 @@ public class Clothes {
         this.article = article;
     }
 
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
     public String getCategory() {
         return category;
     }
@@ -60,36 +69,12 @@ public class Clothes {
         this.category = category;
     }
 
-    public String getComposition() {
-        return composition;
-    }
-
-    public void setComposition(String composition) {
-        this.composition = composition;
-    }
-
     public Date getDate_added() {
         return date_added;
     }
 
     public void setDate_added(Date date_added) {
         this.date_added = date_added;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getMade_in() {
-        return made_in;
-    }
-
-    public void setMade_in(String made_in) {
-        this.made_in = made_in;
     }
 
     public String getName() {
@@ -108,20 +93,20 @@ public class Clothes {
         this.price = price;
     }
 
-    public String getSeason() {
-        return season;
+    public List<Image> getImages() {
+        return images;
     }
 
-    public void setSeason(String season) {
-        this.season = season;
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 
-    public String getFilename() {
-        return filename;
+    public List<AttributeGroup> getAttributeGroups() {
+        return attributeGroups;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setAttributeGroups(List<AttributeGroup> attributeGroups) {
+        this.attributeGroups = attributeGroups;
     }
 
     public static List<String> getGenderForSelect() {
@@ -136,6 +121,8 @@ public class Clothes {
         List<String> season = new LinkedList<>();
         season.add("зима");
         season.add("лето");
+        season.add("межсезон");
         return season;
     }
+
 }

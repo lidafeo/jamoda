@@ -20,7 +20,7 @@
             </li>
             <li class="nav-item">
                 <form action="/logout" method="post">
-                    <input type="submit" value="Выйти"/>
+                    <input type="submit" class="form-control mr-sm-2" value="Выйти"/>
                     <input type="hidden" name="_csrf" value="${_csrf.token}">
                 </form>
             </li>

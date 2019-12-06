@@ -1,12 +1,7 @@
 package com.jamoda.controller;
 
-import com.jamoda.model.Category;
-import com.jamoda.model.Clothes;
-import com.jamoda.model.Role;
-import com.jamoda.model.User;
-import com.jamoda.repository.CategoryRepository;
-import com.jamoda.repository.ClothesRepository;
-import com.jamoda.repository.UserRepository;
+import com.jamoda.model.*;
+import com.jamoda.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -29,6 +24,14 @@ public class AdminController {
     private ClothesRepository clothesRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private ImageRepository imageRepository;
+    @Autowired
+    private AttributeGroupRepository attributeGroupRepository;
+    @Autowired
+    private AttributeRepository attributeRepository;
+    @Autowired
+    private AttributeValueRepository attributeValueRepository;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -49,13 +52,15 @@ public class AdminController {
     public String addUser(User user, Model model) {
         User userFromDb = userRepository.findByLogin(user.getLogin());
         if(userFromDb != null) {
-            model.addAttribute("message", "User exists!");
+            model.addAttribute("error", "Такой пользователь уже существует!");
             return "addUser";
         }
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.ADMIN));
         userRepository.save(user);
-        return "redirect:/admin";
+        model.addAttribute("message", "success");
+        return "addUser";
+        //return "redirect:/admin";
     }
 
     //admin/add_file
@@ -66,35 +71,30 @@ public class AdminController {
 
     @PostMapping("/admin/add_file")
     public String addFile(@RequestParam("article") String article, @RequestParam("file") MultipartFile file, Model model) throws IOException {
-        if(file != null && !file.getOriginalFilename().isEmpty()) {
-            File uploadDir = new File(uploadPath);
-            if(!uploadDir.exists()) {
-                uploadDir.mkdir();
-            }
-            //String uuidFile = UUID.randomUUID().toString();
-            String resultFilename = article + "_" + file.getOriginalFilename();
-            Clothes clothes = clothesRepository.findByArticle(article);
-            clothes.setFilename(resultFilename);
-            file.transferTo(new File(uploadPath + "/" + resultFilename));
-            clothesRepository.save(clothes);
+        if(file == null || file.getOriginalFilename().isEmpty()) {
+            model.addAttribute("error", "Прикрепите файл!");
+            return "addFile";
         }
-        return "redirect:/admin";
+        File uploadDir = new File(uploadPath);
+        if(!uploadDir.exists()) {
+            uploadDir.mkdir();
+        }
+        String uuidFile = UUID.randomUUID().toString();
+        String resultFilename = article + "_" + uuidFile + ".webp";
+        Image image = new Image(resultFilename, article);
+        file.transferTo(new File(uploadPath + "/" + resultFilename));
+        imageRepository.save(image);
+        model.addAttribute("message", "success");
+        return "addFile";
     }
 
     //admin/add_clothes
     @GetMapping("/admin/add_clothes")
     public String pageAddClothes(Model model) {
-        Map<String, Object> attribute = new HashMap<>();
-        attribute.put("gender", Clothes.getGenderForSelect());
-        attribute.put("season", Clothes.getSeasonForSelect());
-        attribute.put("brand", clothesRepository.findDistinctBrand());
-
         //attribute.put("category", categoryRepository.findAll());
-        List<String> category = new LinkedList<String>();
-        category.add("Платье");
-        attribute.put("category", category);
 
-        model.addAllAttributes(attribute);
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("category", categories);
         return "addClothes";
     }
 
@@ -102,11 +102,125 @@ public class AdminController {
     public String addClothes(Clothes clothes, Model model) {
         Clothes clothesFromDb = clothesRepository.findByArticle(clothes.getArticle());
         if(clothesFromDb != null) {
-            model.addAttribute("message", "Clothes exists!");
-            return "addClothes.ftl";
+            List<Category> categories = categoryRepository.findAll();
+            model.addAttribute("category", categories);
+            model.addAttribute("error", "Такой товар уже существует!");
+            return "addClothes";
         }
         clothes.setDate_added(new Date());
         clothesRepository.save(clothes);
-        return "redirect:/admin";
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("category", categories);
+        model.addAttribute("message", "success");
+        return "addClothes";
+    }
+
+    //admin/add_category
+    @GetMapping("/admin/add_category")
+    public String pageAddCategory(Model model) {
+        model.addAttribute("categories", categoryRepository.findAll());
+        return "addCategory";
+    }
+
+    @PostMapping("/admin/add_category")
+    public String addCategory(Category category, Model model) {
+        Category categoryFromDb = categoryRepository.findByNameEnOrNameRusEquals(category.getNameEn(), category.getNameRus());
+        if(categoryFromDb != null) {
+            model.addAttribute("categories", categoryRepository.findAll());
+            model.addAttribute("error", "Такая категория уже существует!");
+            return "addCategory";
+        }
+        categoryRepository.save(category);
+        model.addAttribute("categories", categoryRepository.findAll());
+        model.addAttribute("message", "success");
+        return "addCategory";
+    }
+
+    //admin/add_attribute
+    @GetMapping("/admin/add_attribute")
+    public String pageAddAttribute(Model model) {
+        model.addAttribute("groups", attributeGroupRepository.findAll());
+        return "addAttribute";
+    }
+
+    @PostMapping("/admin/add_attribute")
+    public String addAttribute(Attribute attribute, @RequestParam(name="groupId") long groupId, Model model) {
+        Attribute attributeFromDb = attributeRepository.findByName(attribute.getName());
+        AttributeGroup attributeGroup = attributeGroupRepository.findById(groupId);
+        //сохраняем атрибут
+        if(attributeFromDb != null) {
+            model.addAttribute("error", "Такой атрибут уже существует!");
+            model.addAttribute("groups", attributeGroupRepository.findAll());
+            return "addAttribute";
+        }
+        if(attributeGroup != null) {
+            attribute.setGroup(attributeGroup);
+        }
+        attributeRepository.save(attribute);
+        model.addAttribute("message", "success");
+        model.addAttribute("groups", attributeGroupRepository.findAll());
+        return "addAttribute";
+    }
+
+    //admin/add_group
+    @GetMapping("/admin/add_group")
+    public String pageAddGroup(Model model) {
+        return "addGroup";
+    }
+
+    @PostMapping("/admin/add_group")
+    public String addGroup(AttributeGroup attributeGroup, Model model) {
+        AttributeGroup attributeGroupFromDb = attributeGroupRepository.findByName(attributeGroup.getName());
+        if(attributeGroupFromDb != null) {
+            model.addAttribute("error", "Такая группа атрибутов уже существует!");
+            return "addGroup";
+        }
+        attributeGroupRepository.save(attributeGroup);
+        model.addAttribute("message", "success");
+        return "addGroup";
+    }
+
+    //admin/add_attribute_value
+    @GetMapping("/admin/add_attribute_value")
+    public String pageAddAttributeValue(Model model) {
+        model.addAttribute("clothes", clothesRepository.findAll());
+        model.addAttribute("attributes", attributeRepository.findAll());
+        return "addAttributeValue";
+    }
+
+    @PostMapping("/admin/add_attribute_value")
+    public String addAttributeValue(AttributeValue attributeValue,
+                                    @RequestParam(name="product_article") String article,
+                                    @RequestParam(name="attribute_id") long attribute_id,
+                                    Model model) {
+        AttributeValue attributeValueFromDb = attributeValueRepository.findById(attributeValue.getId());
+        if(attributeValueFromDb != null) {
+            model.addAttribute("error", "Такой атрибут уже добавлен!");
+            model.addAttribute("clothes", clothesRepository.findAll());
+            model.addAttribute("attributes", attributeRepository.findAll());
+            return "addAttributeValue";
+        }
+        Clothes clothes = clothesRepository.findByArticle(article);
+        if(clothes == null) {
+            model.addAttribute("error", "Такого товара не существует!");
+            model.addAttribute("clothes", clothesRepository.findAll());
+            model.addAttribute("attributes", attributeRepository.findAll());
+            return "addAttributeValue";
+        }
+        attributeValue.setClothes(clothes);
+
+        Attribute attribute = attributeRepository.findById(attribute_id);
+        if(attribute == null) {
+            model.addAttribute("error", "Такого атрибута не существует!");
+            model.addAttribute("clothes", clothesRepository.findAll());
+            model.addAttribute("attributes", attributeRepository.findAll());
+            return "addAttributeValue";
+        }
+        attributeValue.setAttribute(attribute);
+        attributeValueRepository.save(attributeValue);
+        model.addAttribute("message", "success");
+        model.addAttribute("clothes", clothesRepository.findAll());
+        model.addAttribute("attributes", attributeRepository.findAll());
+        return "addAttributeValue";
     }
 }

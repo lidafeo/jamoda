@@ -8,6 +8,4 @@ import java.util.List;
 
 public interface ClothesRepository extends CrudRepository<Clothes, Integer> {
     Clothes findByArticle(String article);
-    @Query("SELECT DISTINCT brand FROM Clothes")
-    List<String> findDistinctBrand();
 }

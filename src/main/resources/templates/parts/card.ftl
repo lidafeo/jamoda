@@ -1,16 +1,17 @@
 <#macro card clothes>
 <div class="col-sm-4">
     <div class="card" style="width: 15rem;">
-        <#if clothes.filename??>
-            <img src="/img/${clothes.filename}" class="card-img-top" alt="${clothes.name}">
+        <#if clothes.images?size != 0>
+            <img src="/img/${clothes.images?first.name}" class="card-img-top" alt="${clothes.name}">
         </#if>
         <div class="card-body">
-            <h5 class="card-title">${clothes.name}</h5>
+            <h6 class="card-title">${clothes.name}</h6>
             <p class="card-text">
-                <p>Бренд: ${clothes.brand}</p>
-                <p><i>${clothes.price} рублей</i></p>
+                <p><b><i>${clothes.price} руб.</i></b></p>
             </p>
             <a href="/clothes/${clothes.article}" class="btn btn-primary">Подробнее</a>
+            <a href="/clothes/${clothes.article}" class="btn btn-primary">
+                <img src="/img/cart.ico" width="23" alt="Купить"></a>
             <p class="card-text"><small class="text-muted">${clothes.category}</small></p>
         </div>
     </div>

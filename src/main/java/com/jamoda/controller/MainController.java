@@ -1,7 +1,10 @@
 package com.jamoda.controller;
 
 import com.jamoda.model.Clothes;
+import com.jamoda.model.Image;
+import com.jamoda.repository.CategoryRepository;
 import com.jamoda.repository.ClothesRepository;
+import com.jamoda.repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -20,18 +23,31 @@ import java.util.UUID;
 public class MainController {
     @Autowired
     private ClothesRepository clothesRepository;
+    @Autowired
+    private ImageRepository imageRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
+    /*
     @GetMapping("/greeting")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name,
                            Map<String, Object> model) {
         model.put("name", name);
         return "greeting";
     }
+    */
 
     @GetMapping("/")
     public String main(Model model) {
         Iterable<Clothes> clothes = clothesRepository.findAll();
         model.addAttribute("clothes", clothes);
+        model.addAttribute("categories", categoryRepository.findAllByType("main"));
         return "main";
+    }
+
+    @GetMapping("/about")
+    public String about(Model model) {
+        model.addAttribute("categories", categoryRepository.findAllByType("main"));
+        return "about";
     }
 }
