@@ -3,10 +3,11 @@ package com.jamoda.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "category")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
     @Column(name = "name_en")
     private String nameEn;
     @Column(name = "name_rus")
@@ -25,7 +26,7 @@ public class Category {
         this.type = type;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

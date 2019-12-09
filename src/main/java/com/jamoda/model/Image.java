@@ -3,10 +3,12 @@ package com.jamoda.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="image")
+@Table(name="images")
 public class Image {
     @Id
+    @Column(name="name", length = 100)
     private String name;
+    @Column(name="article", length = 100)
     private String article;
     private boolean hide;
     private boolean main;
@@ -20,8 +22,6 @@ public class Image {
     public Image(String name, String article) {
         this.name = name;
         this.article = article;
-        this.main = false;
-        this.hide = false;
     }
 
     public String getName() {
@@ -39,7 +39,7 @@ public class Image {
     public void setArticle(String article) {
         this.article = article;
     }
-
+/*
     public boolean isHide() {
         return hide;
     }
@@ -55,4 +55,6 @@ public class Image {
     public void setMain(boolean main) {
         this.main = main;
     }
+
+ */
 }

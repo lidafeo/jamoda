@@ -2,7 +2,7 @@
 <@c.page>
     <div class="row">
         <#if clothes.images?size != 0>
-        <div class="col-sm-5">
+        <div class="col-sm-6">
             <div id="carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <#list clothes.images as image>
@@ -26,20 +26,51 @@
             </div>
         </div>
         </#if>
-        <div class="col-sm-7">
-            <div>
-                <p>Название: <b>${clothes.name}</b></p>
-                <p>Артикул: ${clothes.article}</p>
-                <p>Цена: ${clothes.price} рублей</p>
-            </div>
-            <#list clothes.attributeGroups as group>
-                <div>
-                    <h6>${group.name}</h6>
-                    <#list group.attributes as attribute>
-                        <p>${attribute.name} : ${clothes.attributeValues["${attribute.id}"].value}</p>
-                    </#list>
+        <div class="col-sm-6">
+            <p><h5>${clothes.name}</h5></p>
+            <p>${clothes.category.nameRus}</p>
+            <p><h4>${clothes.price} руб.</h4></p>
+            <form method="post">
+                <div class="form-group row">
+                    <label for="article" class="col-sm-2 col-form-label">Артикул:</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" id="article" name="article_clothes" value="${clothes.article}">
+                    </div>
                 </div>
-            </#list>
+                <div class="form-group row">
+                    <label for="size" class="col-sm-2 col-form-label">Размер: </label>
+                    <div class="col-sm-10">
+                        <select class="custom-select mr-sm-2" id="size" name="size">
+                            <option value="42">42</option>
+                            <option value="44">44</option>
+                            <option value="46">46</option>
+                            <option value="48">48</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                </div>
+                <input type="hidden" name="_csrf" value="${_csrf.token}">
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary btn-lg">Добавить в корзину</button>
+                    </div>
+                </div>
+            </form>
+            <div>
+                <#list clothes.attributeGroups as group>
+                    <div>
+                        <h6>${group.name}</h6>
+                        <#list group.attributes as attribute>
+                            <#if clothes.attributeValues["${attribute.id}"] ??>
+                                <p>${attribute.name} : <b>${clothes.attributeValues["${attribute.id}"].value}</b></p>
+                            </#if>
+                        </#list>
+                    </div>
+                </#list>
+            </div>
         </div>
     </div>
+    <#if message??>
+        <#include "parts/modal.ftl">
+    </#if>
 </@c.page>

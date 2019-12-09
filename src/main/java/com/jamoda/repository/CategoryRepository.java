@@ -11,6 +11,7 @@ public interface CategoryRepository extends CrudRepository<Category, Integer> {
     Category findByNameEnOrNameRusEquals(String nameEn, String nameRus);
     Category findByNameEn(String nameEn);
     Category findByNameRus(String nameRus);
+    Category findById(Long id);
     List<Category> findAll();
 
     List<Category> findAllByType(String type);

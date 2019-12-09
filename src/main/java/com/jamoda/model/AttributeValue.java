@@ -20,8 +20,8 @@ public class AttributeValue {
     @JoinColumn (name="product_article")
     private Clothes clothes;
 
-    @OneToOne (optional=false, cascade=CascadeType.ALL)
-    @JoinColumn (name="attribute_id")
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn (name="attribute_id", referencedColumnName = "id")
     private Attribute attribute;
 
 

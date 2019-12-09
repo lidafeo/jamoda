@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 //@RequestMapping("/")
@@ -28,26 +28,37 @@ public class MainController {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    /*
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name,
-                           Map<String, Object> model) {
-        model.put("name", name);
-        return "greeting";
-    }
-    */
-
     @GetMapping("/")
-    public String main(Model model) {
+    public String main(Model model, HttpSession session) {
         Iterable<Clothes> clothes = clothesRepository.findAll();
         model.addAttribute("clothes", clothes);
-        model.addAttribute("categories", categoryRepository.findAllByType("main"));
+        getCommonInfo(model, session);
         return "main";
     }
 
     @GetMapping("/about")
-    public String about(Model model) {
-        model.addAttribute("categories", categoryRepository.findAllByType("main"));
+    public String about(Model model, HttpSession session) {
+        getCommonInfo(model, session);
         return "about";
+    }
+
+    public Model getCommonInfo(Model model, HttpSession session) {
+        return getModel(model, session, categoryRepository);
+    }
+
+    static Model getModel(Model model, HttpSession session, CategoryRepository categoryRepository) {
+        @SuppressWarnings("unchecked")
+        List<String> attributeList = (List<String>) session.getAttribute("PRODUCTS");
+        if (attributeList == null) {
+            attributeList = new ArrayList<>();
+        }
+        model.addAttribute("cartSession", attributeList);
+        model.addAttribute("categories", categoryRepository.findAllByType("main"));
+        return model;
+    }
+
+    static HttpSession destroySession(HttpSession session) {
+        session.invalidate();
+        return session;
     }
 }

@@ -9,10 +9,10 @@
             <p class="card-text">
                 <p><b><i>${clothes.price} руб.</i></b></p>
             </p>
-            <a href="/clothes/${clothes.article}" class="btn btn-primary">Подробнее</a>
+            <a href="/clothes?article=${clothes.article}" class="btn btn-primary">Подробнее</a>
             <a href="/clothes/${clothes.article}" class="btn btn-primary">
                 <img src="/img/cart.ico" width="23" alt="Купить"></a>
-            <p class="card-text"><small class="text-muted">${clothes.category}</small></p>
+            <p class="card-text"><small class="text-muted">${clothes.category.nameRus}</small></p>
         </div>
     </div>
 </div>

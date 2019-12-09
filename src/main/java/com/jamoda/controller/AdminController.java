@@ -66,13 +66,17 @@ public class AdminController {
     //admin/add_file
     @GetMapping("/admin/add_file")
     public String pageAddFile(Model model) {
+        model.addAttribute("products", clothesRepository.findAll());
         return "addFile";
     }
 
     @PostMapping("/admin/add_file")
-    public String addFile(@RequestParam("article") String article, @RequestParam("file") MultipartFile file, Model model) throws IOException {
+    public String addFile(@RequestParam("article") String article,
+                          @RequestParam("file") MultipartFile file,
+                          Model model) throws IOException {
         if(file == null || file.getOriginalFilename().isEmpty()) {
             model.addAttribute("error", "Прикрепите файл!");
+            model.addAttribute("products", clothesRepository.findAll());
             return "addFile";
         }
         File uploadDir = new File(uploadPath);
@@ -85,6 +89,7 @@ public class AdminController {
         file.transferTo(new File(uploadPath + "/" + resultFilename));
         imageRepository.save(image);
         model.addAttribute("message", "success");
+        model.addAttribute("products", clothesRepository.findAll());
         return "addFile";
     }
 
@@ -94,23 +99,54 @@ public class AdminController {
         //attribute.put("category", categoryRepository.findAll());
 
         List<Category> categories = categoryRepository.findAll();
+        List<Attribute> attributes = attributeRepository.findAll();
         model.addAttribute("category", categories);
+        model.addAttribute("attributes", attributes);
         return "addClothes";
     }
 
     @PostMapping("/admin/add_clothes")
-    public String addClothes(Clothes clothes, Model model) {
+    public String addClothes(Clothes clothes,
+                             @RequestParam("category_id") Long category_id,
+                             @RequestParam("attribute") Long[] attribute,
+                             @RequestParam("value") String[] values,
+                             Model model) {
         Clothes clothesFromDb = clothesRepository.findByArticle(clothes.getArticle());
         if(clothesFromDb != null) {
             List<Category> categories = categoryRepository.findAll();
+            List<Attribute> attributes = attributeRepository.findAll();
             model.addAttribute("category", categories);
+            model.addAttribute("attributes", attributes);
             model.addAttribute("error", "Такой товар уже существует!");
             return "addClothes";
         }
+        Category categoryFromDb = categoryRepository.findById(category_id);
+        if(categoryFromDb == null) {
+            List<Category> categories = categoryRepository.findAll();
+            List<Attribute> attributes = attributeRepository.findAll();
+            model.addAttribute("category", categories);
+            model.addAttribute("attributes", attributes);
+            model.addAttribute("error", "Такой категории не существует!");
+            return "addClothes";
+        }
         clothes.setDate_added(new Date());
+        clothes.setCategory(categoryFromDb);
         clothesRepository.save(clothes);
+
+        for(int i = 0; i < attribute.length; i++) {
+            AttributeValue attributeValue = new AttributeValue();
+            Attribute attributeFromDb = attributeRepository.findById(attribute[i]);
+            attributeValue.setAttribute(attributeFromDb);
+            attributeValue.setActive(true);
+            attributeValue.setValue(values[i]);
+            attributeValue.setClothes(clothes);
+            attributeValueRepository.save(attributeValue);
+        }
+
         List<Category> categories = categoryRepository.findAll();
+        List<Attribute> attributes = attributeRepository.findAll();
         model.addAttribute("category", categories);
+        model.addAttribute("attributes", attributes);
         model.addAttribute("message", "success");
         return "addClothes";
     }
@@ -176,6 +212,7 @@ public class AdminController {
             return "addGroup";
         }
         attributeGroupRepository.save(attributeGroup);
+        attributeGroupRepository.flush();
         model.addAttribute("message", "success");
         return "addGroup";
     }
@@ -222,5 +259,39 @@ public class AdminController {
         model.addAttribute("clothes", clothesRepository.findAll());
         model.addAttribute("attributes", attributeRepository.findAll());
         return "addAttributeValue";
+    }
+
+    //admin/add_attribute_group
+    @GetMapping("/admin/add_attribute_group")
+    public String pageAddAttributeGroup(Model model) {
+        model.addAttribute("groups", attributeGroupRepository.findAll());
+        model.addAttribute("products", clothesRepository.findAll());
+        return "addAttributeGroup";
+    }
+
+    @PostMapping("/admin/add_attribute_group")
+    public String addAttributeGroup(@RequestParam(name="group_id") long groupId,
+                                    @RequestParam(name="product_article") String article,
+                                    Model model) {
+        Clothes clothesFromDb = clothesRepository.findByArticle(article);
+        AttributeGroup attributeGroupFromDB = attributeGroupRepository.findById(groupId);
+        if(clothesFromDb == null) {
+            model.addAttribute("error", "Такого товара не существует!");
+            model.addAttribute("groups", attributeGroupRepository.findAll());
+            model.addAttribute("products", clothesRepository.findAll());
+            return "addAttributeGroup";
+        }
+        if(attributeGroupFromDB == null) {
+            model.addAttribute("error", "Такой группы атрибутов не существует!");
+            model.addAttribute("groups", attributeGroupRepository.findAll());
+            model.addAttribute("products", clothesRepository.findAll());
+            return "addAttributeGroup";
+        }
+        clothesFromDb.addAttributeGroup(attributeGroupFromDB);
+        clothesRepository.saveAndFlush(clothesFromDb);
+        model.addAttribute("message", "success");
+        model.addAttribute("groups", attributeGroupRepository.findAll());
+        model.addAttribute("products", clothesRepository.findAll());
+        return "addAttributeGroup";
     }
 }

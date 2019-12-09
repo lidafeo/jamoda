@@ -17,6 +17,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/about">О нас <span class="sr-only">(current)</span></a>
                 </li>
+                <li class="nav-item" id="cart">
+                    <a class="nav-link" href="/cart"><img src="/img/cart.ico" width="34" alt="Корзина"> <b> Корзина
+                        <#if cartSession?size gt 0>(${cartSession?size})</#if></b></a>
+                </li>
             </ul>
         </div>
 </nav>

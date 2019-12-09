@@ -12,8 +12,8 @@ public class Attribute {
     private String type;
     private Boolean required;
 
-    @OneToOne (optional=false, mappedBy="attribute")
-    private AttributeValue attributeValue;
+    @OneToMany (mappedBy="attribute")
+    private List<AttributeValue> attributesValue;
 
     @ManyToOne
     @JoinColumn(name = "attribute_group_id", referencedColumnName = "id")
@@ -71,11 +71,11 @@ public class Attribute {
         this.required = required;
     }
 
-    public AttributeValue getAttributeValue() {
-        return attributeValue;
+    public List<AttributeValue> getAttributesValue() {
+        return attributesValue;
     }
 
-    public void setAttributeValue(AttributeValue attributeValue) {
-        this.attributeValue = attributeValue;
+    public void setAttributesValue(List<AttributeValue> attributesValue) {
+        this.attributesValue = attributesValue;
     }
 }

@@ -2,7 +2,9 @@ package com.jamoda.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "attribute_group")
@@ -12,8 +14,8 @@ public class AttributeGroup {
     private long id;
     private String name;
 
-    @OneToMany(targetEntity = Attribute.class, mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Attribute> attributes = new ArrayList<>();
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Attribute> attributes = new HashSet<>();
 
     public AttributeGroup() {}
 
@@ -33,11 +35,11 @@ public class AttributeGroup {
         return id;
     }
 
-    public List<Attribute> getAttributes() {
+    public Set<Attribute> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<Attribute> attributes) {
+    public void setAttributes(Set<Attribute> attributes) {
         this.attributes = attributes;
     }
 }

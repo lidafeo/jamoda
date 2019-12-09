@@ -3,23 +3,27 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Table(name = "clothes")
+//@Table(name = "clothes")
 public class Clothes {
     @Id
+    @Column(name="article", length = 100)
     private String article;
 
-    private String category;
     private Date date_added;
     private String name;
     private int price;
 
-    @OneToMany(targetEntity = AttributeGroup.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    private Category category;
+
+    @ManyToMany(targetEntity = AttributeGroup.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AttributeGroup> attributeGroups = new ArrayList<>();
 
     @OneToMany(targetEntity = Image.class, mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Image> images = new ArrayList<>();
 
-    @OneToMany(mappedBy = "clothes")
+    @OneToMany(mappedBy = "clothes", cascade={CascadeType.ALL})
     @MapKeyColumn(name = "attribute_id")
     //@MapKey(name = "article")
     private Map<String, AttributeValue> attributeValues = new HashMap<String, AttributeValue>();
@@ -38,9 +42,8 @@ public class Clothes {
     public Clothes() {
     }
 
-    public Clothes(String article, String category, String name, int price) {
+    public Clothes(String article, String name, int price) {
         this.article = article;
-        this.category = category;
         this.name = name;
         this.price = price;
     }
@@ -59,14 +62,6 @@ public class Clothes {
 
     public void setArticle(String article) {
         this.article = article;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public Date getDate_added() {
@@ -109,6 +104,18 @@ public class Clothes {
         this.attributeGroups = attributeGroups;
     }
 
+    public void addAttributeGroup(AttributeGroup attributeGroup) {
+        this.attributeGroups.add(attributeGroup);
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public static List<String> getGenderForSelect() {
         List<String> gender = new LinkedList<>();
         gender.add("женский");
@@ -121,7 +128,7 @@ public class Clothes {
         List<String> season = new LinkedList<>();
         season.add("зима");
         season.add("лето");
-        season.add("межсезон");
+        season.add("демисезон");
         return season;
     }
 
