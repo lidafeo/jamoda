@@ -13,8 +13,8 @@
     <title>Jamoda</title>
 </head>
 <body>
+    <#include "navbar.ftl">
     <div class="container-fluid">
-        <#include "navbar.ftl">
         <div class="row">
             <div class="col-sm-3">
                 <#include "filter.ftl">

@@ -13,16 +13,19 @@ public class Category {
     @Column(name = "name_rus")
     private String nameRus;
 
-    private int parentId;
+    //private long parentId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    private Category parent;
+
     private String type;
 
     public Category() {
     }
 
-    public Category(String nameEn, String nameRus, int parentId, String type) {
+    public Category(String nameEn, String nameRus, String type) {
         this.nameEn = nameEn;
         this.nameRus = nameRus;
-        this.parentId = parentId;
         this.type = type;
     }
 
@@ -46,19 +49,19 @@ public class Category {
         this.nameRus = nameRus;
     }
 
-    public int getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(int parentId) {
-        this.parentId = parentId;
-    }
-
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Category getCategory() {
+        return parent;
+    }
+
+    public void setCategory(Category category) {
+        this.parent = category;
     }
 }

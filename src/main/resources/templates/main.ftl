@@ -8,7 +8,7 @@
             <@card.card clothesOne />
             <br>
         <#else>
-        No Clothes
+        Здесь скоро будут товары
         </#list>
     </div>
     <a href="/admin">Admin</a>

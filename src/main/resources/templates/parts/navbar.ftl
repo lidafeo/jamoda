@@ -1,26 +1,39 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar main-navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/">Jamoda</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <#list categories as category>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">${category.nameRus} <span class="sr-only">(current)</span></a>
-                    </li>
-                </#list>
-                <li class="nav-item">
-                    <a class="nav-link" href="/about">О нас <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item" id="cart">
-                    <a class="nav-link" href="/cart"><img src="/img/cart.ico" width="34" alt="Корзина"> <b> Корзина
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Главная <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown" id="but-dropdown">
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="true">
+                        Каталог
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/about">О нас <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item" id="cart">
+                <a class="nav-link" href="/cart"><img src="/img/shopping_bag_buy.ico" width="34" alt="Корзина"> <b> Корзина
                         <#if cartSession?size gt 0>(${cartSession?size})</#if></b></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-dark catalog-menu border-top bg-secondary border-secondary dropdown-item" id="catalog" >
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <#list categories as category>
+                <li class="nav-item">
+                    <a class="nav-link" href="/filter?category=${category.nameEn}">${category.nameRus} <span class="sr-only">(current)</span></a>
                 </li>
-            </ul>
-        </div>
+            </#list>
+        </ul>
+    </div>
 </nav>

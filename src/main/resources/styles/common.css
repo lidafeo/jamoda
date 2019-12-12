@@ -2,3 +2,11 @@
     position: absolute;
     right: 20px;
 }
+.catalog-menu {
+    position: absolute;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    visibility: hidden;
+    z-index: 99999;
+}
