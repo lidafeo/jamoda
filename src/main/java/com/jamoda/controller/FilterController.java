@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,9 +38,15 @@ public class FilterController {
         if(category == null)
             clothes = clothesRepository.findAll();
         else {
-            clothes = clothesRepository.findByCategory(category);
+            //clothes = clothesRepository.findByCategory(category);
+            List<Category> allCategories = new LinkedList<>();
+            allCategories.add(category);
             List<Category> categories = categoryRepository.findAllByParent(category);
-            clothes = clothesRepository.findAllByCategoryIn(categories);
+            while (!categories.isEmpty()) {
+                allCategories.addAll(categories);
+                categories = categoryRepository.findAllByParentIn(categories);
+            }
+            clothes = clothesRepository.findAllByCategoryIn(allCategories);
         }
         model.addAttribute("clothes", clothes);
         return "main";

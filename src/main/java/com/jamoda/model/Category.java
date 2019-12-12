@@ -57,11 +57,11 @@ public class Category {
         this.type = type;
     }
 
-    public Category getCategory() {
+    public Category getParent() {
         return parent;
     }
 
-    public void setCategory(Category category) {
+    public void setParent(Category category) {
         this.parent = category;
     }
 }

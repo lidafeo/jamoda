@@ -159,12 +159,20 @@ public class AdminController {
     }
 
     @PostMapping("/admin/add_category")
-    public String addCategory(Category category, Model model) {
+    public String addCategory(Category category,
+                              @RequestParam(name="parentId") long parentId,
+                              Model model) {
         Category categoryFromDb = categoryRepository.findByNameEnOrNameRusEquals(category.getNameEn(), category.getNameRus());
         if(categoryFromDb != null) {
             model.addAttribute("categories", categoryRepository.findAll());
             model.addAttribute("error", "Такая категория уже существует!");
             return "addCategory";
+        }
+        if(parentId != -1) {
+            Category parent = categoryRepository.findById(parentId);
+            if(parent != null) {
+                category.setParent(parent);
+            }
         }
         categoryRepository.save(category);
         model.addAttribute("categories", categoryRepository.findAll());
