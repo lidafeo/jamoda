@@ -12,6 +12,7 @@ public class Clothes {
     private Date date_added;
     private String name;
     private int price;
+    private int visit = 0;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
@@ -114,6 +115,18 @@ public class Clothes {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public int getVisit() {
+        return visit;
+    }
+
+    public void setVisit(int visit) {
+        this.visit = visit;
+    }
+
+    public void addVisit() {
+        this.visit ++;
     }
 
     public static List<String> getGenderForSelect() {

@@ -32,6 +32,8 @@ public class AdminController {
     private AttributeRepository attributeRepository;
     @Autowired
     private AttributeValueRepository attributeValueRepository;
+    @Autowired
+    private FilterRepository filterRepository;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -129,6 +131,7 @@ public class AdminController {
             model.addAttribute("error", "Такой категории не существует!");
             return "addClothes";
         }
+        clothes.setVisit(0);
         clothes.setDate_added(new Date());
         clothes.setCategory(categoryFromDb);
         clothesRepository.save(clothes);
@@ -301,5 +304,51 @@ public class AdminController {
         model.addAttribute("groups", attributeGroupRepository.findAll());
         model.addAttribute("products", clothesRepository.findAll());
         return "addAttributeGroup";
+    }
+
+    //admin/add_filter
+    @GetMapping("/admin/add_filter")
+    public String pageAddFilter(Model model) {
+        model.addAttribute("attributes", attributeRepository.findAll());
+        return "addFilter";
+    }
+
+    @PostMapping("/admin/add_filter")
+    public String addFilter (Filter filter,
+                              @RequestParam(name="attributeId") long attributeId,
+                              Model model) {
+        if( attributeId != 0) {
+            Attribute attribute = attributeRepository.findById(attributeId);
+            if(attribute == null) {
+                return getErrorFilter("Такого атрибута не существует!", model);
+            }
+            filter.setAttribute(attribute);
+        }
+        else {
+            return getErrorFilter("Выберите атрибут!", model);
+        }
+        Filter filterFromDb = filterRepository.findByNameEnOrNameOrAttribute(filter.getNameEn(), filter.getName(), filter.getAttribute());
+        if(filterFromDb != null) {
+            return getErrorFilter("Такой фильтр уже существует!", model);
+        }
+        if (!filter.isSearchAll()) {
+            List<String> values = new LinkedList<>();
+            for(String value: filter.getValues()) {
+                if(value != null && value.trim() != "") {
+                    values.add(value);
+                }
+            }
+            filter.setValues(values);
+        }
+        filterRepository.saveAndFlush(filter);
+        model.addAttribute("attributes", attributeRepository.findAll());
+        model.addAttribute("message", "success");
+        return "addFilter";
+    }
+
+    public String getErrorFilter(String err, Model model) {
+        model.addAttribute("attributes", attributeRepository.findAll());
+        model.addAttribute("error", err);
+        return "addFilter";
     }
 }

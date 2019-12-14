@@ -3,8 +3,10 @@ package com.jamoda.controller;
 import com.jamoda.model.Cart;
 import com.jamoda.model.Clothes;
 import com.jamoda.model.ProductInCart;
+import com.jamoda.repository.AttributeValueRepository;
 import com.jamoda.repository.CategoryRepository;
 import com.jamoda.repository.ClothesRepository;
+import com.jamoda.repository.FilterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,9 +25,13 @@ import static com.jamoda.controller.MainController.getModel;
 @Controller
 public class CartController {
     @Autowired
-    ClothesRepository clothesRepository;
+    private ClothesRepository clothesRepository;
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
+    @Autowired
+    private FilterRepository filterRepository;
+    @Autowired
+    private AttributeValueRepository attributeValueRepository;
 
     @GetMapping("/cart")
     public String cart(Model model, HttpSession session) {
@@ -35,7 +41,7 @@ public class CartController {
     }
 
     public Model getCommonInfo(Model model, HttpSession session) {
-        return getModel(model, session, categoryRepository);
+        return getModel(model, session, categoryRepository, filterRepository, attributeValueRepository);
     }
 
     public Cart getCart(HttpSession session) {

@@ -1,8 +1,10 @@
 package com.jamoda.controller;
 
 import com.jamoda.model.Clothes;
+import com.jamoda.repository.AttributeValueRepository;
 import com.jamoda.repository.CategoryRepository;
 import com.jamoda.repository.ClothesRepository;
+import com.jamoda.repository.FilterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,13 +26,17 @@ public class ClothesController {
     private ClothesRepository clothesRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private FilterRepository filterRepository;
+    @Autowired
+    private AttributeValueRepository attributeValueRepository;
 
     @GetMapping
     public String getClothes(@RequestParam String article, Model model, HttpSession session) {
         Clothes clothes = clothesRepository.findByArticle(article);
         model.addAttribute("clothes", clothes);
-        //model.addAttribute("groups", clothes.getAttributeGroups());
-        //model.addAttribute("values", clothes.getAttributeValues());
+        clothes.addVisit();
+        clothesRepository.saveAndFlush(clothes);
         getCommonInfo(model, session);
         return "clothes";
     }
@@ -56,7 +62,7 @@ public class ClothesController {
     }
 
     public Model getCommonInfo(Model model, HttpSession session) {
-        return getModel(model, session, categoryRepository);
+        return getModel(model, session, categoryRepository, filterRepository, attributeValueRepository);
     }
 
     public HttpSession addProductInCart(HttpSession session, Clothes clothes, int size) {

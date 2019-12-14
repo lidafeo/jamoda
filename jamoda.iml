@@ -91,9 +91,9 @@
     <orderEntry type="library" name="Maven: javax.xml.bind:jaxb-api:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: com.sun.xml.bind:jaxb-core:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: com.sun.xml.bind:jaxb-impl:2.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.session:spring-session-jdbc:2.1.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.session:spring-session-core:2.1.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-jcl:5.1.8.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.session:spring-session-jdbc:2.1.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.1.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:5.1.8.RELEASE" level="project" />
   </component>

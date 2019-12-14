@@ -11,6 +11,8 @@
     <div><a href="/admin/add_attribute_value">Добавить значение атрибута к товару</a></div>
     <h4>Категории</h4>
     <div><a href="/admin/add_category">Добавить категорию</a></div>
+    <h4>Фильтры</h4>
+    <div><a href="/admin/add_filter">Добавить фильтр</a></div>
     <h4>Атрибуты</h4>
     <div><a href="/admin/add_attribute">Создать новый атрибут</a></div>
     <div><a href="/admin/add_group">Добавить группу атрибутов</a></div>

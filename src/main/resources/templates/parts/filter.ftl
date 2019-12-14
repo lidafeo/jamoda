@@ -1,7 +1,30 @@
 <ul class="list-group">
-    <li class="list-group-item">Фильтр1Фильтр1</li>
-    <li class="list-group-item">Фильтр2</li>
-    <li class="list-group-item">Фильтр3</li>
-    <li class="list-group-item">Фильтр4</li>
-    <li class="list-group-item">Фильтр5</li>
+    <div>
+            <form action="#" method="post" id="form_filter">
+                <#list filters as filter>
+                    <#if filter.values?size gt 0>
+                        <li class="list-group-item">
+                            <label for="filter${filter?counter}"><h6>${filter.name}</h6></label>
+                            <div id="filter${filter?counter}" class="custom-control custom-checkbox form-check">
+                                <#list filter.values as value>
+                                    <div>
+                                        <input class="custom-control-input" type="checkbox" name="${filter.nameEn}" id="radios${filter?counter}_${value?counter}" value="${value}">
+                                        <label class="custom-control-label" for="radios${filter?counter}_${value?counter}">
+                                            ${value}
+                                        </label>
+                                    </div>
+                                </#list>
+                            </div>
+                        </li>
+                    </#if>
+                <#else>
+                    Фильтры недоступны
+                </#list>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <input type="submit" id="apply_filter" class="btn btn-primary" value="Применить фильтр"/>
+                    </div>
+                </div><input type="hidden" name="_csrf" value="${_csrf.token}">
+            </form>
+    </div>
 </ul>

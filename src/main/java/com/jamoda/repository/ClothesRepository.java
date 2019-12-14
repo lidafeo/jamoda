@@ -13,4 +13,7 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
     List<Clothes> findByCategory(Category category);
     List<Clothes> findAll();
     List<Clothes> findAllByCategoryIn(List<Category> categories);
+    //@Query("SELECT * FROM Clothes order by visit ASC")
+    //List<Clothes> findAllOrderByVisitAsc();
+    List<Clothes> findAllByOrderByVisitDesc();
 }

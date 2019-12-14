@@ -9,6 +9,8 @@ public class Attribute {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
+    @Column(name = "name_en")
+    private String nameEn;
     private String type;
     private Boolean required;
 
@@ -77,5 +79,13 @@ public class Attribute {
 
     public void setAttributesValue(List<AttributeValue> attributesValue) {
         this.attributesValue = attributesValue;
+    }
+
+    public String getNameEn() {
+        return nameEn;
+    }
+
+    public void setNameEn(String nameEn) {
+        this.nameEn = nameEn;
     }
 }

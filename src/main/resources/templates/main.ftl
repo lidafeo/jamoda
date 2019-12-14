@@ -1,9 +1,7 @@
 <#import "parts/common.ftl" as c>
 <#import "parts/card.ftl" as card>
 <@c.page>
-    <h2>Все товары</h2>
-    <hr>
-    <div class="card-deck">
+    <div class="card-deck" id="clothes_div">
         <#list clothes as clothesOne>
             <@card.card clothesOne />
             <br>

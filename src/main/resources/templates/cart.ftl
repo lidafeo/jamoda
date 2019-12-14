@@ -4,7 +4,7 @@
     <h4>ОФОРМЛЕНИЕ ЗАКАЗА</h4>
     <hr>
     <#if cart.products?size gt 0 >
-        <h5>${cart.count} товара на сумму ${cart.price} руб.</h5>
+        <h5>${cart.count} товар(ов) на сумму ${cart.price} руб.</h5>
         <#assign map = cart.products>
         <#assign keys = map?keys>
         <#list keys as key>

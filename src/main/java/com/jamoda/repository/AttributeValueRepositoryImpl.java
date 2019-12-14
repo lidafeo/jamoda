@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class AttributeValueImpl implements AttributeValueCustom {
+public class AttributeValueRepositoryImpl implements AttributeValueCustom {
     @PersistenceContext
     private EntityManager entityManager;
     @Override
