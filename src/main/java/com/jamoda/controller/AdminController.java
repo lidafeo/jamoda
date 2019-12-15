@@ -19,9 +19,9 @@ import java.util.*;
 //@RequestMapping("/admin")
 public class AdminController {
     @Autowired
-    private UserRepository userRepository;
+    private static UserRepository userRepository;
     @Autowired
-    private ClothesRepository clothesRepository;
+    private static ClothesRepository clothesRepository;
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
@@ -40,18 +40,18 @@ public class AdminController {
 
     //admin
     @GetMapping("/admin")
-    public String admin(Model model) {
+    public static String admin(Model model) {
         return "admin";
     }
 
     //admin/add_user
     @GetMapping("/admin/add_user")
-    public String pageAddUser(Model model) {
+    public static String pageAddUser(Model model) {
         return "addUser";
     }
 
     @PostMapping("/admin/add_user")
-    public String addUser(User user, Model model) {
+    public static String addUser(User user, Model model) {
         User userFromDb = userRepository.findByLogin(user.getLogin());
         if(userFromDb != null) {
             model.addAttribute("error", "Такой пользователь уже существует!");
@@ -67,7 +67,7 @@ public class AdminController {
 
     //admin/add_file
     @GetMapping("/admin/add_file")
-    public String pageAddFile(Model model) {
+    public static String pageAddFile(Model model){
         model.addAttribute("products", clothesRepository.findAll());
         return "addFile";
     }
