@@ -1,6 +1,4 @@
 $(document).ready(function() {
-    if ($("modal") != null)
-        $('#modal').modal('show');
 
     $('#navbarDropdown').click(function (e) {
         if ($("#catalog").css('visibility') == "hidden") {
@@ -10,9 +8,45 @@ $(document).ready(function() {
         }
     });
     $('#sort').change(function (e) {
-        console.log($(this).val());
         sendRequest();
     });
+
+    $('#clothes_div').on('click', '.but-buy', function (e) {
+        e.preventDefault();
+        let form = $(this).parents('form');
+        console.log(form);
+    });
+
+    $('#add-in-cart').click(function (e) {
+        e.preventDefault();
+        let form = $("#modal-form").serializeArray();
+        console.log(form);
+        $.ajax({
+            url: '/clothes_json',
+            method: 'post',
+            dataType: 'json',
+            data: $.param(form),
+            success: function(data){
+                console.log(data);
+                $("#modal-size").modal('hide');
+                let count = +data['message'] + +$('#count-in-cart').text();
+                $('#count-in-cart').html(count);
+                console.log(count);
+                $('#modal').modal('show');
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });
+
+    $('#modal-size').on('show.bs.modal', function (event) {
+        let button = $(event.relatedTarget); // Button that triggered the modal
+        let recipient = button.data('whatever'); // Extract info from data-* attributes;
+        let modal = $(this);
+        modal.find('.modal-body #modal-article').val(recipient);
+    });
+
     /*
     $('#apply_filter').click(function (e) {
         e.preventDefault();

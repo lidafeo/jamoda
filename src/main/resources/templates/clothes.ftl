@@ -1,8 +1,8 @@
 <#import "parts/common.ftl" as c>
-<@c.page>
-    <div class="row">
+<@c.page "/clothes.js">
+    <div class="row main-clothes">
         <#if clothes.images?size != 0>
-        <div class="col-sm-6">
+        <div class="col-sm-5">
             <div id="carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <#list clothes.images as image>
@@ -26,10 +26,12 @@
             </div>
         </div>
         </#if>
+        <div class="col-sm-1">
+        </div>
         <div class="col-sm-6">
-            <p><h5>${clothes.name}</h5></p>
-            <p>${clothes.category.nameRus}</p>
-            <p><h4>${clothes.price} руб.</h4></p>
+            <h1> ${clothes.name} </h1>
+            <p> ${clothes.category.nameRus} </p>
+            <h4>${clothes.price} руб.</h4>
             <form method="post">
                 <div class="form-group row">
                     <label for="article" class="col-sm-2 col-form-label">Артикул:</label>
@@ -39,7 +41,7 @@
                 </div>
                 <div class="form-group row">
                     <label for="size" class="col-sm-2 col-form-label">Размер: </label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-3">
                         <select class="custom-select mr-sm-2" id="size" name="size">
                             <option value="42">42</option>
                             <option value="44">44</option>
@@ -52,19 +54,30 @@
                 <input type="hidden" name="_csrf" value="${_csrf.token}">
                 <div class="form-group row">
                     <div class="col-sm-10">
-                        <button type="submit" class="btn btn-primary btn-lg">Добавить в корзину</button>
+                        <button type="submit" class="btn btn-primary btn-lg" id="add_in_cart">Добавить в корзину</button>
                     </div>
                 </div>
             </form>
             <div>
                 <#list clothes.attributeGroups as group>
-                    <div>
-                        <h6>${group.name}</h6>
-                        <#list group.attributes as attribute>
-                            <#if clothes.attributeValues["${attribute.id}"] ??>
-                                <p>${attribute.name} : <b>${clothes.attributeValues["${attribute.id}"].value}</b></p>
-                            </#if>
-                        </#list>
+                    <div class="card" style="width: 30rem;">
+                        <div class="card-header">
+                            <h6>${group.name}</h6>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <table class="table border-top-0">
+                                    <#list group.attributes as attribute>
+                                        <#if clothes.attributeValues["${attribute.id}"] ??>
+                                            <tr>
+                                                <th scope="row">${attribute.name}</th>
+                                                <td>${clothes.attributeValues["${attribute.id}"].value}</td>
+                                            </tr>
+                                        </#if>
+                                     </#list>
+                                </table>
+                            </li>
+                        </ul>
                     </div>
                 </#list>
             </div>
