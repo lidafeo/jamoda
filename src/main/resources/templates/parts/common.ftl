@@ -1,4 +1,4 @@
-<#macro page>
+<#macro page script="">
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,22 +15,7 @@
 <body>
     <#include "navbar.ftl">
     <div class="container-fluid">
-        <br>
-        <#if choosedCategory ??>
-            <h3>${choosedCategory.nameRus}</h3>
-        <#else>
-            <h3>Все товары</h3>
-        </#if>
-        <hr>
-        <div class="row">
-            <div class="col-sm-3">
-                <#include "filter.ftl">
-            </div>
-            <div class="col-sm-9">
-                <#include "sort.ftl">
-                <#nested>
-            </div>
-        </div>
+        <#nested>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -39,6 +24,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/plugins/chosen.jquery.min.js"></script>
     <script type="text/javascript" src="/scripts/common.js"></script>
+    <#if script != "">
+        <script src="/scripts${script}"></script>
+    </#if>
 </body>
 </html>
 </#macro>

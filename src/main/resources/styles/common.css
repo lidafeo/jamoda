@@ -10,3 +10,14 @@
     visibility: hidden;
     z-index: 99999;
 }
+.main-clothes {
+    margin: 3% 5%;
+}
+
+.about {
+    margin: 8%;
+}
+
+.my-navbar {
+    height: 70px;
+}

@@ -1,5 +1,6 @@
 package com.jamoda.controller;
 
+import com.jamoda.model.Cart;
 import com.jamoda.model.Clothes;
 import com.jamoda.repository.AttributeValueRepository;
 import com.jamoda.repository.CategoryRepository;
@@ -20,7 +21,6 @@ import static com.jamoda.controller.MainController.destroySession;
 import static com.jamoda.controller.MainController.getModel;
 
 @Controller
-@RequestMapping("/clothes")
 public class ClothesController {
     @Autowired
     private ClothesRepository clothesRepository;
@@ -31,7 +31,7 @@ public class ClothesController {
     @Autowired
     private AttributeValueRepository attributeValueRepository;
 
-    @GetMapping
+    @GetMapping("/clothes")
     public String getClothes(@RequestParam String article, Model model, HttpSession session) {
         Clothes clothes = clothesRepository.findByArticle(article);
         model.addAttribute("clothes", clothes);
@@ -41,7 +41,7 @@ public class ClothesController {
         return "clothes";
     }
 
-    @PostMapping
+    @PostMapping("/clothes")
     public String addClothesInCart(String article_clothes,
                                    @RequestParam("size") int size,
                                    Model model,
@@ -59,6 +59,21 @@ public class ClothesController {
         model.addAttribute("message", "ок");
         model.addAttribute("clothes", clothes);
         return "clothes";
+    }
+
+    @PostMapping(value = "/clothes_json", produces = "application/json")
+    public String addClothesInCartJson(String article_clothes,
+                                   @RequestParam("size") int size,
+                                   Model model,
+                                   HttpSession session) {
+        Clothes clothes = clothesRepository.findByArticle(article_clothes);
+        if(clothes == null) {
+            model.addAttribute("error", "error");
+            return "json";
+        }
+        model.addAttribute("message", "1");
+        addProductInCart(session, clothes, size);
+        return "json";
     }
 
     public Model getCommonInfo(Model model, HttpSession session) {
