@@ -32,7 +32,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark catalog-menu border-top bg-secondary border-secondary dropdown-item" id="catalog" >
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <#if categoties?size gt 0>
+            <#if categories?size gt 0>
                 <#list categories as category>
                     <li class="nav-item">
                         <a class="nav-link" href="/filter?category=${category.nameEn}">${category.nameRus} <span class="sr-only">(current)</span></a>
