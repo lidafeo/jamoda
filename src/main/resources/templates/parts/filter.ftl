@@ -15,16 +15,20 @@
                                     </div>
                                 </#list>
                             </div>
+                            <#if filter?counter == filters?size>
+                                <br>
+                                <div class="form-group row">
+                                    <div class="col-sm-10">
+                                        <input type="submit" id="apply_filter" class="btn btn-primary" value="Поиск"/>
+                                    </div>
+                                </div>
+                            </#if>
                         </li>
                     </#if>
                 <#else>
                     Фильтры недоступны
                 </#list>
-                <div class="form-group row">
-                    <div class="col-sm-10">
-                        <input type="submit" id="apply_filter" class="btn btn-primary" value="Применить фильтр"/>
-                    </div>
-                </div><input type="hidden" name="_csrf" value="${_csrf.token}">
+                <input type="hidden" name="_csrf" value="${_csrf.token}">
             </form>
     </div>
 </ul>

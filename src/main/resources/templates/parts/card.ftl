@@ -10,8 +10,9 @@
                 <p><b><i>${clothes.price} руб.</i></b></p>
             </p>
             <a href="/clothes?article=${clothes.article}" class="btn btn-primary">Подробнее</a>
-            <a href="/clothes/${clothes.article}" class="btn btn-primary">
-                <img src="/img/shopping_bag_buy.ico" width="23" alt="Купить"></a>
+                <button type="button" class="btn btn-primary but-buy" data-toggle="modal" data-target="#modal-size" data-whatever="${clothes.article}">
+                    <img src="/img/icons8-shopping-bag-32.png" width="24" alt="Купить">
+                </button>
             <p class="card-text"><small class="text-muted">${clothes.category.nameRus}</small></p>
         </div>
     </div>
