@@ -24,7 +24,11 @@
             </li>
             <li class="nav-item" id="cart">
                 <a class="nav-link" href="/cart"><img src="/img/icons8-shopping-bag-32.png" width="34" alt="Корзина"> <b> Корзина
-                        <#if cartSession?size gt 0>(<span id="count-in-cart">${cartSession?size}</span>)</#if></b></a>
+                        <#if cartSession ??>
+                            <#if cartSession?size gt 0>(<span id="count-in-cart">${cartSession?size}</span>)</#if></b></a>
+                        <#else>
+                                <#if cart.count gt 0>(<span id="count-in-cart">${cart.count}</span>)</#if></b></a>
+                        </#if>
             </li>
         </ul>
     </div>

@@ -35,8 +35,8 @@ public class CartController {
 
     @GetMapping("/cart")
     public String cart(Model model, HttpSession session) {
-        getCommonInfo(model, session);
-        model.addAttribute("cart", getCart(session));
+        model.addAttribute("categories", categoryRepository.findAllByType("main"));
+        model.addAttribute("cart", getCart(session, clothesRepository));
         return "cart";
     }
 
@@ -44,7 +44,7 @@ public class CartController {
         return getModel(model, session, categoryRepository, filterRepository, attributeValueRepository);
     }
 
-    public Cart getCart(HttpSession session) {
+    public static Cart getCart(HttpSession session, ClothesRepository clothesRepository) {
         @SuppressWarnings("unchecked")
         List<String> articleList = (List<String>) session.getAttribute("PRODUCTS");
         if(articleList == null)
