@@ -14,7 +14,7 @@
                         <div class="form-group row">
                             <label for="name" class="col-sm-3 col-form-label">Имя</label>
                             <div class="col-sm-9">
-                                <input type="text" name="name" class="form-control" id="name" required/>
+                                <input type="text" name="name" class="form-control" id="name" autocomplete="off" required/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -42,11 +42,11 @@
                             <h4>3. Способ оплаты</h4>
                         </div>
                         <div class="form-group row">
-                            <label for="active" class="col-sm-3 col-form-label">Способ оплаты</label>
+                            <label for="payment" class="col-sm-3 col-form-label">Способ оплаты</label>
                             <div class="col-sm-9">
-                                <select name="active" id="active" class="form-control" required>
-                                    <option value="0">Оплата при получении</option>
-                                    <option value="1">Онлайн-оплата картой</option>
+                                <select name="payment" id="payment" class="form-control" required>
+                                    <option value="courier">Оплата при получении</option>
+                                    <option value="online">Онлайн-оплата картой</option>
                                 </select>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-12">
-                                <textarea name="comment" id="comment" class="form-control" required></textarea>
+                                <textarea name="comment" id="comment" class="form-control"></textarea>
                             </div>
                         </div>
                         <hr>
@@ -65,7 +65,7 @@
                         <div class="form-group row">
                             <label for="sum" class="col-sm-3 col-form-label col-form-label-lg">Итого:</label>
                             <div class="col-sm-2">
-                                <input type="text" readonly class="form-control-plaintext form-control-lg" id="sum" name="sum" value="${cart.price}">
+                                <input type="text" readonly class="form-control-plaintext form-control-lg" id="sum" name="summa" value="${cart.price}">
                             </div>
                             <div class="col-sm-1">
                                 <label  class="col-form-label col-form-label-lg">руб.</label>
@@ -73,13 +73,18 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-10">
-                                <input type="submit" class="btn btn-primary" value="Оформить заказ"/>
+                                <input type="submit" class="btn btn-primary btn-lg" value="Оформить заказ"/>
                             </div>
                         </div>
                         <input type="hidden" name="_csrf" value="${_csrf.token}">
                     </form>
                 </div>
             </div>
+        <#else>
+            <a href="/" class="nav-link">Выбрать товары</a>
+        </#if>
+        <#if error?? || message??>
+            <#include "parts/modalOrder.ftl">
         </#if>
     </div>
 </@c.page>

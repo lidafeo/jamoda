@@ -1,5 +1,8 @@
 $(document).ready(function() {
 
+    if ($("#order-modal") != null)
+        $('#order-modal').modal('show');
+
     $('#navbarDropdown').click(function (e) {
         if ($("#catalog").css('visibility') == "hidden") {
             $("#catalog").css("visibility", "visible");
