@@ -30,7 +30,7 @@ public class MainController {
     private AttributeValueRepository attributeValueRepository;
 
     @GetMapping("/")
-    public String main(Model model, HttpSession session) {
+    public  String main(Model model, HttpSession session) {
         Iterable<Clothes> clothes = clothesRepository.findAllByOrderByVisitDesc();
         model.addAttribute("clothes", clothes);
         getCommonInfo(model, session);

@@ -19,9 +19,9 @@ import java.util.*;
 //@RequestMapping("/admin")
 public class AdminController {
     @Autowired
-    private static UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    private static ClothesRepository clothesRepository;
+    private ClothesRepository clothesRepository;
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
@@ -40,18 +40,18 @@ public class AdminController {
 
     //admin
     @GetMapping("/admin")
-    public static String admin(Model model) {
+    public String admin(Model model) {
         return "admin";
     }
 
     //admin/add_user
     @GetMapping("/admin/add_user")
-    public static String pageAddUser(Model model) {
+    public String pageAddUser(Model model) {
         return "addUser";
     }
 
     @PostMapping("/admin/add_user")
-    public static String addUser(User user, Model model) {
+    public String addUser(User user, Model model) throws Exception{
         User userFromDb = userRepository.findByLogin(user.getLogin());
         if(userFromDb != null) {
             model.addAttribute("error", "Такой пользователь уже существует!");
@@ -67,7 +67,7 @@ public class AdminController {
 
     //admin/add_file
     @GetMapping("/admin/add_file")
-    public static String pageAddFile(Model model){
+    public String pageAddFile(Model model){
         model.addAttribute("products", clothesRepository.findAll());
         return "addFile";
     }
@@ -92,19 +92,19 @@ public class AdminController {
         imageRepository.save(image);
         model.addAttribute("message", "success");
         model.addAttribute("products", clothesRepository.findAll());
-        return "addFile";
+       // return "addFile";
+        return "admin";
     }
 
     //admin/add_clothes
     @GetMapping("/admin/add_clothes")
     public String pageAddClothes(Model model) {
-        //attribute.put("category", categoryRepository.findAll());
-
         List<Category> categories = categoryRepository.findAll();
         List<Attribute> attributes = attributeRepository.findAll();
         model.addAttribute("category", categories);
         model.addAttribute("attributes", attributes);
         return "addClothes";
+        //return "admin";
     }
 
     @PostMapping("/admin/add_clothes")

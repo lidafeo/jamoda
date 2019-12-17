@@ -1,0 +1,148 @@
+[33mcommit c7910a2c988909a040af12622fa4aa0a943d5dbd[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Merge: 2cbca82 686c9ec
+Author: homahel <lenal98@mail.ru>
+Date:   Sun Dec 15 21:47:58 2019 +0300
+
+    Merge https://github.com/lidafeo/jamoda
+
+[33mcommit 2cbca82925e7862f79b9d3627c1c29d8e9059344[m
+Author: homahel <lenal98@mail.ru>
+Date:   Sun Dec 15 21:47:29 2019 +0300
+
+    commit of jamoda.iml
+
+[33mcommit 686c9eccf24eba86479f832f55ff257260ad3a5c[m
+Merge: 6ddd123 491990c
+Author: Lukanina Elena <36620636+homahel@users.noreply.github.com>
+Date:   Sun Dec 15 21:40:39 2019 +0300
+
+    Merge pull request #1 from homahel/master
+    
+    some tests
+
+[33mcommit 491990cb41d14b44d1d9761f735d1f34d506f3b2[m
+Merge: 875b35b 6ddd123
+Author: Lukanina Elena <36620636+homahel@users.noreply.github.com>
+Date:   Sun Dec 15 21:40:30 2019 +0300
+
+    Merge branch 'master' into master
+
+[33mcommit 875b35bbfdf978cc5ae863302d69144525086084[m
+Author: homahel <lenal98@mail.ru>
+Date:   Sun Dec 15 21:12:25 2019 +0300
+
+    some tests
+
+[33mcommit 6ddd1236b4973c5cc61274f665fc726384175895[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Sun Dec 15 20:52:24 2019 +0300
+
+    fix error
+
+[33mcommit 748a8544346dde9572a28c44ed262e96e146d5fe[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Sun Dec 15 20:18:54 2019 +0300
+
+    add shopping from main page
+
+[33mcommit a1b4f17bd07c8721a1964c4e49d93a98ebc928e4[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Sun Dec 15 01:35:53 2019 +0300
+
+    add filter on page
+
+[33mcommit 65c0d38412e8d31bcbbe5501d6b0d6d0ffaa5295[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Sun Dec 15 01:34:28 2019 +0300
+
+    add filter on page
+
+[33mcommit bda94fc7a20b996529f71c77683156b6eacb3985[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Sat Dec 14 11:04:37 2019 +0300
+
+    add Filter repo
+
+[33mcommit 2e3abef103215e4e5975befb21cccf2e5c1751a4[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Fri Dec 13 00:00:32 2019 +0300
+
+    fix bugs
+
+[33mcommit 0a42565f59d4cabc2a3266beec7ecce83883c267[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Thu Dec 12 21:38:51 2019 +0300
+
+    add Filter category
+
+[33mcommit 75501a32fd7a951d2ff5e748a4772c7577129a20[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Wed Dec 11 23:56:23 2019 +0300
+
+    add categories filter
+
+[33mcommit 87485f34d8d7c09b4979da106b2c62cc48905d3d[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Mon Dec 9 23:58:56 2019 +0300
+
+    StylizedStylized
+
+[33mcommit 01bd8fab66905ec48c4caed6573a5488df7f31ac[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Mon Dec 9 23:54:00 2019 +0300
+
+    stylization of forms
+
+[33mcommit 08b6e66b7dd7de4c3a86417e8cc7518064b199cb[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Mon Dec 9 00:10:31 2019 +0300
+
+    changes 08.12.2019
+
+[33mcommit 9755f2e485c34e3b1a831b12e8db95fde921bf56[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Sun Dec 8 21:25:31 2019 +0300
+
+    add cart
+
+[33mcommit 40fedcb6d916c975ab2d8eba1c5bc72ced7a1095[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Fri Dec 6 22:07:27 2019 +0300
+
+    changes 06.12.2019
+
+[33mcommit 4412bf33bc84bfb977c49550efda9eb157565e33[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Thu Dec 5 23:48:52 2019 +0300
+
+    add attributes on page clothes
+
+[33mcommit 5ad89c9815b037e1a89e6fe83e13c584fa3dd7be[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Wed Dec 4 00:22:08 2019 +0300
+
+    add group attribute
+
+[33mcommit b5819271d9b5f7404e67dbf6ac59b190cfe4aa85[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Tue Nov 26 23:19:42 2019 +0300
+
+    add Model and Repository Category;
+
+[33mcommit bb27644aa75d1978f542d8ee0852820b441c1bc5[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Sun Nov 24 23:55:05 2019 +0300
+
+    add model Image
+
+[33mcommit cf391b4db5dc6138ed2635ab717f2a3c190a3a98[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Sat Nov 23 21:22:23 2019 +0300
+
+    Add admin panel
+
+[33mcommit 2f49ae4aa3c64de6a1d1bc22d1314ca0be9f6c4d[m
+Author: feoktistova <lida.feoktistova@mail.ru>
+Date:   Wed Nov 20 22:20:25 2019 +0300
+
+    create project

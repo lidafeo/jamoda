@@ -24,7 +24,11 @@ import static com.jamoda.controller.MainController.getModel;
 
 @Controller
 public class CartController {
-    @Autowired
+@Autowired
+    public void setClothesRepository(ClothesRepository clothesRepository) {
+        this.clothesRepository = clothesRepository;
+    }
+
     private ClothesRepository clothesRepository;
     @Autowired
     private CategoryRepository categoryRepository;
