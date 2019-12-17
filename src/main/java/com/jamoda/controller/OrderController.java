@@ -2,6 +2,9 @@ package com.jamoda.controller;
 
 import com.jamoda.model.*;
 import com.jamoda.repository.*;
+import com.jamoda.service.CartService;
+import com.jamoda.service.CategoryService;
+import com.jamoda.service.MainService;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,30 +17,25 @@ import javax.servlet.http.HttpSession;
 
 import java.util.*;
 
-import static com.jamoda.controller.CartController.getCart;
-import static com.jamoda.controller.MainController.getModel;
-
 @Controller
 public class OrderController {
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
-    private AttributeValueRepository attributeValueRepository;
-    @Autowired
-    private FilterRepository filterRepository;
-    @Autowired
-    private ClothesRepository clothesRepository;
-    @Autowired
     private OrderRepository orderRepository;
     @Autowired
     private OrderProductRepository orderProductRepository;
 
+    @Autowired
+    private CartService cartService;
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping("/order")
     public String order(Model model,
                         HttpSession session) {
-        //getCommonInfo(model, session);
-        model.addAttribute("categories", categoryRepository.findAllByType("main"));
-        model.addAttribute("cart", getCart(session, clothesRepository));
+        model.addAttribute("categories", categoryService.findMainCategory());
+        model.addAttribute("cart", cartService.getCart(session));
         return "order";
     }
 
@@ -46,15 +44,12 @@ public class OrderController {
                             Order order,
                             Model model,
                             HttpSession session) {
-        //getCommonInfo(model, session);
         if(order.getPayment().equals("online")) {
             order.setPaid(true);
         }
-        //String res = summa.replaceAll("\\u00A0", "");
-        //order.setSum(Integer.parseInt(summa.replaceAll("\\s", "")));
-        model.addAttribute("categories", categoryRepository.findAllByType("main"));
-        model.addAttribute("cart", getCart(session, clothesRepository));
-        Cart cart = getCart(session, clothesRepository);
+        model.addAttribute("categories", categoryService.findMainCategory());
+        model.addAttribute("cart", cartService.getCart(session));
+        Cart cart = cartService.getCart(session);
         //проверяем, есть ли что-то в корзине
         if(cart == null) {
             model.addAttribute("error", "void");
@@ -74,20 +69,9 @@ public class OrderController {
             orderProductRepository.saveAndFlush(orderProduct);
         }
         //очищаем корзину
-        cleanCart(session);
+        cartService.cleanCart(session);
         model.addAttribute("message", "success");
         model.addAttribute("order", saveOrder);
         return "order";
     }
-
-
-    public Model getCommonInfo(Model model, HttpSession session) {
-        return getModel(model, session, categoryRepository, filterRepository, attributeValueRepository);
-    }
-
-    public void cleanCart(HttpSession session) {
-        session.removeAttribute("SIZES");
-        session.removeAttribute("PRODUCTS");
-    }
-
 }

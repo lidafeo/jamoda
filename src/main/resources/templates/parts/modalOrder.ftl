@@ -16,12 +16,17 @@
                     Произошла ошибка при оформлении заказа. Возможно вышло время ожидания. Попробуйте снова.
                 <#else>
                     Ваш заказ успешно оформлен.
-                    Номер заказа - <h5>${order.id}</h5>
+                    <h5>Номер заказа - Z-${order.id}</h5>
+                    С Вами скоро свяжется оператор.
                 </#if>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Продолжить покупки</button>
-                <a href="/cart" class="btn btn-primary">Перейти в корзину</a>
+                <#if error ??>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <a href="/" class="btn btn-primary">Перейти к выбору товаров</a>
+                <#else>
+                    <a href="/" class="btn btn-primary">Ок</a>
+                </#if>
             </div>
         </div>
     </div>

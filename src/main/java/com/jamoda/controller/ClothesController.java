@@ -1,43 +1,33 @@
 package com.jamoda.controller;
 
-import com.jamoda.model.Cart;
 import com.jamoda.model.Clothes;
-import com.jamoda.repository.AttributeValueRepository;
-import com.jamoda.repository.CategoryRepository;
-import com.jamoda.repository.ClothesRepository;
-import com.jamoda.repository.FilterRepository;
+import com.jamoda.service.CartService;
+import com.jamoda.service.ClothesService;
+import com.jamoda.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static com.jamoda.controller.MainController.destroySession;
-import static com.jamoda.controller.MainController.getModel;
 
 @Controller
 public class ClothesController {
+
     @Autowired
-    private ClothesRepository clothesRepository;
+    private MainService mainService;
     @Autowired
-    private CategoryRepository categoryRepository;
+    private ClothesService clothesService;
     @Autowired
-    private FilterRepository filterRepository;
-    @Autowired
-    private AttributeValueRepository attributeValueRepository;
+    private CartService cartService;
 
     @GetMapping("/clothes")
     public String getClothes(@RequestParam String article, Model model, HttpSession session) {
-        Clothes clothes = clothesRepository.findByArticle(article);
+        Clothes clothes = clothesService.findByArticle(article);
         model.addAttribute("clothes", clothes);
         clothes.addVisit();
-        clothesRepository.saveAndFlush(clothes);
-        getCommonInfo(model, session);
+        clothesService.saveClothes(clothes);
+        mainService.getModel(model, session);
         return "clothes";
     }
 
@@ -46,16 +36,15 @@ public class ClothesController {
                                    @RequestParam("size") int size,
                                    Model model,
                                    HttpSession session) {
-        Clothes clothes = clothesRepository.findByArticle(article_clothes);
+        Clothes clothes = clothesService.findByArticle(article_clothes);
         if(clothes == null) {
-            getCommonInfo(model, session);
+            mainService.getModel(model, session);
             model.addAttribute("error", "Такого товара нет!");
-            model.addAttribute("clothes", clothes);
             return "clothes";
         }
-        addProductInCart(session, clothes, size);
+        cartService.addProductInCart(session, clothes, size);
 
-        getCommonInfo(model, session);
+        mainService.getModel(model, session);
         model.addAttribute("message", "ок");
         model.addAttribute("clothes", clothes);
         return "clothes";
@@ -66,35 +55,13 @@ public class ClothesController {
                                    @RequestParam("size") int size,
                                    Model model,
                                    HttpSession session) {
-        Clothes clothes = clothesRepository.findByArticle(article_clothes);
+        Clothes clothes = clothesService.findByArticle(article_clothes);
         if(clothes == null) {
             model.addAttribute("error", "error");
             return "json";
         }
         model.addAttribute("message", "1");
-        addProductInCart(session, clothes, size);
+        cartService.addProductInCart(session, clothes, size);
         return "json";
-    }
-
-    public Model getCommonInfo(Model model, HttpSession session) {
-        return getModel(model, session, categoryRepository, filterRepository, attributeValueRepository);
-    }
-
-    public HttpSession addProductInCart(HttpSession session, Clothes clothes, int size) {
-        @SuppressWarnings("unchecked")
-        List<String> articleList = (List<String>) session.getAttribute("PRODUCTS");
-        if(articleList == null)
-            articleList = new ArrayList<>();
-        articleList.add(clothes.getArticle());
-        session.setAttribute("PRODUCTS", articleList);
-
-        @SuppressWarnings("unchecked")
-        List<Integer> sizeList = (List<Integer>) session.getAttribute("SIZES");
-        if(sizeList == null)
-            sizeList = new ArrayList<>();
-        sizeList.add(size);
-        session.setAttribute("SIZES", sizeList);
-
-        return session;
     }
 }
