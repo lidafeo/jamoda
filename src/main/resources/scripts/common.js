@@ -1,5 +1,8 @@
 $(document).ready(function() {
 
+    if ($("#order-modal") != null)
+        $('#order-modal').modal('show');
+
     $('#navbarDropdown').click(function (e) {
         if ($("#catalog").css('visibility') == "hidden") {
             $("#catalog").css("visibility", "visible");
@@ -20,18 +23,15 @@ $(document).ready(function() {
     $('#add-in-cart').click(function (e) {
         e.preventDefault();
         let form = $("#modal-form").serializeArray();
-        console.log(form);
+        $("#modal-size").modal('hide');
         $.ajax({
             url: '/clothes_json',
             method: 'post',
             dataType: 'json',
             data: $.param(form),
             success: function(data){
-                console.log(data);
-                $("#modal-size").modal('hide');
                 let count = +data['message'] + +$('#count-in-cart').text();
                 $('#count-in-cart').html(count);
-                console.log(count);
                 $('#modal').modal('show');
             },
             error: function (err) {
