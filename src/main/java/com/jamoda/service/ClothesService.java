@@ -1,5 +1,6 @@
 package com.jamoda.service;
 
+import com.jamoda.model.Category;
 import com.jamoda.model.Clothes;
 import com.jamoda.repository.ClothesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,9 @@ public class ClothesService {
 
     public List<Clothes> findAll() {
         return clothesRepository.findAll();
+    }
+
+    public List<Clothes> findAllByCategoryIn(List<Category> categories) {
+        return clothesRepository.findAllByCategoryIn(categories);
     }
 }

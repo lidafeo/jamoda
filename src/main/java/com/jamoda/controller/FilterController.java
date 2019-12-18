@@ -3,6 +3,7 @@ package com.jamoda.controller;
 import com.jamoda.model.*;
 import com.jamoda.repository.*;
 import com.jamoda.service.CategoryService;
+import com.jamoda.service.ClothesService;
 import com.jamoda.service.FilterService;
 import com.jamoda.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,6 @@ import java.util.*;
 @Controller
 @RequestMapping("/filter")
 public class FilterController {
-    @Autowired
-    private ClothesRepository clothesRepository;
-    @Autowired
-    private AttributeValueRepository attributeValueRepository;
 
     @Autowired
     private MainService mainService;
@@ -29,6 +26,8 @@ public class FilterController {
     private FilterService filterService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private ClothesService clothesService;
 
     @GetMapping
     public String mainFilter(@RequestParam Map<String, String> params,
@@ -41,11 +40,10 @@ public class FilterController {
         }
         List<Clothes> clothes;
         if(category == null) {
-            clothes = clothesRepository.findAllByOrderByVisitDesc();
+            clothes = clothesService.findAll();
         }
         else {
             model.addAttribute("choosedCategory", category);
-            //clothes = clothesRepository.findByCategory(category);
             clothes = getClothesWithoutFilters(1, category);
         }
         model.addAttribute("clothes", clothes);
@@ -73,7 +71,6 @@ public class FilterController {
         }
         List<AttributeValue> attributeValue = filterService.findArticleClothesWithFilter(filters, categoryService.getChildrenCategory(category));
 
-       //List<Clothes> clothesList = clothesRepository.findAllByCategoryInAndAttributeValuesIn(categoryService.getChildrenCategory(category), attributeValue);
         Map<Clothes, Integer> map = new HashMap<>();
         //смотрим сколько совпало
         for(AttributeValue val : attributeValue) {
@@ -115,9 +112,9 @@ public class FilterController {
             sort = 1;
         }
         if(category == null) {
-           return sortClothes(clothesRepository.findAll(), sort);
+           return sortClothes(clothesService.findAll(), sort);
         }
-        return sortClothes(clothesRepository.findAllByCategoryIn(categoryService.getChildrenCategory(category)), sort);
+        return sortClothes(clothesService.findAllByCategoryIn(categoryService.getChildrenCategory(category)), sort);
     }
 
 }

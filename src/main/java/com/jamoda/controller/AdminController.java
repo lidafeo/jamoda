@@ -2,8 +2,7 @@ package com.jamoda.controller;
 
 import com.jamoda.model.*;
 import com.jamoda.repository.*;
-import com.jamoda.service.ClothesService;
-import com.jamoda.service.ImageService;
+import com.jamoda.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -21,26 +20,24 @@ import java.util.*;
 //@RequestMapping("/admin")
 public class AdminController {
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private ClothesRepository clothesRepository;
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
-    private ImageRepository imageRepository;
-    @Autowired
     private AttributeGroupRepository attributeGroupRepository;
     @Autowired
     private AttributeRepository attributeRepository;
-    @Autowired
-    private AttributeValueRepository attributeValueRepository;
-    @Autowired
-    private FilterRepository filterRepository;
 
     @Autowired
     private ImageService imageService;
     @Autowired
     private ClothesService clothesService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private FilterService filterService;
+    @Autowired
+    private AttributeValueService attributeValueService;
 
 
     //admin
@@ -57,14 +54,14 @@ public class AdminController {
 
     @PostMapping("/admin/add_user")
     public String addUser(User user, Model model) {
-        User userFromDb = userRepository.findByLogin(user.getLogin());
+        User userFromDb = userService.findByLogin(user.getLogin());
         if(userFromDb != null) {
             model.addAttribute("error", "Такой пользователь уже существует!");
             return "addUser";
         }
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.ADMIN));
-        userRepository.save(user);
+        userService.saveUser(user);
         model.addAttribute("message", "success");
         return "addUser";
         //return "redirect:/admin";
@@ -171,7 +168,7 @@ public class AdminController {
             attributeValue.setActive(true);
             attributeValue.setValue(values[i]);
             attributeValue.setClothes(clothes);
-            attributeValueRepository.save(attributeValue);
+            attributeValueService.saveAttributeValue(attributeValue);
         }
 
         List<Category> categories = categoryRepository.findAll();
@@ -270,7 +267,7 @@ public class AdminController {
                                     @RequestParam(name="product_article") String article,
                                     @RequestParam(name="attribute_id") long attribute_id,
                                     Model model) {
-        AttributeValue attributeValueFromDb = attributeValueRepository.findById(attributeValue.getId());
+        AttributeValue attributeValueFromDb = attributeValueService.findById(attributeValue.getId());
         if(attributeValueFromDb != null) {
             model.addAttribute("error", "Такой атрибут уже добавлен!");
             model.addAttribute("clothes", clothesRepository.findAll());
@@ -294,7 +291,7 @@ public class AdminController {
             return "addAttributeValue";
         }
         attributeValue.setAttribute(attribute);
-        attributeValueRepository.save(attributeValue);
+        attributeValueService.saveAttributeValue(attributeValue);
         model.addAttribute("message", "success");
         model.addAttribute("clothes", clothesRepository.findAll());
         model.addAttribute("attributes", attributeRepository.findAll());
@@ -363,7 +360,7 @@ public class AdminController {
         else {
             return getErrorFilter("Выберите атрибут!", model);
         }
-        Filter filterFromDb = filterRepository.findByNameEnOrNameOrAttribute(filter.getNameEn(), filter.getName(), filter.getAttribute());
+        Filter filterFromDb = filterService.findByNameEnOrNameOrAttribute(filter.getNameEn(), filter.getName(), filter.getAttribute());
         if(filterFromDb != null) {
             return getErrorFilter("Такой фильтр уже существует!", model);
         }
@@ -376,7 +373,7 @@ public class AdminController {
             }
             filter.setValues(values);
         }
-        filterRepository.saveAndFlush(filter);
+        filterService.saveFilter(filter);
         model.addAttribute("attributes", attributeRepository.findAll());
         model.addAttribute("message", "success");
         return "addFilter";

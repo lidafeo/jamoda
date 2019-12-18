@@ -40,4 +40,12 @@ public class FilterService {
                                                               List<Category> categories){
         return  attributeValueRepository.findArticleClothesWithFilter(filters, categories);
     }
+
+    public void saveFilter(Filter filter) {
+        filterRepository.saveAndFlush(filter);
+    }
+
+    public Filter findByNameEnOrNameOrAttribute(String nameEn, String name, Attribute attribute) {
+        return filterRepository.findByNameEnOrNameOrAttribute(nameEn, name, attribute);
+    }
 }
