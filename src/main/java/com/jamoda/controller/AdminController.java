@@ -103,6 +103,7 @@ public class AdminController {
         List<Attribute> attributes = attributeRepository.findAll();
         model.addAttribute("category", categories);
         model.addAttribute("attributes", attributes);
+        model.addAttribute("groups", attributeGroupRepository.findAll());
         return "addClothes";
         //return "admin";
     }
@@ -110,6 +111,7 @@ public class AdminController {
     @PostMapping("/admin/add_clothes")
     public String addClothes(Clothes clothes,
                              @RequestParam("category_id") Long category_id,
+                             @RequestParam("group_id") Long group_id,
                              @RequestParam("attribute") Long[] attribute,
                              @RequestParam("value") String[] values,
                              Model model) {
@@ -130,6 +132,10 @@ public class AdminController {
             model.addAttribute("attributes", attributes);
             model.addAttribute("error", "Такой категории не существует!");
             return "addClothes";
+        }
+        AttributeGroup attributeGroupFromDb = attributeGroupRepository.findById(group_id);
+        if(attributeGroupFromDb != null) {
+            clothes.getAttributeGroups().add(attributeGroupFromDb);
         }
         clothes.setVisit(0);
         clothes.setDate_added(new Date());

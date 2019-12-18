@@ -2,6 +2,7 @@ package com.jamoda.controller;
 
 import com.jamoda.model.*;
 import com.jamoda.repository.*;
+import com.jamoda.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import java.util.*;
 
-import static com.jamoda.controller.MainController.getModel;
 
 @Controller
 @RequestMapping("/filter")
@@ -25,6 +25,9 @@ public class FilterController {
     @Autowired
     private AttributeValueRepository attributeValueRepository;
 
+    @Autowired
+    private MainService mainService;
+
     @GetMapping
     public String mainFilter(@RequestParam Map<String, String> params,
                              Model model,
@@ -36,19 +39,12 @@ public class FilterController {
         }
         List<Clothes> clothes;
         if(category == null) {
-            clothes = clothesRepository.findAll();
+            clothes = clothesRepository.findAllByOrderByVisitDesc();
         }
         else {
             model.addAttribute("choosedCategory", category);
             //clothes = clothesRepository.findByCategory(category);
-            List<Category> allCategories = new LinkedList<>();
-            allCategories.add(category);
-            List<Category> categories = categoryRepository.findAllByParent(category);
-            while (!categories.isEmpty()) {
-                allCategories.addAll(categories);
-                categories = categoryRepository.findAllByParentIn(categories);
-            }
-            clothes = clothesRepository.findAllByCategoryIn(allCategories);
+            clothes = getClothesWithoutFilters(1, category);
         }
         model.addAttribute("clothes", clothes);
         return "main";
@@ -58,18 +54,19 @@ public class FilterController {
     public String applyFilter(@RequestParam Map<String, String> params,
                                    Model model,
                                    HttpSession session) {
-        Map<Attribute, List<String>> filters = new HashMap<>();
-        for (String nameFilter : params.keySet()) {
-            Filter filter = filterRepository.findByNameEn(nameFilter);
-            if(filter == null) {
-                continue;
-            }
-            Attribute attribute = filter.getAttribute();
-            List<String> values = Arrays.asList(params.get(nameFilter).split(","));
-            filters.put(attribute, values);
+        Map<Attribute, List<String>> filters = getFilters(params);
+        int sort = 1;
+        if(params.get("sort") != null && params.get("sort").trim() != "")
+            sort = Integer.parseInt(params.get("sort"));
+
+        //определяем категорию
+        Category category = null;
+        if(params.get("category") != null && !params.get("category").equals("")) {
+            category = categoryRepository.findByNameEn(params.get("category"));
         }
+
         if(filters.size() == 0) {
-            model.addAttribute("clothes", clothesRepository.findAll());
+            model.addAttribute("clothes", getClothesWithoutFilters(sort, category));
             return "filterClothes";
         }
         List<AttributeValue> attributeValue = attributeValueRepository.findArticleClothesWithFilter(filters);
@@ -90,15 +87,12 @@ public class FilterController {
                 clothes.add(clo);
             }
         }
-        int sort = 1;
-        if(params.get("sort") != null && params.get("sort").trim() != "")
-            sort = Integer.parseInt(params.get("sort"));
         model.addAttribute("clothes", sortClothes(clothes, sort));
         return "filterClothes";
     }
 
     public Model getCommonInfo(Model model, HttpSession session) {
-        return getModel(model, session, categoryRepository, filterRepository, attributeValueRepository);
+        return mainService.getModel(model, session);//, categoryRepository, filterRepository, attributeValueRepository);
     }
 
     public List<Clothes> sortClothes(List<Clothes> clothes, int sort) {
@@ -117,5 +111,42 @@ public class FilterController {
             }
         });
         return clothes;
+    }
+
+    public Map<Attribute, List<String>> getFilters(Map<String, String> params) {
+        Map<Attribute, List<String>> filters = new HashMap<>();
+        for (String nameFilter : params.keySet()) {
+            Filter filter = filterRepository.findByNameEn(nameFilter);
+            if(filter == null) {
+                continue;
+            }
+            Attribute attribute = filter.getAttribute();
+            List<String> values = Arrays.asList(params.get(nameFilter).split(","));
+            filters.put(attribute, values);
+        }
+        return  filters;
+    }
+
+    public List<Clothes> getClothesWithoutFilters(int sort, Category category) {
+        if(sort == 0) {
+            sort = 1;
+        }
+        if(category == null) {
+           return sortClothes(clothesRepository.findAll(), sort);
+        }
+        return sortClothes(clothesRepository.findAllByCategoryIn(getChildrenCategory(category)), sort);
+    }
+
+    public List<Category> getChildrenCategory(Category category) {
+        if(category == null)
+            return null;
+        List<Category> allCategories = new LinkedList<>();
+        allCategories.add(category);
+        List<Category> categories = categoryRepository.findAllByParent(category);
+        while (!categories.isEmpty()) {
+            allCategories.addAll(categories);
+            categories = categoryRepository.findAllByParentIn(categories);
+        }
+        return allCategories;
     }
 }

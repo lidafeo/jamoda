@@ -43,6 +43,17 @@
                                 руб.
                                 </div>
                         </div>
+                        <div class="form-group row>
+                            <label for="group_id" class="col-sm-2 col-form-label">Группа категорий</label>
+                                  <div class="col-sm-10">
+                                       <select name="group_id" id="group_id" class="form-control" required >
+                                            <option value="-1">нет</option>
+                                            <#list groups as group>
+                                                <option value="${group.id}">${group.name}</option>
+                                            </#list>
+                                       </select>
+                                  </div>
+                        </div>
                         <div class="attributes">
                             <div class="form-group row" id="atr1">
                                   <label for="attribute" class="col-sm-2 col-form-label">Атрибут</label>
