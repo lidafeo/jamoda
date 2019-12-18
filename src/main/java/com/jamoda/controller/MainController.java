@@ -20,11 +20,9 @@ import java.util.*;
 
 @Controller
 //@RequestMapping("/")
-public class MainController {
 
-    @Autowired
+public class MainController {
     private MainService mainService;
-    @Autowired
     private ClothesService clothesService;
 
     @GetMapping("/")
@@ -38,5 +36,15 @@ public class MainController {
     public String about(Model model, HttpSession session) {
         mainService.getModel(model, session);
         return "about";
+    }
+
+
+    @Autowired
+    public void setClothesService(ClothesService clothesService) {
+        this.clothesService = clothesService;
+    }
+    @Autowired
+    public void setMainService(MainService mainService) {
+        this.mainService = mainService;
     }
 }

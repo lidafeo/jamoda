@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+    if ($("#order-modal") != null)
+        $('#order-modal').modal('show');
+
+    //панель каталога
     $('#navbarDropdown').click(function (e) {
         if ($("#catalog").css('visibility') == "hidden") {
             $("#catalog").css("visibility", "visible");
@@ -7,31 +11,39 @@ $(document).ready(function() {
             $("#catalog").css("visibility", "hidden");
         }
     });
+
+    //сортировка
     $('#sort').change(function (e) {
-        sendRequest();
+        let params = getUrlVars();
+        sendRequest(params);
     });
 
     $('#clothes_div').on('click', '.but-buy', function (e) {
         e.preventDefault();
         let form = $(this).parents('form');
-        console.log(form);
     });
 
+    //добавление в корзину
     $('#add-in-cart').click(function (e) {
         e.preventDefault();
         let form = $("#modal-form").serializeArray();
-        console.log(form);
+        $("#modal-size").modal('hide');
         $.ajax({
             url: '/clothes_json',
             method: 'post',
             dataType: 'json',
             data: $.param(form),
             success: function(data){
-                console.log(data);
-                $("#modal-size").modal('hide');
+                console.log(+data['message']);
+                console.log(+$('#count-in-cart').text());
+                let countOld = +$('#count-in-cart').text();
                 let count = +data['message'] + +$('#count-in-cart').text();
-                $('#count-in-cart').html(count);
-                console.log(count);
+                if(countOld == 0) {
+                    $('#count-in-cart-b').html(' Корзина (<span id="count-in-cart">' + count + '</span>)');
+                }
+                else {
+                    $('#count-in-cart').html(count);
+                }
                 $('#modal').modal('show');
             },
             error: function (err) {
@@ -40,6 +52,7 @@ $(document).ready(function() {
         });
     });
 
+    //модальное окно выбора размера
     $('#modal-size').on('show.bs.modal', function (event) {
         let button = $(event.relatedTarget); // Button that triggered the modal
         let recipient = button.data('whatever'); // Extract info from data-* attributes;
@@ -55,12 +68,28 @@ $(document).ready(function() {
         });
     });
      */
+    //применение фильтров
     $('#apply_filter').click(function (e) {
         e.preventDefault();
-        sendRequest();
+        let params = getUrlVars();
+        sendRequest(params);
     });
-    
-    function sendRequest() {
+
+    function getUrlVars() {
+        let vars = [], hash;
+        if(window.location.href.indexOf('?') == -1) {
+            return -1;
+        }
+        let hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for(let i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+       // return window.location.href.slice(window.location.href.indexOf('?')).split(/[&?]{1}[\w\d]+=/);
+    }
+    function sendRequest(params) {
         let data = $('#form_filter').serializeArray(); // convert form to array
         let names = [];
         let newDate = [];
@@ -71,6 +100,11 @@ $(document).ready(function() {
             }
             else {
                 newDate[names.indexOf(data[i].name)].value.push(data[i].value);
+            }
+        }
+        if(params != null && params != -1) {
+            for(let key in params) {
+                newDate.push({name: key, value: params[key]});
             }
         }
         newDate.push({name: 'sort', value: $('#sort').val()});

@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="jamoda" target="1.8" />
+      <module name="jamoda" target="9" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

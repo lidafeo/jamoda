@@ -2,10 +2,11 @@
 <#import "parts/productCart.ftl" as card>
 <@c.page>
     <div class="container main-clothes">
-        <h1>ОФОРМЛЕНИЕ ЗАКАЗА</h1>
+        <h1>Корзина</h1>
         <hr>
         <#if cart.products?size gt 0 >
-            <h5>${cart.count} товар(а) на сумму ${cart.price} руб.</h5>
+            <h4>${cart.count} товар(а) на сумму ${cart.price} руб.</h4>
+            <br>
             <#assign map = cart.products>
             <#assign keys = map?keys>
             <div class="card-deck">
@@ -15,7 +16,7 @@
                     <p>Корзина пуста</p>
                 </#list>
             </div>
-            <a href="/" class="btn btn-primary btn-lg">Перейти к оформлению</a>
+            <a href="/order" class="btn btn-primary btn-lg">Перейти к оформлению</a>
             <br>
         <#else>
             <p>Корзина пуста</p>

@@ -13,9 +13,8 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class CartController {
-    @Autowired
+
     private CartService cartService;
-    @Autowired
     private CategoryService categoryService;
 
     @GetMapping("/cart")
@@ -23,5 +22,13 @@ public class CartController {
         model.addAttribute("categories", categoryService.findMainCategory());
         model.addAttribute("cart", cartService.getCart(session));
         return "cart";
+    }
+
+    public void setCartService(CartService cartService) {
+        this.cartService = cartService;
+    }
+
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 }
