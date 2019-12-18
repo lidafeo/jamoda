@@ -95,19 +95,16 @@ public class FilterController {
     }
 
     public List<Clothes> sortClothes(List<Clothes> clothes, int sort) {
-        Collections.sort(clothes, new Comparator<Clothes>() {
-            @Override
-            public int compare(Clothes c1, Clothes c2) {
-                switch (sort) {
-                    case 1:
-                        return c2.getVisit() - c1.getVisit();
-                    case 2:
-                        return c1.getPrice() - c2.getPrice();
-                    case 3:
-                        return c2.getPrice() - c1.getPrice();
-                }
-                return c1.getName().compareTo(c2.getName());
+        Collections.sort(clothes, (c1, c2) -> {
+            switch (sort) {
+                case 1:
+                    return c2.getVisit() - c1.getVisit();
+                case 2:
+                    return c1.getPrice() - c2.getPrice();
+                case 3:
+                    return c2.getPrice() - c1.getPrice();
             }
+            return c1.getName().compareTo(c2.getName());
         });
         return clothes;
     }

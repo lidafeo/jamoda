@@ -27,13 +27,13 @@ public class CartController {
 
     @GetMapping("/cart")
     public String cart(Model model, HttpSession session) {
-        model.addAttribute("categories", categoryService.findMainCategory());
-        model.addAttribute("cart", cartService.getCart(session));
+        model.addAttribute("categories", categoryService.findMainCategory()); //для панели
+        model.addAttribute("cart", cartService.getCart(session)); //для отображения корзины
         return "cart";
     }
 
     @GetMapping("/cart/clean")
-    public String cleanCart(Model model, HttpSession session) {
+    public String cleanCart(HttpSession session) {
         cartService.cleanCart(session);
         return "redirect:/cart";
     }

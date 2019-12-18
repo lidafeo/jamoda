@@ -59,9 +59,26 @@ class CartControllerTest {
         cartController.setCategoryService(catServMock);
 
         verify(model, times(1)).addAttribute("0", 0);
-        //verify(model, times(1)).addAttribute("1", cart);
+        //Assert.assertTrue( model.containsAttribute("cart"));
         //почему не робит?
-        //Assert.assertNotNull("model is null", model);
+        Assert.assertNotNull("model is null", model);
         Assert.assertEquals("cart wasn't returned","cart", cartController.cart(model, session));
+    }
+
+    @Test
+    void cleanCart() throws Exception{
+        Cart cart = new Cart();
+        cart.setCount(1);
+        CartService cartServMock = mock(CartService.class);
+        HttpSession session = mock(HttpSession.class);
+        session.setAttribute("1", 1);
+        Mockito.when(cartServMock.getCart(session)).thenReturn(cart);
+
+        CartController cartController = new CartController();
+        cartController.setCartService(cartServMock);
+
+        Assert.assertNull(session.getAttribute("SIZES"));
+        Assert.assertNull(session.getAttribute("PRODUCTS"));
+        Assert.assertEquals("redirect:/cart wasn't returned","redirect:/cart", cartController.cleanCart(session));
     }
 }

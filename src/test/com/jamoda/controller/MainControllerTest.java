@@ -52,6 +52,14 @@ class MainControllerTest {
         session.setAttribute("1", 1);
         Mockito.when(mainServMock.getModel(model, session)).thenReturn(model);
 
+        Clothes clothes1 = new Clothes();
+        clothes1.setName("труселя");
+        clothes1.setVisit(1);
+//        Clothes clothes2 = new Clothes();
+//        clothes2.setName("труселя");
+//        clothes2.setVisit(10);
+        List<Clothes> clothess = List.of(clothes1);
+
         MainController mainController = new MainController();
         mainController.setMainService(mainServMock);
 

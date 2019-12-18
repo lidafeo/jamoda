@@ -20,30 +20,35 @@ import java.util.*;
 
 @Controller
 public class OrderController {
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+    @Autowired
+    public void setCartService(CartService cartService) {
+        this.cartService = cartService;
+    }
+    @Autowired
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
-    @Autowired
     private CartService cartService;
-    @Autowired
     private CategoryService categoryService;
-    @Autowired
     private OrderService orderService;
 
     @GetMapping("/order")
-    public String order(Model model,
-                        HttpSession session) {
+    public String order(Model model, HttpSession session) {
         model.addAttribute("categories", categoryService.findMainCategory());
         model.addAttribute("cart", cartService.getCart(session));
         return "order";
     }
 
     @PostMapping("/order")
-    public String saveOrder(@RequestParam("summa") String summa,
-                            Order order,
-                            Model model,
-                            HttpSession session) {
+    public String saveOrder(@RequestParam("summa") String summa, Order order,
+                            Model model, HttpSession session) {
         if(order.getPayment().equals("online")) {
-            order.setPaid(true);
-        }
+            order.setPaid(true); }
         model.addAttribute("categories", categoryService.findMainCategory());
         model.addAttribute("cart", cartService.getCart(session));
         Cart cart = cartService.getCart(session);

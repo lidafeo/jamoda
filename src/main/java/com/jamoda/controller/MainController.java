@@ -22,6 +22,7 @@ import java.util.*;
 //@RequestMapping("/")
 
 public class MainController {
+
     private MainService mainService;
     private ClothesService clothesService;
 
@@ -37,7 +38,6 @@ public class MainController {
         mainService.getModel(model, session);
         return "about";
     }
-
 
     @Autowired
     public void setClothesService(ClothesService clothesService) {
