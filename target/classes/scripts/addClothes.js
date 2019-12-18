@@ -1,9 +1,8 @@
+$("#atr1").hide();
 $(document).ready(function() {
     //$(".chzn-select").chosen();
-
-    $("#atr1").hide();
     let n = 0; let m = 0;
-    let but = '<div class="col-sm-3"><button id="delete" class="btn btn-primary">Удалить</button></div>';
+    let but = '<div class="col-sm-2"><button id="delete" class="btn btn-primary">Удалить</button></div>';
     let select = {};
     let chosen = {};
 

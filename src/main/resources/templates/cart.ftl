@@ -16,7 +16,14 @@
                     <p>Корзина пуста</p>
                 </#list>
             </div>
-            <a href="/order" class="btn btn-primary btn-lg">Перейти к оформлению</a>
+            <div class="row">
+                <div class="col-md-5">
+                    <a href="/order" class="btn btn-primary btn-lg">Перейти к оформлению</a>
+                </div>
+                <div class="col-md-4">
+                    <a href="/cart/clean" class="btn btn-primary btn-lg">Очистить корзину</a>
+                </div>
+            </div>
             <br>
         <#else>
             <p>Корзина пуста</p>

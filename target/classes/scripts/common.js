@@ -34,8 +34,6 @@ $(document).ready(function() {
             dataType: 'json',
             data: $.param(form),
             success: function(data){
-                console.log(+data['message']);
-                console.log(+$('#count-in-cart').text());
                 let countOld = +$('#count-in-cart').text();
                 let count = +data['message'] + +$('#count-in-cart').text();
                 if(countOld == 0) {

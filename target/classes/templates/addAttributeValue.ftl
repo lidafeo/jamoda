@@ -1,6 +1,6 @@
 <#import "parts/commonAdmin.ftl" as c>
 <@c.page_admin>
-    <h2>Добавление категории</h2>
+    <h2>Добавление значения атрибута к товару</h2>
     <#if error??>
         <h6><font color="red">${error?ifExists}</font></h6>
     </#if>

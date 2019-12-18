@@ -1,14 +1,11 @@
 <#import "parts/commonAdmin.ftl" as c>
 <@c.page_admin "/addClothes.js">
-    <#if error??>
-        <h6><font color="red">${error?ifExists}</font></h6>
-    </#if>
-    <#if message??>
-        <h6><font color="green">Успешно!</font></h6>
+    <#if error?? || message ??>
+        <#include "parts/modalAdmin.ftl">
     </#if>
     <div class="mx-auto" style="width: 900px;">
                 <div class="form-center">
-                    <form action="/admin/add_clothes" method="post" id="form">
+                    <form action="/admin/add_clothes" method="post" id="form" enctype="multipart/form-data">
                         <div class="form-group row">
                             <h4>Добавление нового товара</h4>
                         </div>
@@ -36,17 +33,17 @@
                         </div>
                         <div class="form-group row">
                              <label for="price" class="col-sm-2 col-form-label">Цена</label>
-                               <div class="col-sm-9">
+                             <div class="col-sm-9">
                                 <input type="number" name="price" class="form-control" id="price" min="0" placeholder="1000" required/>
-                                </div>
-                                <div class="col-sm-1">
+                             </div>
+                             <div class="col-sm-1">
                                 руб.
-                                </div>
+                             </div>
                         </div>
-                        <div class="form-group row>
-                            <label for="group_id" class="col-sm-2 col-form-label">Группа категорий</label>
+                        <div class="form-group row">
+                            <label for="group_id" class="col-sm-2 col-form-label">Группа атрибутов</label>
                                   <div class="col-sm-10">
-                                       <select name="group_id" id="group_id" class="form-control" required >
+                                       <select name="group_id" id="group_id" class="form-control" required>
                                             <option value="-1">нет</option>
                                             <#list groups as group>
                                                 <option value="${group.id}">${group.name}</option>
@@ -69,12 +66,19 @@
                                        </div>
                             </div>
                         </div>
-                        <input type="hidden" name="_csrf" value="${_csrf.token}" />
-                        <div class="form-group row">
+                         <div class="form-group row">
                             <div class="col-sm-10">
-                                <input type="submit" class="btn btn-primary" id="add_attr" value="Добавить атрибут"/>
+                                <input type="submit" class="btn btn-primary" id="add_attr" value="Добавить атрибут к товару"/>
                             </div>
+                         </div>
+                        <div class="form-group row">
+                            <label for="files" class="col-sm-2 col-form-label">Фото</label>
+                                 <div class="col-sm-10">
+                                    <input type="file" class="custom-file-input" id="files" name="files" multiple/>
+                                    <label class="custom-file-label" for="files">Выберите файл</label>
+                                 </div>
                         </div>
+                        <input type="hidden" name="_csrf" value="${_csrf.token}" />
                         <div class="form-group row">
                               <div class="col-sm-10">
                                     <input type="submit" class="btn btn-primary" value="Добавить товар"/>

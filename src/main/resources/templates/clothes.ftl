@@ -79,6 +79,7 @@
                             </li>
                         </ul>
                     </div>
+                    <br>
                 </#list>
             </div>
         </div>

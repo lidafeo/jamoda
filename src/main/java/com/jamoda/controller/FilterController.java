@@ -2,6 +2,8 @@ package com.jamoda.controller;
 
 import com.jamoda.model.*;
 import com.jamoda.repository.*;
+import com.jamoda.service.CategoryService;
+import com.jamoda.service.FilterService;
 import com.jamoda.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,25 +19,25 @@ import java.util.*;
 @RequestMapping("/filter")
 public class FilterController {
     @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
     private ClothesRepository clothesRepository;
-    @Autowired
-    private FilterRepository filterRepository;
     @Autowired
     private AttributeValueRepository attributeValueRepository;
 
     @Autowired
     private MainService mainService;
+    @Autowired
+    private FilterService filterService;
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping
     public String mainFilter(@RequestParam Map<String, String> params,
                              Model model,
                              HttpSession session) {
-        getCommonInfo(model, session);
+        mainService.getModel(model, session);
         Category category = null;
         if(params.get("category") != null) {
-            category = categoryRepository.findByNameEn(params.get("category"));
+            category = categoryService.findByNameEn(params.get("category"));
         }
         List<Clothes> clothes;
         if(category == null) {
@@ -54,7 +56,7 @@ public class FilterController {
     public String applyFilter(@RequestParam Map<String, String> params,
                                    Model model,
                                    HttpSession session) {
-        Map<Attribute, List<String>> filters = getFilters(params);
+        Map<Attribute, List<String>> filters = filterService.getFilters(params);
         int sort = 1;
         if(params.get("sort") != null && params.get("sort").trim() != "")
             sort = Integer.parseInt(params.get("sort"));
@@ -62,15 +64,16 @@ public class FilterController {
         //определяем категорию
         Category category = null;
         if(params.get("category") != null && !params.get("category").equals("")) {
-            category = categoryRepository.findByNameEn(params.get("category"));
+            category = categoryService.findByNameEn(params.get("category"));
         }
 
         if(filters.size() == 0) {
             model.addAttribute("clothes", getClothesWithoutFilters(sort, category));
             return "filterClothes";
         }
-        List<AttributeValue> attributeValue = attributeValueRepository.findArticleClothesWithFilter(filters);
+        List<AttributeValue> attributeValue = filterService.findArticleClothesWithFilter(filters, categoryService.getChildrenCategory(category));
 
+       //List<Clothes> clothesList = clothesRepository.findAllByCategoryInAndAttributeValuesIn(categoryService.getChildrenCategory(category), attributeValue);
         Map<Clothes, Integer> map = new HashMap<>();
         //смотрим сколько совпало
         for(AttributeValue val : attributeValue) {
@@ -91,10 +94,6 @@ public class FilterController {
         return "filterClothes";
     }
 
-    public Model getCommonInfo(Model model, HttpSession session) {
-        return mainService.getModel(model, session);//, categoryRepository, filterRepository, attributeValueRepository);
-    }
-
     public List<Clothes> sortClothes(List<Clothes> clothes, int sort) {
         Collections.sort(clothes, new Comparator<Clothes>() {
             @Override
@@ -113,19 +112,6 @@ public class FilterController {
         return clothes;
     }
 
-    public Map<Attribute, List<String>> getFilters(Map<String, String> params) {
-        Map<Attribute, List<String>> filters = new HashMap<>();
-        for (String nameFilter : params.keySet()) {
-            Filter filter = filterRepository.findByNameEn(nameFilter);
-            if(filter == null) {
-                continue;
-            }
-            Attribute attribute = filter.getAttribute();
-            List<String> values = Arrays.asList(params.get(nameFilter).split(","));
-            filters.put(attribute, values);
-        }
-        return  filters;
-    }
 
     public List<Clothes> getClothesWithoutFilters(int sort, Category category) {
         if(sort == 0) {
@@ -134,19 +120,7 @@ public class FilterController {
         if(category == null) {
            return sortClothes(clothesRepository.findAll(), sort);
         }
-        return sortClothes(clothesRepository.findAllByCategoryIn(getChildrenCategory(category)), sort);
+        return sortClothes(clothesRepository.findAllByCategoryIn(categoryService.getChildrenCategory(category)), sort);
     }
 
-    public List<Category> getChildrenCategory(Category category) {
-        if(category == null)
-            return null;
-        List<Category> allCategories = new LinkedList<>();
-        allCategories.add(category);
-        List<Category> categories = categoryRepository.findAllByParent(category);
-        while (!categories.isEmpty()) {
-            allCategories.addAll(categories);
-            categories = categoryRepository.findAllByParentIn(categories);
-        }
-        return allCategories;
-    }
 }

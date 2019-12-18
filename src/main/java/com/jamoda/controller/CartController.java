@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,7 +13,16 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class CartController {
 
+    @Autowired
+    public void setCartService(CartService cartService) {
+        this.cartService = cartService;
+    }
     private CartService cartService;
+
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
     private CategoryService categoryService;
 
     @GetMapping("/cart")
@@ -24,11 +32,9 @@ public class CartController {
         return "cart";
     }
 
-    public void setCartService(CartService cartService) {
-        this.cartService = cartService;
-    }
-
-    public void setCategoryService(CategoryService categoryService) {
-        this.categoryService = categoryService;
+    @GetMapping("/cart/clean")
+    public String cleanCart(Model model, HttpSession session) {
+        cartService.cleanCart(session);
+        return "redirect:/cart";
     }
 }
