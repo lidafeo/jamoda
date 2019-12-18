@@ -10,10 +10,7 @@
                 <a class="nav-link" href="/">На сайт<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/admin/add_user">Добавить пользователя <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/add_file">Добавить картинку к товару <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/admin/add_user">Добавить администратора <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/admin/add_clothes">Добавить товар <span class="sr-only">(current)</span></a>

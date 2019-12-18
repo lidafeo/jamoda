@@ -2,6 +2,7 @@ package com.jamoda.repository;
 
 import com.jamoda.model.Attribute;
 import com.jamoda.model.AttributeValue;
+import com.jamoda.model.Clothes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

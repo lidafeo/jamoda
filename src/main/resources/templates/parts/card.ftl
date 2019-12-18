@@ -1,6 +1,6 @@
 <#macro card clothes>
 <div class="col-sm-4">
-    <div class="card" style="width: 15rem;">
+    <div class="card my-card" style="width: 15rem;">
         <#if clothes.images?size != 0>
             <img src="/img/${clothes.images?first.name}" class="card-img-top" alt="${clothes.name}">
         </#if>

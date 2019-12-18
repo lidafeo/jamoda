@@ -5,6 +5,8 @@ import com.jamoda.repository.ClothesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ClothesService {
 
@@ -21,5 +23,9 @@ public class ClothesService {
 
     public void saveClothes(Clothes clothes) {
         clothesRepository.saveAndFlush(clothes);
+    }
+
+    public List<Clothes> findAll() {
+        return clothesRepository.findAll();
     }
 }

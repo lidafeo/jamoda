@@ -2,6 +2,8 @@ package com.jamoda.controller;
 
 import com.jamoda.model.*;
 import com.jamoda.repository.*;
+import com.jamoda.service.ClothesService;
+import com.jamoda.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -35,8 +37,11 @@ public class AdminController {
     @Autowired
     private FilterRepository filterRepository;
 
-    @Value("${upload.path}")
-    private String uploadPath;
+    @Autowired
+    private ImageService imageService;
+    @Autowired
+    private ClothesService clothesService;
+
 
     //admin
     @GetMapping("/admin")
@@ -81,17 +86,17 @@ public class AdminController {
             model.addAttribute("products", clothesRepository.findAll());
             return "addFile";
         }
-        File uploadDir = new File(uploadPath);
-        if(!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
+        //проверяем наличие папки, создаем если ее нет
+        imageService.checkExistsDir();
+        //сохраняем файл в папку
         String uuidFile = UUID.randomUUID().toString();
         String resultFilename = article + "_" + uuidFile + ".webp";
+        imageService.addFile(file, resultFilename);
+        //создаем объект для сохранения в БД
         Image image = new Image(resultFilename, article);
-        file.transferTo(new File(uploadPath + "/" + resultFilename));
-        imageRepository.save(image);
+        imageService.saveImageToDb(image);
         model.addAttribute("message", "success");
-        model.addAttribute("products", clothesRepository.findAll());
+        model.addAttribute("products", clothesService.findAll());
         return "addFile";
     }
 
@@ -113,16 +118,32 @@ public class AdminController {
                              @RequestParam("category_id") Long category_id,
                              @RequestParam("group_id") Long group_id,
                              @RequestParam("attribute") Long[] attribute,
+                             @RequestParam("files") MultipartFile[] files,
                              @RequestParam("value") String[] values,
-                             Model model) {
+                             Model model) throws IOException {
         Clothes clothesFromDb = clothesRepository.findByArticle(clothes.getArticle());
         if(clothesFromDb != null) {
             List<Category> categories = categoryRepository.findAll();
             List<Attribute> attributes = attributeRepository.findAll();
+            model.addAttribute("groups", attributeGroupRepository.findAll());
             model.addAttribute("category", categories);
             model.addAttribute("attributes", attributes);
             model.addAttribute("error", "Такой товар уже существует!");
             return "addClothes";
+        }
+        if(files != null && files.length != 0) {
+            //проверяем наличие папки, создаем если ее нет
+            imageService.checkExistsDir();
+            //сохраняем файлы в папку
+            for(int i = 0; i < files.length; i++) {
+                String uuidFile = UUID.randomUUID().toString();
+                String resultFilename = clothes.getArticle() + "_" + uuidFile + ".webp";
+                imageService.addFile(files[i], resultFilename);
+                //создаем объект для сохранения в БД
+                Image image = new Image(resultFilename,clothes.getArticle());
+                clothes.getImages().add(image);
+                //imageService.saveImageToDb(image);
+            }
         }
         Category categoryFromDb = categoryRepository.findById(category_id);
         if(categoryFromDb == null) {
@@ -130,6 +151,7 @@ public class AdminController {
             List<Attribute> attributes = attributeRepository.findAll();
             model.addAttribute("category", categories);
             model.addAttribute("attributes", attributes);
+            model.addAttribute("groups", attributeGroupRepository.findAll());
             model.addAttribute("error", "Такой категории не существует!");
             return "addClothes";
         }
@@ -154,6 +176,7 @@ public class AdminController {
 
         List<Category> categories = categoryRepository.findAll();
         List<Attribute> attributes = attributeRepository.findAll();
+        model.addAttribute("groups", attributeGroupRepository.findAll());
         model.addAttribute("category", categories);
         model.addAttribute("attributes", attributes);
         model.addAttribute("message", "success");
@@ -300,6 +323,13 @@ public class AdminController {
         }
         if(attributeGroupFromDB == null) {
             model.addAttribute("error", "Такой группы атрибутов не существует!");
+            model.addAttribute("groups", attributeGroupRepository.findAll());
+            model.addAttribute("products", clothesRepository.findAll());
+            return "addAttributeGroup";
+        }
+        Clothes clothes = clothesRepository.findByAttributeGroupsContainsAndArticle(attributeGroupFromDB, clothesFromDb.getArticle());
+        if(clothes != null) {
+            model.addAttribute("error", "Такая группа атрибутов уже добавлена к этому товару!");
             model.addAttribute("groups", attributeGroupRepository.findAll());
             model.addAttribute("products", clothesRepository.findAll());
             return "addAttributeGroup";
