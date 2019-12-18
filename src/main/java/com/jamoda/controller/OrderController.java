@@ -5,6 +5,7 @@ import com.jamoda.repository.*;
 import com.jamoda.service.CartService;
 import com.jamoda.service.CategoryService;
 import com.jamoda.service.MainService;
+import com.jamoda.service.OrderService;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,17 +20,13 @@ import java.util.*;
 
 @Controller
 public class OrderController {
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private OrderProductRepository orderProductRepository;
 
     @Autowired
     private CartService cartService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/order")
     public String order(Model model,
@@ -56,17 +53,16 @@ public class OrderController {
             return "order";
         }
         order.setSum(cart.getPrice());
-        Order saveOrder = orderRepository.saveAndFlush(order);
+        Order saveOrder = orderService.saveOrder(order);
         //сохраняем ссылки на купленные продукты
         Map<String, ProductInCart> cartProducts =  cart.getProducts();
         for (String product : cartProducts.keySet()) {
-            OrderProduct orderProduct = new OrderProduct();
-            orderProduct.setClothes(cartProducts.get(product).getClothes());
-            orderProduct.setCount(cartProducts.get(product).getCount());
-            orderProduct.setPrice(cartProducts.get(product).getPrice());
-            orderProduct.setSize(cartProducts.get(product).getSize());
-            orderProduct.setOrder(saveOrder);
-            orderProductRepository.saveAndFlush(orderProduct);
+            OrderProduct orderProduct = new OrderProduct(cartProducts.get(product).getCount(),
+                                        cartProducts.get(product).getSize(),
+                                        cartProducts.get(product).getPrice(),
+                                        cartProducts.get(product).getClothes(),
+                                        saveOrder);
+            orderService.saveOrderProduct(orderProduct);
         }
         //очищаем корзину
         cartService.cleanCart(session);

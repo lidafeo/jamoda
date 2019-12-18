@@ -20,6 +20,14 @@ public class OrderProduct {
     public OrderProduct() {
     }
 
+    public OrderProduct(Integer count, Integer size, Integer price, Clothes clothes, Order order) {
+        this.count = count;
+        this.size = size;
+        this.price = price;
+        this.clothes = clothes;
+        this.order = order;
+    }
+
     public long getId() {
         return id;
     }
