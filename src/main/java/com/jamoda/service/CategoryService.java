@@ -14,12 +14,20 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    public List<Category> findAll() {
+        return categoryRepository.findAll();
+    }
+
     public List<Category> findMainCategory() {
         return categoryRepository.findAllByType("main");
     }
 
     public Category findByNameEn(String nameEn) {
         return categoryRepository.findByNameEn(nameEn);
+    }
+
+    public Category findById(long id) {
+        return categoryRepository.findById(id);
     }
 
     public List<Category> getChildrenCategory(Category category) {
