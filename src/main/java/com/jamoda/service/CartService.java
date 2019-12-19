@@ -16,9 +16,8 @@ import java.util.Map;
 
 @Service
 public class CartService {
-    @Autowired
+
     private ClothesRepository clothesRepository;
-    @Autowired
     private CategoryRepository categoryRepository;
 
     public Cart getCart(HttpSession session) {
@@ -85,5 +84,14 @@ public class CartService {
     static HttpSession destroySession(HttpSession session) {
         session.invalidate();
         return session;
+    }
+
+    @Autowired
+    public void setClothesRepository(ClothesRepository clothesRepository) {
+        this.clothesRepository = clothesRepository;
+    }
+    @Autowired
+    public void setCategoryRepository(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
     }
 }

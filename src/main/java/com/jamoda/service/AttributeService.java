@@ -9,13 +9,26 @@ import java.util.List;
 
 @Service
 public class AttributeService {
-    @Autowired
     private AttributeRepository attributeRepository;
+
+    public Attribute saveAttribute(Attribute attribute) {
+        return attributeRepository.saveAndFlush(attribute);
+    }
 
     public List<Attribute> findAll() {
         return attributeRepository.findAll();
     }
+
     public Attribute findById(long id) {
         return attributeRepository.findById(id);
+    }
+
+    public Attribute findByName(String name) {
+        return attributeRepository.findByName(name);
+    }
+
+    @Autowired
+    public void setAttributeRepository(AttributeRepository attributeRepository) {
+        this.attributeRepository = attributeRepository;
     }
 }

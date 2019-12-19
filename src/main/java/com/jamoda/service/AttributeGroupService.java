@@ -12,6 +12,10 @@ public class AttributeGroupService {
 
     private AttributeGroupRepository attributeGroupRepository;
 
+    public AttributeGroup saveAttributeGroup(AttributeGroup attributeGroup) {
+        return attributeGroupRepository.saveAndFlush(attributeGroup);
+    }
+
     public List<AttributeGroup> findAll() {
         return attributeGroupRepository.findAll();
     }
@@ -20,6 +24,9 @@ public class AttributeGroupService {
         return attributeGroupRepository.findById(id);
     }
 
+    public AttributeGroup findByName(String name) {
+        return attributeGroupRepository.findByName(name);
+    }
 
     @Autowired
     public void setAttributeGroupRepository(AttributeGroupRepository attributeGroupRepository) {

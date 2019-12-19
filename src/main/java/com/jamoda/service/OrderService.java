@@ -9,9 +9,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OrderService {
-    @Autowired
+
     private OrderRepository orderRepository;
-    @Autowired
     private OrderProductRepository orderProductRepository;
 
     public Order saveOrder(Order order) {
@@ -20,5 +19,14 @@ public class OrderService {
 
     public OrderProduct saveOrderProduct(OrderProduct orderProduct) {
         return orderProductRepository.saveAndFlush(orderProduct);
+    }
+
+    @Autowired
+    public void setOrderRepository(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+    @Autowired
+    public void setOrderProductRepository(OrderProductRepository orderProductRepository) {
+        this.orderProductRepository = orderProductRepository;
     }
 }

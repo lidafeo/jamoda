@@ -13,5 +13,4 @@ public interface AttributeValueRepository extends JpaRepository<AttributeValue, 
     AttributeValue findById(long id);
     @Query(value = "SELECT DISTINCT value from AttributeValue WHERE attribute=?1")
     List<String> findDistinctValueByAttribute(Attribute attribute);
-    //List<AttributeValue> findDistinctByValueAndAttribute(Attribute attribute);
 }

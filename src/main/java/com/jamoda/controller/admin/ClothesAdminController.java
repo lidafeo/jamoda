@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class ClothesAdminController {
@@ -25,12 +24,14 @@ public class ClothesAdminController {
     private ImageService imageService;
     private ClothesService clothesService;
 
+    /////////////// add new clothes
+
     @GetMapping("/admin/add_clothes")
     public String pageAddClothes(Model model) {
         model.addAttribute("category", categoryService.findAll());
         model.addAttribute("attributes", attributeService.findAll());
         model.addAttribute("groups", attributeGroupService.findAll());
-        return "addClothes";
+        return "admin/addClothes";
     }
 
     @PostMapping("/admin/add_clothes")
@@ -49,7 +50,7 @@ public class ClothesAdminController {
         Clothes clothesFromDb = clothesService.findByArticle(clothes.getArticle());
         if(clothesFromDb != null) {
             model.addAttribute("error", "Такой товар уже существует!");
-            return "addClothes";
+            return "admin/addClothes";
         }
         List<Image> images = imageService.addImages(files, clothes.getArticle());
         clothes.setImages(images);
@@ -57,7 +58,7 @@ public class ClothesAdminController {
         Category categoryFromDb = categoryService.findById(category_id);
         if(categoryFromDb == null) {
             model.addAttribute("error", "Такой категории не существует!");
-            return "addClothes";
+            return "admin/addClothes";
         }
 
         AttributeGroup attributeGroupFromDb = attributeGroupService.findById(group_id);
@@ -77,7 +78,93 @@ public class ClothesAdminController {
         }
 
         model.addAttribute("message", "success");
-        return "addClothes";
+        return "admin/addClothes";
+    }
+
+    /////////////// add attribute value to clothes
+
+    //admin/add_attribute_value
+    @GetMapping("/admin/add_attribute_value")
+    public String pageAddAttributeValue(Model model) {
+        model.addAttribute("clothes", clothesService.findAll());
+        model.addAttribute("attributes", attributeService.findAll());
+        return "admin/addAttributeValue";
+    }
+
+    @PostMapping("/admin/add_attribute_value")
+    public String addAttributeValue(AttributeValue attributeValue,
+                                    @RequestParam(name="product_article") String article,
+                                    @RequestParam(name="attribute_id") long attribute_id,
+                                    Model model) {
+
+        model.addAttribute("clothes", clothesService.findAll());
+        model.addAttribute("attributes", attributeService.findAll());
+
+        AttributeValue attributeValueFromDb = attributeValueService.findById(attributeValue.getId());
+        if(attributeValueFromDb != null) {
+            model.addAttribute("error", "Такой атрибут уже добавлен!");
+            return "admin/addAttributeValue";
+        }
+
+        Clothes clothes = clothesService.findByArticle(article);
+        if(clothes == null) {
+            model.addAttribute("error", "Такого товара не существует!");
+            return "admin/addAttributeValue";
+        }
+
+        attributeValue.setClothes(clothes);
+
+        Attribute attribute = attributeService.findById(attribute_id);
+        if(attribute == null) {
+            model.addAttribute("error", "Такого атрибута не существует!");
+            return "admin/addAttributeValue";
+        }
+
+        attributeValue.setAttribute(attribute);
+        attributeValueService.saveAttributeValue(attributeValue);
+        model.addAttribute("message", "success");
+        return "admin/addAttributeValue";
+    }
+
+    /////////////// add attribute group to clothes
+
+    //admin/add_attribute_group
+    @GetMapping("/admin/add_attribute_group")
+    public String pageAddAttributeGroup(Model model) {
+        model.addAttribute("groups", attributeGroupService.findAll());
+        model.addAttribute("products", clothesService.findAll());
+        return "admin/addAttributeGroup";
+    }
+
+    @PostMapping("/admin/add_attribute_group")
+    public String addAttributeGroup(@RequestParam(name="group_id") long groupId,
+                                    @RequestParam(name="product_article") String article,
+                                    Model model) {
+        model.addAttribute("groups", attributeGroupService.findAll());
+        model.addAttribute("products", clothesService.findAll());
+
+        Clothes clothesFromDb = clothesService.findByArticle(article);
+        if(clothesFromDb == null) {
+            model.addAttribute("error", "Такого товара не существует!");
+            return "admin/addAttributeGroup";
+        }
+
+        AttributeGroup attributeGroupFromDB = attributeGroupService.findById(groupId);
+        if(attributeGroupFromDB == null) {
+            model.addAttribute("error", "Такой группы атрибутов не существует!");
+            return "admin/addAttributeGroup";
+        }
+
+        Clothes clothes = clothesService.findByAttributeGroupsContainsAndArticle(attributeGroupFromDB, clothesFromDb.getArticle());
+        if(clothes != null) {
+            model.addAttribute("error", "Такая группа атрибутов уже добавлена к этому товару!");
+            return "admin/addAttributeGroup";
+        }
+
+        clothesFromDb.addAttributeGroup(attributeGroupFromDB);
+        clothesService.saveClothes(clothesFromDb);
+        model.addAttribute("message", "success");
+        return "admin/addAttributeGroup";
     }
 
     @Autowired

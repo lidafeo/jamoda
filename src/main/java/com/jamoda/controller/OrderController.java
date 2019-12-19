@@ -21,11 +21,8 @@ import java.util.*;
 @Controller
 public class OrderController {
 
-    @Autowired
     private CartService cartService;
-    @Autowired
     private CategoryService categoryService;
-    @Autowired
     private OrderService orderService;
 
     @GetMapping("/order")
@@ -69,5 +66,18 @@ public class OrderController {
         model.addAttribute("message", "success");
         model.addAttribute("order", saveOrder);
         return "order";
+    }
+
+    @Autowired
+    public void setCartService(CartService cartService) {
+        this.cartService = cartService;
+    }
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+    @Autowired
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
     }
 }

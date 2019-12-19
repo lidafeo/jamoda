@@ -17,14 +17,11 @@ import java.util.List;
 @Service
 public class MainService {
 
-    @Autowired
     private CategoryRepository categoryRepository;
-    @Autowired
     private FilterRepository filterRepository;
-    @Autowired
     private AttributeValueRepository attributeValueRepository;
 
-    public Model getModel(Model model,
+    public Model getSessionModel(Model model,
                           HttpSession session) {
         @SuppressWarnings("unchecked")
         List<String> attributeList = (List<String>) session.getAttribute("PRODUCTS");
@@ -44,5 +41,18 @@ public class MainService {
         model.addAttribute("filters", filters);
         model.addAttribute("categories", categoryRepository.findAllByType("main"));
         return model;
+    }
+
+    @Autowired
+    public void setCategoryRepository(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
+    @Autowired
+    public void setFilterRepository(FilterRepository filterRepository) {
+        this.filterRepository = filterRepository;
+    }
+    @Autowired
+    public void setAttributeValueRepository(AttributeValueRepository attributeValueRepository) {
+        this.attributeValueRepository = attributeValueRepository;
     }
 }

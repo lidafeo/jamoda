@@ -18,7 +18,7 @@ public class UserAdminController {
 
     @GetMapping("/admin/add_user")
     public String pageAddUser(Model model) {
-        return "addUser";
+        return "admin/addUser";
     }
 
     @PostMapping("/admin/add_user")
@@ -26,13 +26,13 @@ public class UserAdminController {
         User userFromDb = userService.findByLogin(user.getLogin());
         if(userFromDb != null) {
             model.addAttribute("error", "Такой пользователь уже существует!");
-            return "addUser";
+            return "admin/addUser";
         }
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.ADMIN));
         userService.saveUser(user);
         model.addAttribute("message", "success");
-        return "addUser";
+        return "admin/addUser";
     }
 
     @Autowired

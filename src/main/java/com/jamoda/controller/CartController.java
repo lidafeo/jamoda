@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
 
-
 @Controller
 public class CartController {
-    @Autowired
+
     private CartService cartService;
-    @Autowired
     private CategoryService categoryService;
 
     @GetMapping("/cart")
@@ -28,5 +26,14 @@ public class CartController {
     public String cleanCart(Model model, HttpSession session) {
         cartService.cleanCart(session);
         return "redirect:/cart";
+    }
+
+    @Autowired
+    public void setCartService(CartService cartService) {
+        this.cartService = cartService;
+    }
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 }

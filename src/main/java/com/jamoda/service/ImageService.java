@@ -16,7 +16,6 @@ import java.util.UUID;
 @Service
 public class ImageService {
 
-    @Autowired
     ImageRepository imageRepository;
 
     @Value("${upload.path}")
@@ -56,5 +55,10 @@ public class ImageService {
 
     public void saveImageToDb(Image image) {
         imageRepository.save(image);
+    }
+
+    @Autowired
+    public void setImageRepository(ImageRepository imageRepository) {
+        this.imageRepository = imageRepository;
     }
 }

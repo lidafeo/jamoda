@@ -11,8 +11,11 @@ import java.util.List;
 @Service
 public class CategoryService {
 
-    @Autowired
     private CategoryRepository categoryRepository;
+
+    public Category saveCategory(Category category) {
+        return categoryRepository.saveAndFlush(category);
+    }
 
     public List<Category> findAll() {
         return categoryRepository.findAll();
@@ -30,6 +33,10 @@ public class CategoryService {
         return categoryRepository.findById(id);
     }
 
+    public Category findByNameEnOrNameRusEquals(String nameEn, String nameRus) {
+        return categoryRepository.findByNameEnOrNameRusEquals(nameEn, nameRus);
+    }
+
     public List<Category> getChildrenCategory(Category category) {
         if(category == null)
             return null;
@@ -41,5 +48,10 @@ public class CategoryService {
             categories = categoryRepository.findAllByParentIn(categories);
         }
         return allCategories;
+    }
+
+    @Autowired
+    public void setCategoryRepository(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
     }
 }
