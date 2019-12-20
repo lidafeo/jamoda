@@ -14,11 +14,8 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class ClothesController {
 
-    @Autowired
     private MainService mainService;
-    @Autowired
     private ClothesService clothesService;
-    @Autowired
     private CartService cartService;
 
     @GetMapping("/clothes")
@@ -27,7 +24,7 @@ public class ClothesController {
         model.addAttribute("clothes", clothes);
         clothes.addVisit();
         clothesService.saveClothes(clothes);
-        mainService.getModel(model, session);
+        mainService.getSessionModel(model, session);
         return "clothes";
     }
 
@@ -38,13 +35,13 @@ public class ClothesController {
                                    HttpSession session) {
         Clothes clothes = clothesService.findByArticle(article_clothes);
         if(clothes == null) {
-            mainService.getModel(model, session);
+            mainService.getSessionModel(model, session);
             model.addAttribute("error", "Такого товара нет!");
             return "clothes";
         }
         cartService.addProductInCart(session, clothes, size);
 
-        mainService.getModel(model, session);
+        mainService.getSessionModel(model, session);
         model.addAttribute("message", "ок");
         model.addAttribute("clothes", clothes);
         return "clothes";
@@ -63,5 +60,18 @@ public class ClothesController {
         model.addAttribute("message", "1");
         cartService.addProductInCart(session, clothes, size);
         return "json";
+    }
+
+    @Autowired
+    public void setMainService(MainService mainService) {
+        this.mainService = mainService;
+    }
+    @Autowired
+    public void setClothesService(ClothesService clothesService) {
+        this.clothesService = clothesService;
+    }
+    @Autowired
+    public void setCartService(CartService cartService) {
+        this.cartService = cartService;
     }
 }

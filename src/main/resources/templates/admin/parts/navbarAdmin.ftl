@@ -15,7 +15,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="/admin/add_clothes">Добавить товар <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item right-nav">
                 <form action="/logout" method="post">
                     <input type="submit" class="form-control mr-sm-2" value="Выйти"/>
                     <input type="hidden" name="_csrf" value="${_csrf.token}">

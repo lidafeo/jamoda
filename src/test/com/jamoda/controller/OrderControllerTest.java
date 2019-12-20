@@ -2,7 +2,6 @@ package com.jamoda.controller;
 
 import com.jamoda.model.Cart;
 import com.jamoda.model.Category;
-import com.jamoda.model.Order;
 import com.jamoda.service.CartService;
 import com.jamoda.service.CategoryService;
 import org.junit.Assert;
@@ -13,7 +12,6 @@ import org.springframework.ui.Model;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class OrderControllerTest {
@@ -33,7 +31,7 @@ class OrderControllerTest {
         Cart cart = new Cart();
         cart.setCount(1);
         Model model = mock(Model.class);
-        model.addAttribute("0", 0);
+        model. addAttribute("0", 0);
 
         CartService cartServMock = mock(CartService.class);
         HttpSession session = mock(HttpSession.class);
@@ -51,6 +49,5 @@ class OrderControllerTest {
 //        Order order = new Order();
 //        order.setPayment("online");
 //        Assert.assertTrue(order.getPaid());
-
     }
 }

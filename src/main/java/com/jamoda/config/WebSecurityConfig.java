@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
+
     private DataSource dataSource;
 
     @Override
@@ -46,5 +46,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(NoOpPasswordEncoder.getInstance())
                 .usersByUsernameQuery("SELECT login, password, active FROM user WHERE login=?")
                 .authoritiesByUsernameQuery("SELECT u.login, ur.roles FROM user u INNER JOIN user_role ur ON u.id=ur.user_id WHERE login=?");
+    }
+
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 }

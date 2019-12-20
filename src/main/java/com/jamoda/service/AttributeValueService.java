@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AttributeValueService {
-    @Autowired
+
     private AttributeValueRepository attributeValueRepository;
 
     public AttributeValue saveAttributeValue(AttributeValue attributeValue) {
@@ -16,5 +16,10 @@ public class AttributeValueService {
 
     public AttributeValue findById(long id) {
         return attributeValueRepository.findById(id);
+    }
+
+    @Autowired
+    public void setAttributeValueRepository(AttributeValueRepository attributeValueRepository) {
+        this.attributeValueRepository = attributeValueRepository;
     }
 }

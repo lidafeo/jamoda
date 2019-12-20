@@ -15,25 +15,21 @@ import javax.servlet.http.HttpSession;
 
 import java.util.*;
 
-
 @Controller
 @RequestMapping("/filter")
 public class FilterController {
 
-    @Autowired
     private MainService mainService;
-    @Autowired
     private FilterService filterService;
-    @Autowired
     private CategoryService categoryService;
-    @Autowired
     private ClothesService clothesService;
 
     @GetMapping
     public String mainFilter(@RequestParam Map<String, String> params,
                              Model model,
                              HttpSession session) {
-        mainService.getModel(model, session);
+        mainService.getSessionModel(model, session);
+
         Category category = null;
         if(params.get("category") != null) {
             category = categoryService.findByNameEn(params.get("category"));
@@ -117,4 +113,20 @@ public class FilterController {
         return sortClothes(clothesService.findAllByCategoryIn(categoryService.getChildrenCategory(category)), sort);
     }
 
+    @Autowired
+    public void setMainService(MainService mainService) {
+        this.mainService = mainService;
+    }
+    @Autowired
+    public void setFilterService(FilterService filterService) {
+        this.filterService = filterService;
+    }
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+    @Autowired
+    public void setClothesService(ClothesService clothesService) {
+        this.clothesService = clothesService;
+    }
 }

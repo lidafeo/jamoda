@@ -33,6 +33,13 @@ public class AttributeValue {
         this.attribute = attribute;
     }
 
+    public AttributeValue(String value, Boolean active, Clothes clothes, Attribute attribute) {
+        this.value = value;
+        this.active = active;
+        this.clothes = clothes;
+        this.attribute = attribute;
+    }
+
     public Clothes getClothes() {
         return clothes;
     }

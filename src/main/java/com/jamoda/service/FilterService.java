@@ -17,9 +17,7 @@ import java.util.Map;
 @Service
 public class FilterService {
 
-    @Autowired
     FilterRepository filterRepository;
-    @Autowired
     AttributeValueRepository attributeValueRepository;
 
     public Map<Attribute, List<String>> getFilters(Map<String, String> params) {
@@ -36,7 +34,8 @@ public class FilterService {
         return  filters;
     }
 
-    public  List<AttributeValue> findArticleClothesWithFilter(Map<Attribute, List<String>> filters,
+    public  List<AttributeValue> findArticleClothesWithFilter(Map<Attribute,
+                                                              List<String>> filters,
                                                               List<Category> categories){
         return  attributeValueRepository.findArticleClothesWithFilter(filters, categories);
     }
@@ -47,5 +46,14 @@ public class FilterService {
 
     public Filter findByNameEnOrNameOrAttribute(String nameEn, String name, Attribute attribute) {
         return filterRepository.findByNameEnOrNameOrAttribute(nameEn, name, attribute);
+    }
+
+    @Autowired
+    public void setFilterRepository(FilterRepository filterRepository) {
+        this.filterRepository = filterRepository;
+    }
+    @Autowired
+    public void setAttributeValueRepository(AttributeValueRepository attributeValueRepository) {
+        this.attributeValueRepository = attributeValueRepository;
     }
 }

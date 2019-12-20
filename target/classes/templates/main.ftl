@@ -26,5 +26,4 @@
     </div>
     <#include "parts/modal.ftl">
     <#include "parts/inputSize.ftl">
-    <a href="/admin">Admin</a>
 </@c.page>

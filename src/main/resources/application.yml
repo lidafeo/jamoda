@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/jamoda?useUnicode=true&serverTimezone=UTC
+    username: root
+    password: 51019097
+  freemarker:
+    expose-request-attributes: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+upload.path: C:/Users/Lida/Desktop/web/jamoda/uploads
