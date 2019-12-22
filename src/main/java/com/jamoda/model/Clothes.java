@@ -52,6 +52,13 @@ public class Clothes {
         }
         return sizes;
     }
+    public String getSizesGap() {
+        String sizes = "";
+        for(Warehouse warehouse: this.warehouses) {
+            sizes += warehouse.getSize() + " ";
+        }
+        return sizes;
+    }
     public Map<String, AttributeValue> getAttributeValues() {
         return attributeValues;
     }

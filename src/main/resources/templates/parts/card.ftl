@@ -24,8 +24,10 @@
                 </button>
             </#if>
             <p class="card-text"><small class="text-muted">${clothes.category.nameRus}</small></p>
-            <#if !clothes.presence>
-                <p class="card-text"><small class="text-muted text-danger">Нет в наличии</small></p>
+            <#if clothes.presence>
+                <p class="card-text"><small class="text-muted">Размеры: ${clothes.getSizesGap()}</small></p>
+            <#else>
+                <p class="card-text"><small class="text-danger">Нет в наличии</small></p>
             </#if>
         </div>
     </div>
