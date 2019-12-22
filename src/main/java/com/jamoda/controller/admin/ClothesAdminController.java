@@ -77,7 +77,7 @@ public class ClothesAdminController {
             attributeValueService.saveAttributeValue(attributeValue);
         }
 
-        model.addAttribute("message", "success");
+        model.addAttribute("message", "Товар успешно добавлен");
         return "admin/addClothes";
     }
 
@@ -122,7 +122,7 @@ public class ClothesAdminController {
 
         attributeValue.setAttribute(attribute);
         attributeValueService.saveAttributeValue(attributeValue);
-        model.addAttribute("message", "success");
+        model.addAttribute("message", "Атрибут успешно добавлен к товару");
         return "admin/addAttributeValue";
     }
 
@@ -163,7 +163,7 @@ public class ClothesAdminController {
 
         clothesFromDb.addAttributeGroup(attributeGroupFromDB);
         clothesService.saveClothes(clothesFromDb);
-        model.addAttribute("message", "success");
+        model.addAttribute("message", "Группа атрибутов успешно добавлена к товару");
         return "admin/addAttributeGroup";
     }
 

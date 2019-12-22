@@ -9,6 +9,8 @@
     <div><a href="/admin/add_file">Добавить картинку к товару</a></div>
     <div><a href="/admin/add_attribute_group">Добавить группу атрибутов на страницу товара</a></div>
     <div><a href="/admin/add_attribute_value">Добавить значение атрибута к товару</a></div>
+    <h4>Товары на складе</h4>
+    <div><a href="/admin/add_to_warehouse">Добавить поступление товаров на склад</a></div>
     <h4>Категории</h4>
     <div><a href="/admin/add_category">Добавить категорию</a></div>
     <h4>Фильтры</h4>

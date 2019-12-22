@@ -38,7 +38,7 @@ public class CategoryAdminController {
             }
         }
         categoryService.saveCategory(category);
-        model.addAttribute("message", "success");
+        model.addAttribute("message", "Категория товаров успешно добавлена");
         return "admin/addCategory";
     }
 

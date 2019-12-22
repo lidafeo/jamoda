@@ -1,11 +1,8 @@
 <#import "parts/commonAdmin.ftl" as c>
+<#import "parts/modalAdmin.ftl" as modal>
 <@c.page_admin>
-    <h2>Добавление картинки</h2>
-    <#if error??>
-        <h6><font color="red">${error?ifExists}</font></h6>
-    </#if>
-    <#if message??>
-        <h6><font color="green">Успешно!</font></h6>
+    <#if error?? || message ??>
+        <@modal.modal "Добавление картинки к товару" />
     </#if>
     <form action="/admin/add_file" method="post" enctype="multipart/form-data">
         <div class="form-group"><label> Артикул : <select name="article" class="chzn-select" required>

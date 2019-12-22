@@ -26,7 +26,7 @@ public class AttributeGroupAdminController {
             return "admin/addGroup";
         }
         attributeGroupService.saveAttributeGroup(attributeGroup);
-        model.addAttribute("message", "success");
+        model.addAttribute("message", "Группа атрибутов успешно добавлена");
         return "admin/addGroup";
     }
 

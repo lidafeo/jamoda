@@ -12,7 +12,7 @@
         <div class="col-sm-3">
             <#include "parts/filter.ftl">
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-9" id="card-deck-id">
             <#include "parts/sort.ftl">
             <div class="card-deck" id="clothes_div">
                 <#list clothes as clothesOne>

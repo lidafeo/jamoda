@@ -39,24 +39,41 @@
                         <input type="text" readonly class="form-control-plaintext" id="article" name="article_clothes" value="${clothes.article}">
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="size" class="col-sm-2 col-form-label">Размер: </label>
-                    <div class="col-sm-3">
-                        <select class="custom-select mr-sm-2" id="size" name="size">
-                            <option value="42">42</option>
-                            <option value="44">44</option>
-                            <option value="46">46</option>
-                            <option value="48">48</option>
-                            <option value="50">50</option>
-                        </select>
+                <#if commonCount != 0>
+                    <div id="size-div">
+                        <div class="form-group row">
+                            <label for="size" class="col-sm-2 col-form-label">Размер: </label>
+                            <div class="col-sm-3">
+                                <select class="custom-select mr-sm-3" id="size" name="size">
+                                    <#list sizes?keys as key>
+                                        <#if sizes[key] == 0>
+                                            <option value="${key}" class="disable-option" data-count="0" disabled>${key}</option>
+                                        <#else>
+                                            <option value="${key}" data-count="${sizes[key]}">${key}</option>
+                                        </#if>
+                                    </#list>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="hidden" name="_csrf" value="${_csrf.token}">
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+
+                                <button type="button" class="btn btn-primary btn-lg" id="add-in-cart" data-whatever="${clothes.article}" data-sizes="${clothes.getStringSizes()}"
+                                        <#if clothes.images?size != 0>
+                                            data-image="${clothes.images?first.name}"
+                                        </#if>
+                                        data-price="${clothes.price}" data-category="${clothes.category.nameRus}" data-name="${clothes.name}" data-but="clothes">
+                                    Добавить в корзину</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <input type="hidden" name="_csrf" value="${_csrf.token}">
-                <div class="form-group row">
-                    <div class="col-sm-10">
-                        <button type="submit" class="btn btn-primary btn-lg" id="add_in_cart">Добавить в корзину</button>
+                <#else>
+                    <div id="size-div">
+                        <div class="alert alert-danger col-sm-10" role="alert">К сожалению товара нет в наличии!</div>
                     </div>
-                </div>
+                </#if>
+
             </form>
             <div>
                 <#list clothes.attributeGroups as group>
@@ -84,7 +101,5 @@
             </div>
         </div>
     </div>
-    <#if message??>
-        <#include "parts/modal.ftl">
-    </#if>
+    <#include "parts/modal.ftl">
 </@c.page>

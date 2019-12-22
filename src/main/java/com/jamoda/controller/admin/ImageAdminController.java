@@ -45,7 +45,7 @@ public class ImageAdminController {
         //создаем объект для сохранения в БД
         Image image = new Image(resultFilename, article);
         imageService.saveImageToDb(image);
-        model.addAttribute("message", "success");
+        model.addAttribute("message", "Фото успешно добавлено");
         return "admin/addFile";
     }
 

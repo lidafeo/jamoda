@@ -59,7 +59,7 @@ public class FilterAdminController {
         }
 
         filterService.saveFilter(filter);
-        model.addAttribute("message", "success");
+        model.addAttribute("message", "Фильтр успешно добавлен");
         return "admin/addFilter";
     }
 

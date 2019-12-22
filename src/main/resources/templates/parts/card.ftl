@@ -1,5 +1,9 @@
 <#macro card clothes>
-<div class="col-sm-4">
+<#if clothes.presence>
+    <div class="col-sm-4">
+<#else>
+    <div class="col-sm-4 presence">
+</#if>
     <div class="card my-card" style="width: 15rem;">
         <#if clothes.images?size != 0>
             <img src="/img/${clothes.images?first.name}" class="card-img-top" alt="${clothes.name}">
@@ -10,10 +14,19 @@
                 <p><b><i>${clothes.price} руб.</i></b></p>
             </p>
             <a href="/clothes?article=${clothes.article}" class="btn btn-primary">Подробнее</a>
-                <button type="button" class="btn btn-primary but-buy" data-toggle="modal" data-target="#modal-size" data-whatever="${clothes.article}">
-                    <img src="/img/icons8-shopping-bag-32.png" width="24" alt="Купить">
+            <#if clothes.presence>
+                <button type="button" class="btn btn-primary but-buy" data-whatever="${clothes.article}" data-sizes="${clothes.getStringSizes()}"
+                        <#if clothes.images?size != 0>
+                            data-image="${clothes.images?first.name}"
+                        </#if>
+                         data-price="${clothes.price}" data-category="${clothes.category.nameRus}" data-name="${clothes.name}">
+                        <img src="/img/icons8-shopping-bag-32.png" width="24" alt="Купить">
                 </button>
+            </#if>
             <p class="card-text"><small class="text-muted">${clothes.category.nameRus}</small></p>
+            <#if !clothes.presence>
+                <p class="card-text"><small class="text-muted text-danger">Нет в наличии</small></p>
+            </#if>
         </div>
     </div>
 </div>

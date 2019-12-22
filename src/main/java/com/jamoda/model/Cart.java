@@ -1,47 +1,38 @@
 package com.jamoda.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Cart {
-    private Map<String, ProductInCart> products = new HashMap<>();
-    private int count;
-    private int price;
+    private ProductInCart[] cart;
+    private Integer price;
+    private Integer count;
 
     public Cart() {
     }
 
-    public Cart(Map<String, ProductInCart> products) {
-        this.products = products;
+    public Cart(ProductInCart[] cart) {
+        this.cart = cart;
     }
 
-    public Cart(Map<String, ProductInCart> products, int count, int price) {
-        this.products = products;
-        this.count = count;
-        this.price = price;
+    public ProductInCart[] getCart() {
+        return cart;
     }
 
-    public Map<String, ProductInCart> getProducts() {
-        return products;
+    public void setCart(ProductInCart[] cart) {
+        this.cart = cart;
     }
 
-    public void setProducts(Map<String, ProductInCart> products) {
-        this.products = products;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }

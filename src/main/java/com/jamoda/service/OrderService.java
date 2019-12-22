@@ -1,17 +1,23 @@
 package com.jamoda.service;
 
-import com.jamoda.model.Order;
-import com.jamoda.model.OrderProduct;
+import com.jamoda.model.*;
+import com.jamoda.repository.ClothesRepository;
 import com.jamoda.repository.OrderProductRepository;
 import com.jamoda.repository.OrderRepository;
+import com.jamoda.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Service
 public class OrderService {
 
     private OrderRepository orderRepository;
     private OrderProductRepository orderProductRepository;
+    private WarehouseRepository warehouseRepository;
+    private ClothesRepository clothesRepository;
 
     public Order saveOrder(Order order) {
         return orderRepository.saveAndFlush(order);
@@ -21,6 +27,48 @@ public class OrderService {
         return orderProductRepository.saveAndFlush(orderProduct);
     }
 
+    public List<OrderProduct> getOrderProduct(Cart cart, Order order) {
+        List<OrderProduct> orderProducts = new LinkedList<>();
+        for(ProductInCart product: cart.getCart()) {
+            orderProducts.add(new OrderProduct(product.getCount(),
+                    product.getSize(),
+                    product.getPrice()*product.getCount(),
+                    order,
+                    clothesRepository.findByArticle(product.getArticle())));
+        }
+        return orderProducts;
+    }
+
+    public Boolean checkProductInWarehouse(Cart cart) {
+        for(ProductInCart product: cart.getCart()) {
+            Warehouse warehouse = warehouseRepository.findAllByArticleAndSize(product.getArticle(), product.getSize());
+            if(warehouse.getCount() < product.getCount()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void saveCart(Cart cart, Order order) {
+        for(ProductInCart product: cart.getCart()) {
+            OrderProduct orderProduct = new OrderProduct(product.getCount(),
+                    product.getSize(),
+                    product.getPrice()*product.getCount(),
+                    order,
+                    clothesRepository.findByArticle(product.getArticle()));
+            //удаляем продукт из склада
+            deleteProductFromWarehouse(orderProduct);
+            //сохраняем продукт в таблицу купленных товаров
+            orderProductRepository.saveAndFlush(orderProduct);
+        }
+    }
+
+    public Warehouse deleteProductFromWarehouse(OrderProduct orderProduct) {
+        Warehouse warehouse = warehouseRepository.findByClothesAndSize(orderProduct.getClothes(), orderProduct.getSize());
+        warehouse.setCount(warehouse.getCount() - orderProduct.getCount());
+        return warehouseRepository.saveAndFlush(warehouse);
+    }
+
     @Autowired
     public void setOrderRepository(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
@@ -28,5 +76,13 @@ public class OrderService {
     @Autowired
     public void setOrderProductRepository(OrderProductRepository orderProductRepository) {
         this.orderProductRepository = orderProductRepository;
+    }
+    @Autowired
+    public void setWarehouseRepository(WarehouseRepository warehouseRepository) {
+        this.warehouseRepository = warehouseRepository;
+    }
+    @Autowired
+    public void setClothesRepository(ClothesRepository clothesRepository) {
+        this.clothesRepository = clothesRepository;
     }
 }
