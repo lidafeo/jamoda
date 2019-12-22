@@ -19,7 +19,7 @@
 }
 
 .my-navbar {
-    height: 70px;
+    min-height: 70px !important;
 }
 
 .my-card {

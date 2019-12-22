@@ -23,7 +23,7 @@ public class CartController {
     }
 
     @GetMapping("/cart/clean")
-    public String cleanCart(Model model, HttpSession session) {
+    public String cleanCart( HttpSession session) {
         cartService.cleanCart(session);
         return "redirect:/cart";
     }

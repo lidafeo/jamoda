@@ -34,10 +34,8 @@ public class OrderController {
     }
 
     @PostMapping("/order")
-    public String saveOrder(@RequestParam("summa") String summa,
-                            Order order,
-                            Model model,
-                            HttpSession session) {
+    public String saveOrder(@RequestParam("summa") String summa, Order order,
+                            Model model, HttpSession session) {
         if(order.getPayment().equals("online")) {
             order.setPaid(true);
         }

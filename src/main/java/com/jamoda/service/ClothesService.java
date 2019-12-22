@@ -14,8 +14,8 @@ public class ClothesService {
 
     private ClothesRepository clothesRepository;
 
-    public void saveClothes(Clothes clothes) {
-        clothesRepository.saveAndFlush(clothes);
+    public Clothes saveClothes(Clothes clothes) {
+        return clothesRepository.saveAndFlush(clothes);
     }
 
     public Iterable<Clothes> getClothesPopular() {

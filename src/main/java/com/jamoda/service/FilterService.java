@@ -34,14 +34,13 @@ public class FilterService {
         return  filters;
     }
 
-    public  List<AttributeValue> findArticleClothesWithFilter(Map<Attribute,
-                                                              List<String>> filters,
+    public  List<AttributeValue> findArticleClothesWithFilter(Map<Attribute, List<String>> filters,
                                                               List<Category> categories){
         return  attributeValueRepository.findArticleClothesWithFilter(filters, categories);
     }
 
-    public void saveFilter(Filter filter) {
-        filterRepository.saveAndFlush(filter);
+    public Filter saveFilter(Filter filter) {
+       return filterRepository.saveAndFlush(filter);
     }
 
     public Filter findByNameEnOrNameOrAttribute(String nameEn, String name, Attribute attribute) {

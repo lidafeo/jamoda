@@ -33,7 +33,7 @@ class MainControllerTest {
         model.addAttribute("0", 0);
         HttpSession session = mock(HttpSession.class);
         session.setAttribute("1", 1);
-        Mockito.when(mainServMock.getModel(model, session)).thenReturn(model);
+        Mockito.when(mainServMock.getSessionModel(model, session)).thenReturn(model);
 
         MainController mainController = new MainController();
         mainController.setMainService(mainServMock);
@@ -50,7 +50,7 @@ class MainControllerTest {
         model.addAttribute("0", 0);
         HttpSession session = mock(HttpSession.class);
         session.setAttribute("1", 1);
-        Mockito.when(mainServMock.getModel(model, session)).thenReturn(model);
+        Mockito.when(mainServMock.getSessionModel(model, session)).thenReturn(model);
 
         Clothes clothes1 = new Clothes();
         clothes1.setName("труселя");
