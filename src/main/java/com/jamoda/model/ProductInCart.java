@@ -1,49 +1,49 @@
 package com.jamoda.model;
 
 public class ProductInCart {
-    private Clothes clothes;
-    private int size;
-    private int count;
-    private int price;
+    private String article;
+    private Integer count;
+    private Integer size;
+    private Integer price;
 
     public ProductInCart() {
     }
 
-    public ProductInCart(Clothes clothes, int size, int count) {
-        this.clothes = clothes;
-        this.size = size;
+    public ProductInCart(String article, Integer size, Integer count) {
+        this.article = article;
         this.count = count;
-    }
-
-    public Clothes getClothes() {
-        return clothes;
-    }
-
-    public void setClothes(Clothes clothes) {
-        this.clothes = clothes;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
         this.size = size;
     }
 
-    public int getCount() {
+    public String getArticle() {
+        return article;
+    }
+
+    public void setArticle(String article) {
+        this.article = article;
+    }
+
+    public Integer getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(Integer count) {
         this.count = count;
     }
 
-    public int getPrice() {
+    public Integer getSize() {
+        return size;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
+    }
+
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 }

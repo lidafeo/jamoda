@@ -31,7 +31,7 @@ public class UserAdminController {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.ADMIN));
         userService.saveUser(user);
-        model.addAttribute("message", "success");
+        model.addAttribute("message", "Администратор успешно добавлен");
         return "admin/addUser";
     }
 

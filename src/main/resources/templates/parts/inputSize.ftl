@@ -10,15 +10,17 @@
             <div class="modal-body">
                 <form id="modal-form">
                     <input type="hidden" name="article_clothes" id="modal-article">
-                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                    <input type="hidden" name="_csrf" id="_csrf-modal" value="${_csrf.token}" />
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Размер:</label>
                         <select class="custom-select mr-sm-2" id="size" name="size">
-                            <option value="42">42</option>
-                            <option value="44">44</option>
-                            <option value="46">46</option>
-                            <option value="48">48</option>
-                            <option value="50">50</option>
+                            <option id="opt-40" value="40">40</option>
+                            <option id="opt-42" value="42">42</option>
+                            <option id="opt-44" value="44">44</option>
+                            <option id="opt-46" value="46">46</option>
+                            <option id="opt-48" value="48">48</option>
+                            <option id="opt-50" value="50">50</option>
+                            <option id="opt-52" value="52">52</option>
                         </select>
                     </div>
                 </form>

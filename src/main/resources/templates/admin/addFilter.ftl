@@ -1,10 +1,8 @@
 <#import "parts/commonAdmin.ftl" as c>
+<#import "parts/modalAdmin.ftl" as modal>
 <@c.page_admin "/addFilter.js">
-    <#if error??>
-        <h6><font color="red">${error?ifExists}</font></h6>
-    </#if>
-    <#if message??>
-        <h6><font color="green">Успешно!</font></h6>
+    <#if error?? || message ??>
+        <@modal.modal "Добавление нового фильтра" />
     </#if>
     <div class="mx-auto" style="width: 1000px;">
         <div class="form-center">

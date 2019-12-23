@@ -1,9 +1,6 @@
 package com.jamoda.repository;
 
-import com.jamoda.model.AttributeGroup;
-import com.jamoda.model.AttributeValue;
-import com.jamoda.model.Category;
-import com.jamoda.model.Clothes;
+import com.jamoda.model.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -17,7 +14,7 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
     List<Clothes> findAllByCategoryIn(List<Category> categories);
     //@Query("SELECT * FROM Clothes order by visit ASC")
     //List<Clothes> findAllOrderByVisitAsc();
-    List<Clothes> findAllByOrderByVisitDesc();
+    List<Clothes> findAllByOrderByPresenceDescVisitDesc();
 
     Clothes findByAttributeGroupsContainsAndArticle(AttributeGroup attributeGroup, String article);
 }

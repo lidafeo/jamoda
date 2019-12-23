@@ -1,7 +1,6 @@
 package com.jamoda.controller;
 
 import com.jamoda.model.Clothes;
-import com.jamoda.service.CartService;
 import com.jamoda.service.ClothesService;
 import com.jamoda.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +15,20 @@ public class ClothesController {
 
     private MainService mainService;
     private ClothesService clothesService;
-    private CartService cartService;
 
     @GetMapping("/clothes")
     public String getClothes(@RequestParam String article, Model model, HttpSession session) {
         Clothes clothes = clothesService.findByArticle(article);
         model.addAttribute("clothes", clothes);
+        model.addAttribute("sizes", clothesService.getSizes(clothes.getWarehouses()));
+        model.addAttribute("commonCount", clothesService.getCountProductInWarehouse(clothes.getWarehouses()));
         clothes.addVisit();
         clothesService.saveClothes(clothes);
         mainService.getSessionModel(model, session);
         return "clothes";
     }
 
+    /*
     @PostMapping("/clothes")
     public String addClothesInCart(String article_clothes,
                                    @RequestParam("size") int size,
@@ -39,14 +40,15 @@ public class ClothesController {
             model.addAttribute("error", "Такого товара нет!");
             return "clothes";
         }
-        cartService.addProductInCart(session, clothes, size);
 
         mainService.getSessionModel(model, session);
         model.addAttribute("message", "ок");
         model.addAttribute("clothes", clothes);
+        model.addAttribute("sizes", clothesService.getSizes(clothes.getWarehouses()));
         return "clothes";
     }
-
+     */
+    /*
     @PostMapping(value = "/clothes_json", produces = "application/json")
     public String addClothesInCartJson(String article_clothes,
                                    @RequestParam("size") int size,
@@ -61,6 +63,7 @@ public class ClothesController {
         cartService.addProductInCart(session, clothes, size);
         return "json";
     }
+     */
 
     @Autowired
     public void setMainService(MainService mainService) {
@@ -69,9 +72,5 @@ public class ClothesController {
     @Autowired
     public void setClothesService(ClothesService clothesService) {
         this.clothesService = clothesService;
-    }
-    @Autowired
-    public void setCartService(CartService cartService) {
-        this.cartService = cartService;
     }
 }

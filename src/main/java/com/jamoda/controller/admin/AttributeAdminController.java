@@ -42,7 +42,7 @@ public class AttributeAdminController {
         }
 
         attributeService.saveAttribute(attribute);
-        model.addAttribute("message", "success");
+        model.addAttribute("message", "Атрибут успешно добавлен");
         return "admin/addAttribute";
     }
 

@@ -13,6 +13,7 @@ public class Clothes {
     private String name;
     private int price;
     private int visit = 0;
+    private boolean presence = false;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
@@ -29,16 +30,8 @@ public class Clothes {
     //@MapKey(name = "article")
     private Map<String, AttributeValue> attributeValues = new HashMap<String, AttributeValue>();
 
-    /*
-    @ManyToMany
-    @JoinTable(
-            name = "attribute_value_product",
-            joinColumns={@JoinColumn(name="fk_clothes", referencedColumnName="article")},
-            inverseJoinColumns={@JoinColumn(name="fk_attribute_value", referencedColumnName="id")}
-    )
-    @MapKey(name = "productArticle")
-    private Map<String, AttributeValue> attributeValues = new HashMap<String, AttributeValue>();
-     */
+    @OneToMany(targetEntity = Warehouse.class, mappedBy = "clothes", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Warehouse> warehouses = new ArrayList<>();
 
     public Clothes() {
     }
@@ -49,6 +42,23 @@ public class Clothes {
         this.price = price;
     }
 
+    public String getStringSizes(){
+        String sizes = "";
+        for(Warehouse warehouse: this.warehouses) {
+            sizes += warehouse.getSize() + ":" + warehouse.getCount() + ",";
+        }
+        if (sizes != null && sizes.length() > 0) {
+            sizes = sizes.substring(0, sizes.length() - 1);
+        }
+        return sizes;
+    }
+    public String getSizesGap() {
+        String sizes = "";
+        for(Warehouse warehouse: this.warehouses) {
+            sizes += warehouse.getSize() + " ";
+        }
+        return sizes;
+    }
     public Map<String, AttributeValue> getAttributeValues() {
         return attributeValues;
     }
@@ -127,6 +137,22 @@ public class Clothes {
 
     public void addVisit() {
         this.visit ++;
+    }
+
+    public List<Warehouse> getWarehouses() {
+        return warehouses;
+    }
+
+    public void setWarehouses(List<Warehouse> warehouses) {
+        this.warehouses = warehouses;
+    }
+
+    public boolean isPresence() {
+        return presence;
+    }
+
+    public void setPresence(boolean presence) {
+        this.presence = presence;
     }
 
     public static List<String> getGenderForSelect() {

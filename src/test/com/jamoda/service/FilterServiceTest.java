@@ -46,6 +46,24 @@ class FilterServiceTest {
     }
 
     @Test
+    void getFiltersNullTest() {
+        FilterService filterServMock = new FilterService();
+        FilterRepository filterRepMock = Mockito.mock(FilterRepository.class);
+        filterServMock.setFilterRepository(filterRepMock);
+
+        when(filterRepMock.findByNameEn(any())).thenReturn(null);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("1", "2");
+        params.put("3", "4");
+
+        Map<String, String> o = new HashMap<>();
+        Assertions.assertEquals(
+                filterServMock.getFilters(params),
+                o);
+    }
+
+    @Test
     void findArticleClothesWithFilterTest() {
         FilterService filterServMock = new FilterService();
         AttributeValueRepository attValRepMock = Mockito.mock(AttributeValueRepository.class);

@@ -28,6 +28,14 @@ public class MainService {
         if (attributeList == null) {
             attributeList = new ArrayList<>();
         }
+        @SuppressWarnings("unchecked")
+        List<Integer> countList = (List<Integer>) session.getAttribute("COUNT");
+        int countProd = 0;
+        if (countList != null) {
+            for(int co: countList) {
+                countProd += co;
+            }
+        }
         List<Filter> filters = filterRepository.findAllByActive(true);
         for(int i = 0; i < filters.size(); i++) {
             if(!filters.get(i).isSearchAll()) {
@@ -37,7 +45,8 @@ public class MainService {
             List<String> values = attributeValueRepository.findDistinctValueByAttribute(attribute);
             filters.get(i).setValues(values);
         }
-        model.addAttribute("cartSession", attributeList);
+        //model.addAttribute("cartSession", attributeList);
+        //model.addAttribute("cartSessionCount", countProd);
         model.addAttribute("filters", filters);
         model.addAttribute("categories", categoryRepository.findAllByType("main"));
         return model;

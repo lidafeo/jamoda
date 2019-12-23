@@ -1,8 +1,9 @@
 <#import "parts/commonAdmin.ftl" as c>
+<#import "parts/modalAdmin.ftl" as modal>
 <@c.page_admin "/addClothes.js">
-    <#if error?? || message ??>
-        <#include "parts/modalAdmin.ftl">
-    </#if>
+<#if error?? || message ??>
+    <@modal.modal "Добавление нового товара" />
+</#if>
     <div class="mx-auto" style="width: 900px;">
                 <div class="form-center">
                     <form action="/admin/add_clothes" method="post" id="form" enctype="multipart/form-data">

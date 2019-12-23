@@ -1,11 +1,8 @@
 <#import "parts/commonAdmin.ftl" as c>
+<#import "parts/modalAdmin.ftl" as modal>
 <@c.page_admin>
-    <h2>Добавление нового пользователя</h2>
-    <#if error??>
-        <h6><font color="red">${error?ifExists}</font></h6>
-    </#if>
-    <#if message??>
-        <h6><font color="green">Успешно!</font></h6>
+    <#if error?? || message ??>
+        <@modal.modal "Добавление нового администратора" />
     </#if>
     <form action="/admin/add_user" method="post">
         <div><label> ФИО : <input type="text" name="name" required/> </label></div>

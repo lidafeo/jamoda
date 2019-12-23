@@ -48,8 +48,7 @@ public class FilterController {
 
     @PostMapping
     public String applyFilter(@RequestParam Map<String, String> params,
-                                   Model model,
-                                   HttpSession session) {
+                                   Model model) {
         Map<Attribute, List<String>> filters = filterService.getFilters(params);
         int sort = 1;
         if(params.get("sort") != null && params.get("sort").trim() != "")

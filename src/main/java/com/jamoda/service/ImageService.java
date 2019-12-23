@@ -21,11 +21,13 @@ public class ImageService {
     @Value("${upload.path}")
     private String uploadPath;
 
-    public void checkExistsDir() {
+    public boolean checkExistsDir() {
         File uploadDir = new File(uploadPath);
         if(!uploadDir.exists()) {
             uploadDir.mkdir();
+            return false;
         }
+        return true;
     }
 
     public void addFile(MultipartFile file, String filename) throws IOException {

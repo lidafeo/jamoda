@@ -1,11 +1,8 @@
 <#import "parts/commonAdmin.ftl" as c>
+<#import "parts/modalAdmin.ftl" as modal>
 <@c.page_admin>
-    <h2>Добавление значения атрибута к товару</h2>
-    <#if error??>
-        <h6><font color="red">${error?ifExists}</font></h6>
-    </#if>
-    <#if message??>
-        <h6><font color="green">Успешно!</font></h6>
+    <#if error?? || message ??>
+        <@modal.modal "Добавление значения атрибута к товару" />
     </#if>
     <form action="/admin/add_attribute_value" method="post">
         <div class="form-group"><label> Артикул одежды : <select name="product_article" required>

@@ -19,19 +19,8 @@
             <li class="nav-item">
                 <a class="nav-link" href="/about">О нас <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item" id="cart">
-                <a class="nav-link" href="/cart"><img src="/img/icons8-shopping-bag-32.png" width="34" alt="Корзина"> <b id="count-in-cart-b"> Корзина
-                        <#if cartSession??>
-                            <#if cartSession?size gt 0>
-                                (<span id="count-in-cart">${cartSession?size}</span>)
-                            </#if>
-                            </b></a>
-                        <#else>
-                                <#if cart.count gt 0>
-                                    (<span id="count-in-cart">${cart.count}</span>)
-                                </#if>
-                            </b></a>
-                        </#if>
+            <li class="nav-item" id="cart-li">
+                <a class="nav-link" href="/cart" id="cart"><img src="/img/icons8-shopping-bag-32.png" width="34" alt="Корзина"> <b id="count-in-cart-b"> Корзина</b></a>
             </li>
         </ul>
     </div>

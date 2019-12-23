@@ -2,7 +2,7 @@
     <#if message?? >
         "message" : "${message}",
     </#if>
-    <#if error ?? >
+    <#if error?? >
         "error" : "${error}"
     <#else>
         "error" : ""

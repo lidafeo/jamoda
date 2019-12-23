@@ -3,7 +3,6 @@ package com.jamoda.controller;
 import com.jamoda.model.Cart;
 import com.jamoda.model.Category;
 import com.jamoda.model.Clothes;
-import com.jamoda.service.CartService;
 import com.jamoda.service.CategoryService;
 import com.jamoda.service.ClothesService;
 import com.jamoda.service.MainService;

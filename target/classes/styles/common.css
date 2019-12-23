@@ -25,3 +25,10 @@
 .my-card {
     margin: 20px auto auto;
 }
+
+.disable-option {
+    color: #b3b3b3;
+}
+.presence {
+    opacity: .5;
+}
