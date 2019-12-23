@@ -8,7 +8,7 @@
                             <div id="filter${filter?counter}" class="custom-control custom-checkbox form-check">
                                 <#list filter.values as value>
                                     <div>
-                                        <input class="custom-control-input" type="checkbox" name="${filter.nameEn}" id="radios${filter?counter}_${value?counter}" value="${value}">
+                                        <input class="custom-control-input" type="checkbox" name="${filter.nameEn}" id="radios${filter?counter}_${value?counter}" value="${value}" autocomplete="off">
                                         <label class="custom-control-label" for="radios${filter?counter}_${value?counter}">
                                             ${value}
                                         </label>
@@ -28,7 +28,7 @@
                 <#else>
                     Фильтры недоступны
                 </#list>
-                <input type="hidden" name="_csrf" value="${_csrf.token}">
+                <input type="hidden" name="_csrf" value="${_csrf.token}" />
             </form>
     </div>
 </ul>

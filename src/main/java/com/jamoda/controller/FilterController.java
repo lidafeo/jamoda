@@ -1,17 +1,17 @@
 package com.jamoda.controller;
 
 import com.jamoda.model.*;
-import com.jamoda.repository.*;
 import com.jamoda.service.CategoryService;
 import com.jamoda.service.ClothesService;
 import com.jamoda.service.FilterService;
 import com.jamoda.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
 
 import java.util.*;
 
@@ -27,20 +27,20 @@ public class FilterController {
     @GetMapping
     public String mainFilter(@RequestParam Map<String, String> params,
                              Model model,
-                             HttpSession session) {
-        mainService.getSessionModel(model, session);
+                             @PageableDefault Pageable pageable) {
+        mainService.getSessionModel(model);
 
         Category category = null;
         if(params.get("category") != null) {
             category = categoryService.findByNameEn(params.get("category"));
         }
-        List<Clothes> clothes;
+        Page<Clothes> clothes;
         if(category == null) {
-            clothes = clothesService.findAll();
+            clothes = clothesService.getClothesPopular(pageable);
         }
         else {
             model.addAttribute("choosedCategory", category);
-            clothes = getClothesWithoutFilters(1, category);
+            clothes = getClothesWithoutFilters(1, category, pageable);
         }
         model.addAttribute("clothes", clothes);
         return "main";
@@ -48,7 +48,8 @@ public class FilterController {
 
     @PostMapping
     public String applyFilter(@RequestParam Map<String, String> params,
-                                   Model model) {
+                              Model model,
+                              @PageableDefault Pageable pageable) {
         Map<Attribute, List<String>> filters = filterService.getFilters(params);
         int sort = 1;
         if(params.get("sort") != null && params.get("sort").trim() != "")
@@ -61,7 +62,7 @@ public class FilterController {
         }
 
         if(filters.size() == 0) {
-            model.addAttribute("clothes", getClothesWithoutFilters(sort, category));
+            model.addAttribute("clothes", getClothesWithoutFilters(sort, category, pageable));
             return "filterClothes";
         }
         List<AttributeValue> attributeValue = filterService.findArticleClothesWithFilter(filters, categoryService.getChildrenCategory(category));
@@ -76,16 +77,57 @@ public class FilterController {
                 map.put(val.getClothes(), map.get(val.getClothes()) + 1);
             }
         }
-        List<Clothes> clothes = new ArrayList<>();
+        List<String> clothes = new ArrayList<>();
         for (Clothes clo : map.keySet()) {
             if(map.get(clo) == filters.size()) {
-                clothes.add(clo);
+                clothes.add(clo.getArticle());
             }
         }
-        model.addAttribute("clothes", sortClothes(clothes, sort));
+        model.addAttribute("clothes", sortClothes(clothes, sort, pageable));
         return "filterClothes";
     }
 
+    public Page<Clothes> sortClothes(List<String> articles, int sort, Pageable pageable) {
+        switch (sort) {
+            case 1:
+                return clothesService.findAllByArticleInOrderByPresenceDescVisitDesc(articles, pageable);
+            case 2:
+                return clothesService.findAllByArticleInOrderByPresenceDescPriceAsc(articles, pageable);
+            case 3:
+                return clothesService.findAllByArticleInOrderByPresenceDescPriceDesc(articles, pageable);
+            default:
+                return clothesService.findAllByArticleInOrderByPresenceDescVisitDesc(articles, pageable);
+        }
+    }
+
+    public Page<Clothes> sortFullClothes(int sort, Pageable pageable) {
+        switch (sort) {
+            case 1:
+                return clothesService.getClothesPopular(pageable);
+            case 2:
+                return clothesService.findAllByOrderByPresenceDescPriceAsc(pageable);
+            case 3:
+                return clothesService.findAllByOrderByPresenceDescPriceDesc(pageable);
+            default:
+                return clothesService.getClothesPopular(pageable);
+        }
+    }
+
+    //for sort with category
+    public Page<Clothes> sortWithCategory(List<Category> categories, int sort, Pageable pageable) {
+        switch (sort) {
+            case 1:
+                return clothesService.findAllByCategoryInOrderByPresenceDescVisitDesc(categories, pageable);
+            case 2:
+                return clothesService.findAllByCategoryInOrderByPresenceDescPriceAsc(categories, pageable);
+            case 3:
+                return clothesService.findAllByCategoryInOrderByPresenceDescPriceDesc(categories, pageable);
+            default:
+                return clothesService.getClothesPopular(pageable);
+        }
+    }
+
+/*
     public List<Clothes> sortClothes(List<Clothes> clothes, int sort) {
         Collections.sort(clothes, (c1, c2) -> {
             switch (sort) {
@@ -101,15 +143,17 @@ public class FilterController {
         return clothes;
     }
 
+ */
 
-    public List<Clothes> getClothesWithoutFilters(int sort, Category category) {
+
+    public Page<Clothes> getClothesWithoutFilters(int sort, Category category, Pageable pageable) {
         if(sort == 0) {
             sort = 1;
         }
         if(category == null) {
-           return sortClothes(clothesService.findAll(), sort);
+           return sortFullClothes(sort, pageable);
         }
-        return sortClothes(clothesService.findAllByCategoryIn(categoryService.getChildrenCategory(category)), sort);
+        return sortWithCategory(categoryService.getChildrenCategory(category), sort, pageable);
     }
 
     @Autowired

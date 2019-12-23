@@ -7,20 +7,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="modal-size-body">
                 <form id="modal-form">
-                    <input type="hidden" name="article_clothes" id="modal-article">
+                    <input type="hidden" name="article_clothes" id="article">
                     <input type="hidden" name="_csrf" id="_csrf-modal" value="${_csrf.token}" />
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Размер:</label>
                         <select class="custom-select mr-sm-2" id="size" name="size">
-                            <option id="opt-40" value="40">40</option>
-                            <option id="opt-42" value="42">42</option>
-                            <option id="opt-44" value="44">44</option>
-                            <option id="opt-46" value="46">46</option>
-                            <option id="opt-48" value="48">48</option>
-                            <option id="opt-50" value="50">50</option>
-                            <option id="opt-52" value="52">52</option>
+                            <option id="opt-40" data-count="0" value="40">40</option>
+                            <option id="opt-42" data-count="0" value="42">42</option>
+                            <option id="opt-44" data-count="0" value="44">44</option>
+                            <option id="opt-46" data-count="0" value="46">46</option>
+                            <option id="opt-48" data-count="0" value="48">48</option>
+                            <option id="opt-50" data-count="0" value="50">50</option>
+                            <option id="opt-52" data-count="0" value="52">52</option>
                         </select>
                     </div>
                 </form>

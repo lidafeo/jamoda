@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-
 @Controller
 public class ClothesController {
 
@@ -17,14 +15,14 @@ public class ClothesController {
     private ClothesService clothesService;
 
     @GetMapping("/clothes")
-    public String getClothes(@RequestParam String article, Model model, HttpSession session) {
+    public String getClothes(@RequestParam String article, Model model) {
         Clothes clothes = clothesService.findByArticle(article);
         model.addAttribute("clothes", clothes);
         model.addAttribute("sizes", clothesService.getSizes(clothes.getWarehouses()));
         model.addAttribute("commonCount", clothesService.getCountProductInWarehouse(clothes.getWarehouses()));
         clothes.addVisit();
         clothesService.saveClothes(clothes);
-        mainService.getSessionModel(model, session);
+        mainService.getSessionModel(model);
         return "clothes";
     }
 

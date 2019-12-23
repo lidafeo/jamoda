@@ -151,8 +151,13 @@ $("#cart-div").on("click", ".drop", function (e) {
     product['article_clothes'] = $(this).data("article");
     product['size'] = $(this).data("size");
     cartJS.deleteProductFromCart(product);
-    $("#card-" + product['article_clothes']).remove();
+    if(cartJS.getCommonCount() == 0) {
+        $('#cart-div').html("<h1>Корзина</h1><hr><div>Корзина пуста</div>");
+    }
+    else {
+        $("#card-" + product['article_clothes']).remove();
+        $("#str-count").html(cartJS.getCommonCount());
+        $("#str-price").html(cartJS.getCommonPrice());
+    }
     cartJS.setCountInNavbar();
-    $("#str-count").html(cartJS.getCommonCount());
-    $("#str-price").html(cartJS.getCommonPrice());
 });
