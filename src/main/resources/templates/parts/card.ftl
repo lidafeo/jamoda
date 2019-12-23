@@ -1,8 +1,8 @@
 <#macro card clothes>
 <#if clothes.presence>
-    <div class="col-sm-4">
+    <div class="col-sm-4" id="card-${clothes.article}">
 <#else>
-    <div class="col-sm-4 presence">
+    <div class="col-sm-4 presence" id="card-${clothes.article}">
 </#if>
     <div class="card my-card" style="width: 15rem;">
         <#if clothes.images?size != 0>
@@ -15,7 +15,7 @@
             </p>
             <a href="/clothes?article=${clothes.article}" class="btn btn-primary">Подробнее</a>
             <#if clothes.presence>
-                <button type="button" class="btn btn-primary but-buy" data-whatever="${clothes.article}" data-sizes="${clothes.getStringSizes()}"
+                <button type="button" class="btn btn-primary but-buy" data-whatever="${clothes.article}" data-sizes="${clothes.getStringSizes()}" data-remains="${clothes.getCountsGap()}"
                         <#if clothes.images?size != 0>
                             data-image="${clothes.images?first.name}"
                         </#if>
@@ -25,9 +25,9 @@
             </#if>
             <p class="card-text"><small class="text-muted">${clothes.category.nameRus}</small></p>
             <#if clothes.presence>
-                <p class="card-text"><small class="text-muted">Размеры: ${clothes.getSizesGap()}</small></p>
+                <p class="card-text" id="sizes"><small class="text-muted">Размеры: ${clothes.getSizesGap()}</small></p>
             <#else>
-                <p class="card-text"><small class="text-danger">Нет в наличии</small></p>
+                <p class="card-text" id="sizes"><small class="text-danger">Нет в наличии</small></p>
             </#if>
         </div>
     </div>

@@ -51,15 +51,29 @@ public class OrderService {
 
     public void saveCart(Cart cart, Order order) {
         for(ProductInCart product: cart.getCart()) {
+            Clothes clothes = clothesRepository.findByArticle(product.getArticle());
             OrderProduct orderProduct = new OrderProduct(product.getCount(),
                     product.getSize(),
                     product.getPrice()*product.getCount(),
                     order,
-                    clothesRepository.findByArticle(product.getArticle()));
+                    clothes);
             //удаляем продукт из склада
             deleteProductFromWarehouse(orderProduct);
             //сохраняем продукт в таблицу купленных товаров
             orderProductRepository.saveAndFlush(orderProduct);
+            //проверяем остался ли этот товар на складе (для поля presence)
+            checkPresence(clothes);
+        }
+    }
+
+    public void checkPresence(Clothes clothes) {
+        Integer count = 0;
+        for(Warehouse warehouse : clothes.getWarehouses()) {
+            count += warehouse.getCount();
+        }
+        if (count == 0) {
+            clothes.setPresence(false);
+            clothesRepository.saveAndFlush(clothes);
         }
     }
 

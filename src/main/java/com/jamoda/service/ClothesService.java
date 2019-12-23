@@ -1,14 +1,12 @@
 package com.jamoda.service;
 
-import com.jamoda.model.AttributeGroup;
-import com.jamoda.model.Category;
-import com.jamoda.model.Clothes;
-import com.jamoda.model.Warehouse;
+import com.jamoda.model.*;
 import com.jamoda.repository.ClothesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -22,8 +20,8 @@ public class ClothesService {
         clothesRepository.saveAndFlush(clothes);
     }
 
-    public Iterable<Clothes> getClothesPopular() {
-        return clothesRepository.findAllByOrderByPresenceDescVisitDesc();
+    public Page<Clothes> getClothesPopular(Pageable pageable) {
+        return clothesRepository.findAllByOrderByPresenceDescVisitDesc(pageable);
     }
 
     public Clothes findByArticle(String article) {
@@ -36,6 +34,31 @@ public class ClothesService {
 
     public List<Clothes> findAllByCategoryIn(List<Category> categories) {
         return clothesRepository.findAllByCategoryIn(categories);
+    }
+
+    public Page<Clothes> findAllByArticleInOrderByPresenceDescVisitDesc(List<String> articles, Pageable pageable) {
+        return clothesRepository.findAllByArticleInOrderByPresenceDescVisitDesc(articles, pageable);
+    }
+    public Page<Clothes> findAllByArticleInOrderByPresenceDescPriceDesc(List<String> articles, Pageable pageable) {
+        return clothesRepository.findAllByArticleInOrderByPresenceDescPriceDesc(articles, pageable);
+    }
+    public Page<Clothes> findAllByArticleInOrderByPresenceDescPriceAsc(List<String> articles, Pageable pageable) {
+        return clothesRepository.findAllByArticleInOrderByPresenceDescPriceAsc(articles, pageable);
+    }
+    public Page<Clothes> findAllByOrderByPresenceDescPriceDesc(Pageable pageable) {
+        return clothesRepository.findAllByOrderByPresenceDescPriceDesc(pageable);
+    }
+    public Page<Clothes> findAllByOrderByPresenceDescPriceAsc(Pageable pageable) {
+        return clothesRepository.findAllByOrderByPresenceDescPriceAsc(pageable);
+    }
+    public Page<Clothes> findAllByCategoryInOrderByPresenceDescVisitDesc(List<Category> categories, Pageable pageable) {
+        return clothesRepository.findAllByCategoryInOrderByPresenceDescVisitDesc(categories, pageable);
+    }
+    public Page<Clothes> findAllByCategoryInOrderByPresenceDescPriceDesc(List<Category> categories, Pageable pageable) {
+        return clothesRepository.findAllByCategoryInOrderByPresenceDescPriceDesc(categories, pageable);
+    }
+    public Page<Clothes> findAllByCategoryInOrderByPresenceDescPriceAsc(List<Category> categories, Pageable pageable) {
+        return clothesRepository.findAllByCategoryInOrderByPresenceDescPriceAsc(categories, pageable);
     }
 
     public Map<String, Integer> getSizes(List<Warehouse> warehouses) {

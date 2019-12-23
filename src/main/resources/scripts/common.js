@@ -1,24 +1,34 @@
 //модальное окно выбора размера
+let modalBody = $('#modal-size-body').html();
+
 $('#card-deck-id').on('click', ".but-buy", function (event) {
     event.preventDefault();
-    //$(this).modal('hide');
+    $('#add-in-cart').show();
+    $('#modal-size-body').html(modalBody);
     let button = $(this); // Button that triggered the modal
     clickedBut = button;
     let recipient = button.data('whatever'); // Extract info from data-* attributes;
     let sizesObj = getSizes(button, recipient);
     let select = "";
+    let findRemains = false;
     for(let i = 40; i <= 52; i += 2) {
         if(!sizesObj["" + i] || sizesObj["" + i] == 0) {
-            select += '<option value="' + i + '" class="disable-option" disabled>' + i + '</option>';
+            select += '<option value="' + i + '" class="disable-option" ' + 'data-count="0" ' + 'disabled>' + i + '</option>';
         }
         else {
-            select += '<option value="' + i + '">' + i + '</option>';
+            select += '<option value="' + i + '" ' + 'data-count="' + sizesObj["" + i] + '" ' + '>' + i + '</option>';
+            findRemains = true;
         }
     }
-    $("#size").html(select);
-    let modal = $("#modal-size");
-    console.log(recipient);
-    modal.find('.modal-body #modal-article').val(recipient);
+    if(findRemains) {
+        $("#size").html(select);
+        let modal = $("#modal-size");
+        modal.find('.modal-body #article').val(recipient);
+    }
+    else {
+        $('#modal-size-body').html('<div class="alert alert-danger col-sm-10" role="alert">К сожалению товар закончился</div>');
+        $('#add-in-cart').hide();
+    }
     $("#modal-size").modal('show');
 });
 
@@ -28,7 +38,7 @@ function updateSizeAtPage() {
     let finded = false;
     $("#size option").each(function(index) {
         let countInCart = productCart[$(this).attr("value")];
-        if(countInCart == null || countInCart == "") {
+        if(countInCart == null || countInCart == "" || $('#add-in-cart').data("but") == null) {
             countInCart = 0;
         }
         if(+$(this).data("count") - +countInCart <= 0) {
@@ -46,17 +56,18 @@ function updateSizeAtPage() {
         $("#size").html($("#size").html());
     }
     if(!first) {
-        $("#add-in-cart").attr("disabled", true);
-        $("#size-div").html('<div class="alert alert-danger col-sm-10" role="alert">К сожалению товара нет в наличии</div>')
+        if($('#add-in-cart').data("but") != null) {
+            $("#add-in-cart").attr("disabled", true);
+            $("#size-div").html('<div class="alert alert-danger col-sm-10" role="alert">К сожалению товара нет в наличии</div>');
+            //$('#modal .modal-body').html('<div class="alert alert-danger col-sm-10" role="alert">К сожалению товара нет в наличии</div>');
+        }
     }
 }
-
 
 //$(document).ready(function() {
 /*
     if ($("#order-modal") != null)
         $('#order-modal').modal('show');
-
  */
 
     //панель каталога
@@ -104,30 +115,28 @@ function updateSizeAtPage() {
 
     //добавление в корзину
     $('#add-in-cart').click(function (e) {
-
         e.preventDefault();
 
         if($('#add-in-cart').data("but") != null) {
             clickedBut = $('#add-in-cart');
+            $('#modal .modal-body').html('Товар добавлен в корзину!');
         }
 
         //let form = $("#modal-form").serializeArray();
         let product = {};
-        if($('#add-in-cart').data("but") != null) {
-            product['article_clothes'] = $("#article").val();
-        }
-        else {
-            product['article_clothes'] = $("#modal-article").val();
-        }
+
+        product['article_clothes'] = $("#article").val();
+
         product['size'] = $("#size").val();
         product['image'] =  clickedBut.data('image');
         product['category'] =  clickedBut.data('category');
         product['name'] =  clickedBut.data('name');
-
         product['price'] =  +((clickedBut.data('price') + "").replace(/\D+/g,""));
 
         if(product['article_clothes'] == null || product['size'] == null ||
             product['article_clothes'] == "" || product['size'] == "") {
+            $('#modal .modal-body').html('<div class="alert alert-danger col-sm-10 align-middle" role="alert">К сожалению товара нет в наличии</div>');
+            $('#modal').modal('show');
             return;
         }
 
@@ -139,61 +148,19 @@ function updateSizeAtPage() {
         }
         */
         cartJS.addProductInCart(product);
-
-        if($('#add-in-cart').data("but") != null) {
+        //if($('#add-in-cart').data("but") == null) {
             updateSizeAtPage();
-        }
+        //}
+
         cartJS.setCountInNavbar();
 
         $("#modal-size").modal('hide');
         $('#modal').modal('show');
-        /*
-        $.ajax({
-            url: '/clothes_json',
-            method: 'post',
-            dataType: 'json',
-            data: $.param(form),
-            success: function(data){
-                let countOld = +$('#count-in-cart').text();
-                let count = +data['message'] + +$('#count-in-cart').text();
-                if(countOld == 0) {
-                    $('#count-in-cart-b').html(' Корзина (<span id="count-in-cart">' + count + '</span>)');
-                }
-                else {
-                    $('#count-in-cart').html(count);
-                }
-                let sizes = getSizes(clickedBut);
-                let chooseSize = "";
-                for (let i = 0; i < form.length; i++) {
-                    if(form[i].name == 'size') {
-                        console.log(form[i].value);
-                        chooseSize = form[i].value;
-                    }
-                }
-                if(chooseSize != "" && sizes[chooseSize]) {
-                    sizes[chooseSize] --;
-                }
-                let newSizes = "";
-                for (let key in sizes) {
-                    newSizes += key + ":" + sizes[key] + ",";
-                }
-                newSizes = newSizes.substring(0, newSizes.length - 1);
-                clickedBut.data("sizes", newSizes);
-                console.log(newSizes);
-                $('#modal').modal('show');
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        });
-         */
     });
 
     //получение размеров выбранной одежды
     function getSizes(button, article) {
         let sizesInCart = cartJS.getObjCart();
-        console.log("Получили");
-        console.log(sizesInCart);
         let sizes = button.data('sizes').split(",");
         let sizesObj = {};
         for(let i = 0; i < sizes.length; i++) {
@@ -203,7 +170,6 @@ function updateSizeAtPage() {
                 sizesObj[parse[0]] = sizesObj[parse[0]] - +sizesInCart[article][parse[0]];
             }
         }
-        console.log(sizesObj);
         return sizesObj;
     }
 
