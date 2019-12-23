@@ -15,9 +15,7 @@ import java.io.IOException;
 @Controller
 public class OrderController {
 
-    private CategoryService categoryService;
     private OrderService orderService;
-    private ClothesService clothesService;
 
     @PostMapping("/order_page")
     public String order(@RequestParam("count") Integer count,
@@ -64,15 +62,7 @@ public class OrderController {
     }
 
     @Autowired
-    public void setCategoryService(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
-    @Autowired
     public void setOrderService(OrderService orderService) {
         this.orderService = orderService;
-    }
-    @Autowired
-    public void setClothesService(ClothesService clothesService) {
-        this.clothesService = clothesService;
     }
 }

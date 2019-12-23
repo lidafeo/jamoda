@@ -27,12 +27,16 @@ public class FilterController {
     @GetMapping
     public String mainFilter(@RequestParam Map<String, String> params,
                              Model model,
-                             @PageableDefault Pageable pageable) {
+                             @PageableDefault(size = 12) Pageable pageable) {
         mainService.getSessionModel(model);
 
         Category category = null;
         if(params.get("category") != null) {
             category = categoryService.findByNameEn(params.get("category"));
+            model.addAttribute("url", "/filter?category=" + params.get("category") + "&");
+        }
+        else {
+            model.addAttribute("url", "/?");
         }
         Page<Clothes> clothes;
         if(category == null) {
@@ -42,7 +46,7 @@ public class FilterController {
             model.addAttribute("choosedCategory", category);
             clothes = getClothesWithoutFilters(1, category, pageable);
         }
-        model.addAttribute("clothes", clothes);
+        model.addAttribute("page", clothes);
         return "main";
     }
 
@@ -52,17 +56,21 @@ public class FilterController {
                               @PageableDefault Pageable pageable) {
         Map<Attribute, List<String>> filters = filterService.getFilters(params);
         int sort = 1;
-        if(params.get("sort") != null && params.get("sort").trim() != "")
-            sort = Integer.parseInt(params.get("sort"));
+        if(params.get("sorting") != null && params.get("sorting").trim() != "")
+            sort = Integer.parseInt(params.get("sorting"));
 
         //определяем категорию
         Category category = null;
         if(params.get("category") != null && !params.get("category").equals("")) {
             category = categoryService.findByNameEn(params.get("category"));
+            model.addAttribute("url", "/filter?category=" + params.get("category") + "&");
+        }
+        else {
+            model.addAttribute("url", "/?");
         }
 
         if(filters.size() == 0) {
-            model.addAttribute("clothes", getClothesWithoutFilters(sort, category, pageable));
+            model.addAttribute("page", getClothesWithoutFilters(sort, category, pageable));
             return "filterClothes";
         }
         List<AttributeValue> attributeValue = filterService.findArticleClothesWithFilter(filters, categoryService.getChildrenCategory(category));
@@ -83,7 +91,7 @@ public class FilterController {
                 clothes.add(clo.getArticle());
             }
         }
-        model.addAttribute("clothes", sortClothes(clothes, sort, pageable));
+        model.addAttribute("page", sortClothes(clothes, sort, pageable));
         return "filterClothes";
     }
 

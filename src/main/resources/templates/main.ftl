@@ -15,8 +15,8 @@
         </div>
         <div class="col-sm-9" id="card-deck-id">
             <#include "parts/sort.ftl">
-            <@p.pager url page />
-                <div class="card-deck" id="clothes_div">
+            <div id="clothes_div">
+                <div class="card-deck">
                     <#list page.content as clothesOne>
                         <@card.card clothesOne />
                         <br>
@@ -24,9 +24,11 @@
                         Здесь скоро будут товары
                     </#list>
                 </div>
-            <@p.pager url page />
+                <@p.pager url page />
+            </div>
         </div>
     </div>
+    <br>
     <#include "parts/modal.ftl">
     <#include "parts/inputSize.ftl">
 </@c.page>
