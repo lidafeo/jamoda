@@ -28,6 +28,17 @@ public class OrderController {
         return "parts/order";
     }
 
+    @PostMapping("/stripe")
+    public String stripe(@RequestParam("count") Integer count,
+                        @RequestParam("price") Integer price,
+                        Model model) {
+        //model.addAttribute("categories", categoryService.findMainCategory());
+        //model.addAttribute("cart", cartService.getCart(session));
+        model.addAttribute("count", count);
+        model.addAttribute("price", price);
+        return "parts/order";
+    }
+
     @PostMapping(value = "/order", produces = "application/json")
     public String saveOrder(@RequestParam String mycart,
                             Order order,
