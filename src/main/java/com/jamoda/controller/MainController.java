@@ -25,6 +25,12 @@ public class MainController {
         return "main";
     }
 
+    @GetMapping("/register")
+    public String register(Model model) {
+        mainService.getSessionModel(model);
+        return "registration";
+    }
+
     @GetMapping("/about")
     public String about(Model model) {
         mainService.getSessionModel(model);

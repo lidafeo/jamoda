@@ -13,33 +13,28 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig {
-
-    @Configuration
-    @Order(1)
-    public static class AdminConfigurationAdapter extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
         private UserService userService;
 
-        public AdminConfigurationAdapter() {
-            super();
-        }
-
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http
-                    .authorizeRequests()
-                    .antMatchers("/admin/**").hasAuthority("ADMIN")
-                    //.antMatchers("/greeting").hasRole("ADMIN")
-                    //.antMatchers("/").permitAll()
-                    //.anyRequest().authenticated()
+            http.authorizeRequests()
+                    .antMatchers("/admin/**")
+                        .hasAuthority("ADMIN")
+                    .antMatchers("/cabinet/**")
+                        .hasAuthority("USER")
+                    .anyRequest()
+                        .permitAll()
                     .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
+                        .formLogin()
+                        .loginPage("/login")
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        .permitAll()
                     .and()
-                    .logout()
-                    .permitAll();
+                        .logout()
+                            .permitAll();
         }
 
         @Override
@@ -52,43 +47,4 @@ public class WebSecurityConfig {
         public void setUserService(UserService userService) {
             this.userService = userService;
         }
-    }
-
-    @Configuration
-    @Order(2)
-    public static class UserConfigurationAdapter extends WebSecurityConfigurerAdapter {
-
-        private UserService userService;
-
-        public UserConfigurationAdapter() {
-            super();
-        }
-
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http
-                    .authorizeRequests()
-                    .antMatchers("/cabinet/**").hasAuthority("USER")
-                    //.antMatchers("/greeting").hasRole("ADMIN")
-                    //.antMatchers("/").permitAll()
-                    //.anyRequest().authenticated()
-                    .and()
-                    .formLogin()
-                    .loginPage("/login1")
-                    .permitAll()
-                    .and()
-                    .logout()
-                    .permitAll();
-        }
-        @Override
-        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-            auth.userDetailsService(userService)
-                    .passwordEncoder(NoOpPasswordEncoder.getInstance());
-        }
-
-        @Autowired
-        public void setUserService(UserService userService) {
-            this.userService = userService;
-        }
-    }
 }
