@@ -18,6 +18,14 @@ public class CustomerService {
         return customerRepository.findByUser(user);
     }
 
+    public Customer findByEmail(String email) {
+        return customerRepository.findByEmail(email);
+    }
+
+    public Customer updateInfo(Customer customerOld, Customer customerNew) {
+        return customerRepository.saveAndFlush(customerOld.setNewInfo(customerNew));
+    }
+
     @Autowired
     public void setCustomerRepository(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;

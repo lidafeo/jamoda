@@ -82,4 +82,17 @@ public class Customer {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public Customer setNewInfo(Customer customer) {
+        if(!customer.address.equals("") && customer.address != null) {
+            this.address = customer.address;
+        }
+        if(!customer.name.equals("") && customer.name != null) {
+            this.name = customer.name;
+        }
+        if(!customer.phone.equals("") && customer.phone != null) {
+            this.phone = customer.phone;
+        }
+        return this;
+    }
 }

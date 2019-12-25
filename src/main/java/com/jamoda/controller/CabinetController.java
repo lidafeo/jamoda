@@ -26,6 +26,21 @@ public class CabinetController {
     public String cabinet(Model model, @AuthenticationPrincipal User user) {
         Customer customer = customerService.findByUser(user);
         mainService.getSessionModel(model);
+        model.addAttribute("customer", customer);
+        return "cabinet";
+    }
+
+    @PostMapping("/cabinet")
+    public String editProfile(Customer customer, @AuthenticationPrincipal User user, Model model) {
+        mainService.getSessionModel(model);
+        Customer customerFromDb = customerService.findByEmail(user.getLogin());
+        if(customerFromDb == null) {
+            model.addAttribute("customer", customer);
+            model.addAttribute("error", "Не удалось сохранить информацию");
+            return "cabinet";
+        }
+        model.addAttribute("customer", customerService.updateInfo(customerFromDb, customer));
+        model.addAttribute("message", "Информация сохранена");
         return "cabinet";
     }
 

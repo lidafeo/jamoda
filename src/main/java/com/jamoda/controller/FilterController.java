@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,10 @@ public class FilterController {
     @GetMapping
     public String mainFilter(@RequestParam Map<String, String> params,
                              Model model,
-                             @PageableDefault(size = 12) Pageable pageable) {
+                             @PageableDefault(size = 12) Pageable pageable,
+                             @AuthenticationPrincipal User user) {
         mainService.getSessionModel(model);
+        model.addAttribute("customer", user);
 
         Category category = null;
         if(params.get("category") != null) {
@@ -53,7 +56,9 @@ public class FilterController {
     @PostMapping
     public String applyFilter(@RequestParam Map<String, String> params,
                               Model model,
-                              @PageableDefault Pageable pageable) {
+                              @PageableDefault Pageable pageable,
+                              @AuthenticationPrincipal User user) {
+        model.addAttribute("customer", user);
         Map<Attribute, List<String>> filters = filterService.getFilters(params);
         int sort = 1;
         if(params.get("sorting") != null && params.get("sorting").trim() != "")
@@ -134,27 +139,6 @@ public class FilterController {
                 return clothesService.getClothesPopular(pageable);
         }
     }
-
-/*
-    public List<Clothes> sortClothes(List<Clothes> clothes, int sort) {
-        Collections.sort(clothes, new Comparator<Clothes>() {
-            @Override
-            public int compare(Clothes c1, Clothes c2) {
-                switch (sort) {
-                    case 1:
-                        return c2.getVisit() - c1.getVisit();
-                    case 2:
-                        return c1.getPrice() - c2.getPrice();
-                    case 3:
-                        return c2.getPrice() - c1.getPrice();
-                }
-                return c1.getName().compareTo(c2.getName());
-            }
-        });
-        return clothes;
-    }
-
- */
 
 
     public Page<Clothes> getClothesWithoutFilters(int sort, Category category, Pageable pageable) {

@@ -1,10 +1,7 @@
 package com.jamoda.service;
 
 import com.jamoda.model.*;
-import com.jamoda.repository.ClothesRepository;
-import com.jamoda.repository.OrderProductRepository;
-import com.jamoda.repository.OrderRepository;
-import com.jamoda.repository.WarehouseRepository;
+import com.jamoda.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +15,13 @@ public class OrderService {
     private OrderProductRepository orderProductRepository;
     private WarehouseRepository warehouseRepository;
     private ClothesRepository clothesRepository;
+    private CustomerRepository customerRepository;
 
     public Order saveOrder(Order order) {
+        Customer customer = customerRepository.findByEmail(order.getEmail());
+        if(customer != null) {
+            order.setCustomer(customer);
+        }
         return orderRepository.saveAndFlush(order);
     }
 
@@ -98,5 +100,9 @@ public class OrderService {
     @Autowired
     public void setClothesRepository(ClothesRepository clothesRepository) {
         this.clothesRepository = clothesRepository;
+    }
+    @Autowired
+    public void setCustomerRepository(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 }
