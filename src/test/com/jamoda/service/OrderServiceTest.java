@@ -5,6 +5,8 @@ import com.jamoda.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import com.jamoda.model.*;
@@ -105,6 +107,11 @@ class OrderServiceTest {
         orderService.setWarehouseRepository(whRepMock);
         Clothes clothes = new Clothes();
         clothes.setArticle("123");
+        Warehouse whh = new Warehouse();
+        List<Warehouse> whl = new ArrayList<>();
+        whl.add(whh);
+        clothes.setWarehouses(whl);
+
         Mockito.when(clRepMock.findByArticle(any())).thenReturn(clothes);
         Order order = new Order();
         order.setSum(1000);
@@ -125,6 +132,4 @@ class OrderServiceTest {
         orderService.saveCart(cart, order);
         Assertions.assertNotNull(opRepMock.findById(id));
     }
-
-
 }

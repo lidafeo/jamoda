@@ -70,4 +70,5 @@ class AttributeGroupServiceTest {
                 agservMock.findByName("1"),
                 agRepMock.findByName("1"));
     }
+
 }

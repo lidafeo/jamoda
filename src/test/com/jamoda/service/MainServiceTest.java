@@ -25,12 +25,12 @@ class MainServiceTest {
 
     @Test
     void getSessionModel() {
-        HttpSession session = Mockito.mock(HttpSession.class);
-        session.setAttribute("COUNT", 0);
+//        HttpSession session = Mockito.mock(HttpSession.class);
+//        session.setAttribute("COUNT", 0);
         Model model = Mockito.mock(Model.class);
         List<Integer> countList = new ArrayList<>();
         countList.add(0,1);
-        Mockito.when(session.getAttribute("COUNT")).thenReturn(countList);
+        //Mockito.when(session.getAttribute("COUNT")).thenReturn(countList);
 
         Attribute at = new Attribute();
         at.setName("example");
@@ -59,13 +59,13 @@ class MainServiceTest {
         mainService.setFilterRepository(filtRepMock);
 
         Model model2 = mock(Model.class);
-        List<String> attributeList = (List<String>) session.getAttribute("PRODUCTS");
-        model2.addAttribute("cartSession", attributeList);
+//        List<String> attributeList = (List<String>) session.getAttribute("PRODUCTS");
+//        model2.addAttribute("cartSession", attributeList);
         model2.addAttribute("filters", filters);
         model2.addAttribute("categories", catRepMock.findAllByType("main"));
 
         Model model1 = mock(Model.class);
-        model1 = mainService.getSessionModel(model, session);
+        model1 = mainService.getSessionModel(model);
 
         Assertions.assertEquals(model1.containsAttribute("cartSession"),
                 model2.containsAttribute("cartSession"));
@@ -77,8 +77,8 @@ class MainServiceTest {
 
     @Test
     void getSessionModelTest() {
-        HttpSession session = Mockito.mock(HttpSession.class);
-        session.setAttribute("1", 1);
+//        HttpSession session = Mockito.mock(HttpSession.class);
+//        session.setAttribute("1", 1);
         Model model = Mockito.mock(Model.class);
         //model.addAttribute("0", 0);
 
@@ -110,13 +110,13 @@ class MainServiceTest {
 
         Model model2 = mock(Model.class);
         // model2.addAttribute("0", 0);
-        List<String> attributeList = (List<String>) session.getAttribute("PRODUCTS");
-        model2.addAttribute("cartSession", attributeList);
+//        List<String> attributeList = (List<String>) session.getAttribute("PRODUCTS");
+//        model2.addAttribute("cartSession", attributeList);
         model2.addAttribute("filters", filters);
         model2.addAttribute("categories", catRepMock.findAllByType("main"));
 
         Model model1 = mock(Model.class);
-        model1 = mainService.getSessionModel(model, session);
+        model1 = mainService.getSessionModel(model);
 
         Assertions.assertEquals(model1.containsAttribute("cartSession"),
                 model2.containsAttribute("cartSession"));

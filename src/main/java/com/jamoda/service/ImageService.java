@@ -20,6 +20,7 @@ public class ImageService {
 
     @Value("${upload.path}")
     private String uploadPath;
+//    private String uploadPath = "C:/Users/homahel/Desktop/jamoda/uploads";
 
     public boolean checkExistsDir() {
         File uploadDir = new File(uploadPath);

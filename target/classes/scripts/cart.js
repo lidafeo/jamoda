@@ -110,10 +110,10 @@ let cartJS = {
     setCountInNavbar: function() {
         let count = cartJS.getCountProductsInCart();
         if(count != 0) {
-            $('#count-in-cart-b').html(' Корзина (<span id="count-in-cart">' + count + '</span>)');
+            $('#count-in-cart').html(count);
         }
         else {
-            $('#count-in-cart-b').html(' Корзина');
+            $('#count-in-cart').html('');
         }
     },
 

@@ -28,6 +28,10 @@ class WarehouseServiceTest {
 
         Clothes clothes = new Clothes();
         clothes.setArticle("123");
+//        clothes.setPrice(1000);
+//        clothes.setVisit(10);
+//        clothes.setName("Qwerty");
+//        clothes.setPresence(true);
         Warehouse wh = new Warehouse(clothes, 48, 1);
 
         when(whRepMock.saveAndFlush(wh))
@@ -53,11 +57,4 @@ class WarehouseServiceTest {
                 WhServMock.findByClothesAndSize(clothes, 48),
                 whRepMock.findByClothesAndSize(clothes, 48));
     }
-
-    @Test
-    void getSizes() {
-
-    }
-
-
 }

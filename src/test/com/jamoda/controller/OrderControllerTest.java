@@ -1,26 +1,18 @@
 package com.jamoda.controller;
 
 import com.jamoda.model.Cart;
-import com.jamoda.model.Category;
 import com.jamoda.model.Order;
-import com.jamoda.service.CategoryService;
-import com.jamoda.service.ClothesService;
 import com.jamoda.service.OrderService;
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 import static org.mockito.Mockito.*;
 
 class OrderControllerTest {
 
-    CategoryService catServMock = mock(CategoryService.class);
-    ClothesService clothesServMock = mock(ClothesService.class);
     OrderService orderServMock = mock(OrderService.class);
 
     @Test
@@ -41,15 +33,62 @@ class OrderControllerTest {
                 model1.containsAttribute("2"));
     }
 
+//    @Test
+//    void saveOrderNotOk() throws Exception{
+//        Order order = new Order();
+//        Mockito.when(orderServMock.saveOrder(order)).thenReturn(order);
+//        Model model = mock(Model.class);
+//        model.addAttribute("0", 0);
+//        OrderController orderController = new OrderController();
+//        orderController.setOrderService(orderServMock);
+//
+//        Assert.assertEquals("json",
+//                orderController.saveOrder(
+//                        "{\"cart\":" +
+//                                "[{\"article\":\"0001\"," +
+//                                "\"size\":\"44\"," +
+//                                "\"count\":1," +
+//                                "\"price\":1000}]," +
+//                                "\"price\":1000," +
+//                                "\"count\":1}",
+//                        order, model));
+//    }
+//
+//    @Test
+//    void saveOrderOk() throws Exception{
+//        Order order = new Order();
+//        order.setPayment("online");
+//        Mockito.when(orderServMock.saveOrder(order)).thenReturn(order);
+//        Model model = mock(Model.class);
+//        model.addAttribute("0", 0);
+//
+//        Mockito.when(orderServMock.checkProductInWarehouse(any())).
+//                thenReturn(true);
+//
+//        OrderController orderController = new OrderController();
+//        orderController.setOrderService(orderServMock);
+//
+//        Mockito.when(orderServMock.saveOrder(order)).
+//                thenReturn(order);
+//        Assert.assertEquals("json",
+//                orderController.saveOrder(
+//                        "{\"cart\":" +
+//                                "[{\"article\":\"0001\"," +
+//                                "\"size\":\"44\"," +
+//                                "\"count\":0," +
+//                                "\"price\":1000}]," +
+//                                "\"price\":0," +
+//                                "\"count\":1}",
+//                        order, model));
+//    }
+
+
     @Test
     void saveOrder() throws Exception{
         Order order = new Order();
-        order.setPayment("online");
         Mockito.when(orderServMock.saveOrder(order)).thenReturn(order);
-
         Model model = mock(Model.class);
         model.addAttribute("0", 0);
-
         OrderController orderController = new OrderController();
         orderController.setOrderService(orderServMock);
 
@@ -66,60 +105,28 @@ class OrderControllerTest {
     }
 
     @Test
-    void saveOrder1() throws Exception{
+    void saveOrder0() throws Exception{
         Order order = new Order();
-        order.setPayment("courier");
+        order.setPayment("online");
         Mockito.when(orderServMock.saveOrder(order)).thenReturn(order);
-
         Model model = mock(Model.class);
         model.addAttribute("0", 0);
-
-        Mockito.when(orderServMock.checkProductInWarehouse(any())).
-                thenReturn(false);
-
         OrderController orderController = new OrderController();
         orderController.setOrderService(orderServMock);
-
-        Mockito.when(orderServMock.saveOrder(order)).
-                thenReturn(order);
+        Mockito.when(orderServMock.checkProductInWarehouse(any(Cart.class))).
+                thenReturn(true);
 
         Assert.assertEquals("json",
                 orderController.saveOrder(
                         "{\"cart\":" +
                                 "[{\"article\":\"0001\"," +
                                 "\"size\":\"44\"," +
-                                "\"count\":0," +
+                                "\"count\":1," +
                                 "\"price\":1000}]," +
-                                "\"price\":0," +
+                                "\"price\":1000," +
                                 "\"count\":1}",
                         order, model));
     }
 
-    @Test
-    void saveOrder2() {
-        Category category = new Category();
-        category.setId(1L);
-        List<Category> categories = List.of(category);
-        Mockito.when(catServMock.findMainCategory()).thenReturn(categories);
 
-        Cart cart = new Cart();
-        cart.setCount(1);
-        Model model = mock(Model.class);
-        model.addAttribute("0", 0);
-
-        Order order = new Order();
-//        order.;
-//
-        HttpSession session = mock(HttpSession.class);
-        session.setAttribute("1", 1);
-//        Mockito.when(cartServMock.getCart(session)).thenReturn(cart);
-
-        OrderController orderController = new OrderController();
-//        orderController.setCartService(cartServMock);
-        orderController.setCategoryService(catServMock);
-
-        verify(model, times(1)).addAttribute("0", 0);
-//        Assert.assertEquals("order wasn't returned",
-//                "order", orderController.order(model, session));
-    }
 }

@@ -19,7 +19,6 @@ public class ClothesService {
     public Clothes saveClothes(Clothes clothes) {
         return clothesRepository.saveAndFlush(clothes);
     }
-
     public Page<Clothes> getClothesPopular(Pageable pageable) {
         return clothesRepository.findAllByOrderByPresenceDescVisitDesc(pageable);
     }
@@ -27,15 +26,12 @@ public class ClothesService {
     public Clothes findByArticle(String article) {
         return clothesRepository.findByArticle(article);
     }
-
     public List<Clothes> findAll() {
         return clothesRepository.findAll();
     }
-
     public List<Clothes> findAllByCategoryIn(List<Category> categories) {
         return clothesRepository.findAllByCategoryIn(categories);
     }
-
     public Page<Clothes> findAllByArticleInOrderByPresenceDescVisitDesc(List<String> articles, Pageable pageable) {
         return clothesRepository.findAllByArticleInOrderByPresenceDescVisitDesc(articles, pageable);
     }

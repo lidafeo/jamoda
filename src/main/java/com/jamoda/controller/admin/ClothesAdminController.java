@@ -24,8 +24,6 @@ public class ClothesAdminController {
     private ImageService imageService;
     private ClothesService clothesService;
 
-    /////////////// add new clothes
-
     @GetMapping("/admin/add_clothes")
     public String pageAddClothes(Model model) {
         model.addAttribute("category", categoryService.findAll());
@@ -81,15 +79,11 @@ public class ClothesAdminController {
         return "admin/addClothes";
     }
 
-    /////////////// add attribute value to clothes
-
-    //admin/add_attribute_value
     @GetMapping("/admin/add_attribute_value")
     public String pageAddAttributeValue(Model model) {
         model.addAttribute("clothes", clothesService.findAll());
         model.addAttribute("attributes", attributeService.findAll());
-        return "admin/addAttributeValue";
-    }
+        return "admin/addAttributeValue"; }
 
     @PostMapping("/admin/add_attribute_value")
     public String addAttributeValue(AttributeValue attributeValue,
@@ -103,14 +97,12 @@ public class ClothesAdminController {
         AttributeValue attributeValueFromDb = attributeValueService.findById(attributeValue.getId());
         if(attributeValueFromDb != null) {
             model.addAttribute("error", "Такой атрибут уже добавлен!");
-            return "admin/addAttributeValue";
-        }
+            return "admin/addAttributeValue"; }
 
         Clothes clothes = clothesService.findByArticle(article);
         if(clothes == null) {
             model.addAttribute("error", "Такого товара не существует!");
-            return "admin/addAttributeValue";
-        }
+            return "admin/addAttributeValue"; }
 
         attributeValue.setClothes(clothes);
 
@@ -119,16 +111,12 @@ public class ClothesAdminController {
             model.addAttribute("error", "Такого атрибута не существует!");
             return "admin/addAttributeValue";
         }
-
         attributeValue.setAttribute(attribute);
         attributeValueService.saveAttributeValue(attributeValue);
         model.addAttribute("message", "Атрибут успешно добавлен к товару");
         return "admin/addAttributeValue";
     }
 
-    /////////////// add attribute group to clothes
-
-    //admin/add_attribute_group
     @GetMapping("/admin/add_attribute_group")
     public String pageAddAttributeGroup(Model model) {
         model.addAttribute("groups", attributeGroupService.findAll());

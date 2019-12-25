@@ -127,25 +127,6 @@ public class FilterController {
         }
     }
 
-/*
-    public List<Clothes> sortClothes(List<Clothes> clothes, int sort) {
-        Collections.sort(clothes, (c1, c2) -> {
-            switch (sort) {
-                case 1:
-                    return c2.getVisit() - c1.getVisit();
-                case 2:
-                    return c1.getPrice() - c2.getPrice();
-                case 3:
-                    return c2.getPrice() - c1.getPrice();
-            }
-            return c1.getName().compareTo(c2.getName());
-        });
-        return clothes;
-    }
-
- */
-
-
     public Page<Clothes> getClothesWithoutFilters(int sort, Category category, Pageable pageable) {
         if(sort == 0) {
             sort = 1;

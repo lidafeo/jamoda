@@ -20,7 +20,7 @@
                 <a class="nav-link" href="/about">О нас <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item" id="cart-li">
-                <a class="nav-link" href="/cart" id="cart"><img src="/img/icons8-shopping-bag-32.png" width="34" alt="Корзина"> <b id="count-in-cart-b"> Корзина</b></a>
+                <a class="nav-link" href="/cart" id="cart"><img src="/img/icons8-shopping-bag-32.png" width="34" alt="Корзина"> <span class="badge badge-light" id="count-in-cart"></span></a>
             </li>
         </ul>
     </div>
