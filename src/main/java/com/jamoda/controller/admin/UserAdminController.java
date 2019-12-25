@@ -29,7 +29,7 @@ public class UserAdminController {
             return "admin/addUser";
         }
         user.setActive(true);
-        user.setRoles(Collections.singleton(Role.ROLE_ADMIN));
+        user.setRoles(Collections.singleton(Role.ADMIN));
         userService.saveUser(user);
         model.addAttribute("message", "Администратор успешно добавлен");
         return "admin/addUser";

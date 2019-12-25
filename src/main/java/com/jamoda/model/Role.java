@@ -3,7 +3,7 @@ package com.jamoda.model;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-    ROLE_ADMIN, ROLE_USER;
+    USER, ADMIN;
 
     @Override
     public String getAuthority() {
