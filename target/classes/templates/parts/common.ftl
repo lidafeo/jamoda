@@ -26,6 +26,11 @@
     <script type="text/javascript" src="/scripts/cart.js"></script>
     <script type="text/javascript" src="/scripts/common.js"></script>
 
+        <!-- <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script type="text/javascript">
+        Stripe.setPublishableKey('pk_test_FwHH4sTFfVJN0k4sxn6fFAtC00Y4VmeRCk');
+    </script>-->
+
     <script src="/plugins/ejs-2.4.2.min.js" type="text/javascript"></script>
     <script src="/plugins/ejs-browser-async.min.js" type="text/javascript"></script>
 

@@ -105,15 +105,65 @@ $('#cart-div').on('click', "#in-order", function (e) {
 
 $("#cart-div").on('submit', "#order-form", function (e) {
     e.preventDefault();
+    if($("#payment").val() == 'online') {
+        return showPay();
+    }
+    $("#form-pay input").each(function(index) {
+        $(this).attr("required", false);
+    });
+    sendFormPay();
+});
+
+$("#cart-div").on("click", ".drop", function (e) {
+    let product = {};
+    product['article_clothes'] = $(this).data("article");
+    product['size'] = $(this).data("size");
+    cartJS.deleteProductFromCart(product);
+    if(cartJS.getCommonCount() == 0) {
+        $('#cart-div').html("<h1>Корзина</h1><hr><div>Корзина пуста</div>");
+    }
+    else {
+        $("#card-" + product['article_clothes']).remove();
+        $("#str-count").html(cartJS.getCommonCount());
+        $("#str-price").html(cartJS.getCommonPrice());
+    }
+    cartJS.setCountInNavbar();
+});
+$(document).on("click", "#do_pay", function(e) {
+    e.preventDefault();
+    $("#form-pay").submit();
+});
+
+$(document).on("submit", "#form-pay", function(e) {
+    e.preventDefault();
+    if($("#form-pay")[0].checkValidity()) {
+        $("#stripe-modal").modal('hide');
+        sendFormPay();
+    }
+    else {
+        $("#mess-pay").html("Введите данные");
+    }
+});
+
+function showPay() {
+    $("#mess-pay").html("");
+    $("#form-pay input").each(function(index) {
+        $(this).attr("required", true);
+    });
+    $("#stripe-modal").modal('show');
+}
+
+function sendFormPay() {
+    $("#do-order").attr("disabled", true);
     let form = $("#order-form").serializeArray();
     let cart = cartJS.getCart();
     let cartArr = [];
     for(let i = 0; i < cart.length; i++) {
         //form.push({"name": "carts[" + "]", "value": JSON.stringify(cart[i])});
         cartArr.push({"article": cart[i]["article_clothes"],
-                        "size": cart[i]['size'],
-                        "count": cart[i]['count'],
-                        "price": cart[i]['price']});
+            "size": cart[i]['size'],
+            "count": cart[i]['count'],
+            "price": cart[i]['price']});
     }
     let obj = {cart: cartArr, price: cartJS.getCommonPrice(), count: cartJS.getCommonCount()};
 
@@ -134,7 +184,7 @@ $("#cart-div").on('submit', "#order-form", function (e) {
             else if(data['message'] != null) {
                 console.log(data['message']);
                 message = '<div>Заказ успешно оформлен.</div>' +
-                    '<div>Ваш номер заказа : Z-' + data['message'] + '</div>' +
+                    '<div>Ваш номер заказа : <b>Z-' + data['message'] + '</b></div>' +
                     '<div>Скоро с Вами свяжется оператор.</div>';
                 cartJS.clearCart();
             }
@@ -145,19 +195,4 @@ $("#cart-div").on('submit', "#order-form", function (e) {
             console.log(err);
         }
     });
-});
-$("#cart-div").on("click", ".drop", function (e) {
-    let product = {};
-    product['article_clothes'] = $(this).data("article");
-    product['size'] = $(this).data("size");
-    cartJS.deleteProductFromCart(product);
-    if(cartJS.getCommonCount() == 0) {
-        $('#cart-div').html("<h1>Корзина</h1><hr><div>Корзина пуста</div>");
-    }
-    else {
-        $("#card-" + product['article_clothes']).remove();
-        $("#str-count").html(cartJS.getCommonCount());
-        $("#str-price").html(cartJS.getCommonPrice());
-    }
-    cartJS.setCountInNavbar();
-});
+}

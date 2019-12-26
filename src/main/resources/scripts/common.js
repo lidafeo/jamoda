@@ -1,5 +1,6 @@
 //модальное окно выбора размера
 let modalBody = $('#modal-size-body').html();
+let ajaxSend = false;
 
 $('#card-deck-id').on('click', ".but-buy", function (event) {
     event.preventDefault();
@@ -82,34 +83,35 @@ function updateSizeAtPage() {
     //сортировка
     $('#sort').change(function (e) {
         let params = getUrlVars();
-        sendRequest(params);
+        sendRequest(params, 0, -1);
     });
 
+    //выбор другой страницы
+    $("#clothes_div").on('click', '.pages-a', function (e) {
+        if(!ajaxSend) {
+            return;
+        }
+        e.preventDefault();
+        let params = getUrlVars();
+        sendRequest(params, $(this).data('number'), -1);
+    });
+
+    //выбор другого количества элементов на странице
+    $("#clothes_div").on('click', '.size-a', function (e) {
+        if(!ajaxSend) {
+            return;
+        }
+        e.preventDefault();
+        console.log("выбрали количество элементов на странице");
+        let params = getUrlVars();
+        sendRequest(params, 0, $(this).data('number'));
+    });
+
+    //покупка товара(перемещене в корзину)
     $('#clothes_div').on('click', '.but-buy', function (e) {
         e.preventDefault();
         let form = $(this).parents('form');
     });
-/*
-    //переход в корзину
-    $('#cart-li').on('click', '#cart', function (e) {
-        e.preventDefault();
-        let cart = cartJS.getCart();
-        console.log("Заходим в корзину");
-        console.log(cart);
-        $.ajax({
-            url: '/cart',
-            method: 'post',
-            dataType: 'json',
-            data: {cart: cart, _csrf: $("#_csrf-modal").val()},
-            success: function(data){
-                console.log(data);
-                window.location.href = "/cart";
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        });
-    });*/
 
     let clickedBut = null;
 
@@ -122,7 +124,6 @@ function updateSizeAtPage() {
             $('#modal .modal-body').html('Товар добавлен в корзину!');
         }
 
-        //let form = $("#modal-form").serializeArray();
         let product = {};
 
         product['article_clothes'] = $("#article").val();
@@ -140,17 +141,9 @@ function updateSizeAtPage() {
             return;
         }
 
-        /*
-        for(let i = 0; i < form.length; i++) {
-            if(form[i].name != "_csrf") {
-                product[form[i].name] = form[i].value;
-            }
-        }
-        */
         cartJS.addProductInCart(product);
-        //if($('#add-in-cart').data("but") == null) {
-            updateSizeAtPage();
-        //}
+
+        updateSizeAtPage();
 
         cartJS.setCountInNavbar();
 
@@ -173,19 +166,11 @@ function updateSizeAtPage() {
         return sizesObj;
     }
 
-    /*
-    $('#apply_filter').click(function (e) {
-        e.preventDefault();
-        $.post('/filter', $("#form_filter").serialize(), function (data) {
-            alert(data);
-        });
-    });
-     */
     //применение фильтров
     $('#apply_filter').click(function (e) {
         e.preventDefault();
         let params = getUrlVars();
-        sendRequest(params);
+        sendRequest(params, 0, -1);
     });
 
     function getUrlVars() {
@@ -196,17 +181,30 @@ function updateSizeAtPage() {
         let hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
         for(let i = 0; i < hashes.length; i++) {
             hash = hashes[i].split('=');
-            vars.push(hash[0]);
-            vars[hash[0]] = hash[1];
+            if(hash[0] != 'page' && hash[0] != 'size') {
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
         }
         return vars;
        // return window.location.href.slice(window.location.href.indexOf('?')).split(/[&?]{1}[\w\d]+=/);
     }
 
-    function sendRequest(params) {
+    function sendRequest(params, page, size) {
+        ajaxSend = true;
         let data = $('#form_filter').serializeArray(); // convert form to array
         let names = [];
         let newDate = [];
+        if(page == -1) {
+            page = +$(".pagination-page .active a").data("number");
+        }
+        if(size == -1) {
+            size = +$(".pagination-size .active a").data("number");
+        }
+        console.log(page);
+        console.log(size);
+
+        debugger;
         for(let i = 0; i < data.length; i++) {
             if(names.indexOf(data[i].name) == -1) {
                 names.push(data[i].name);
@@ -221,7 +219,9 @@ function updateSizeAtPage() {
                 newDate.push({name: key, value: params[key]});
             }
         }
-        newDate.push({name: 'sort', value: $('#sort').val()});
+        newDate.push({name: 'sorting', value: $('#sort').val()});
+        newDate.push({name: 'page', value: page});
+        newDate.push({name: 'size', value: size});
         $.ajax({
             url: '/filter',
             method: 'post',
@@ -236,3 +236,25 @@ function updateSizeAtPage() {
         });
     }
 //});
+
+/*
+    //переход в корзину
+    $('#cart-li').on('click', '#cart', function (e) {
+        e.preventDefault();
+        let cart = cartJS.getCart();
+        console.log("Заходим в корзину");
+        console.log(cart);
+        $.ajax({
+            url: '/cart',
+            method: 'post',
+            dataType: 'json',
+            data: {cart: cart, _csrf: $("#_csrf-modal").val()},
+            success: function(data){
+                console.log(data);
+                window.location.href = "/cart";
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    });*/

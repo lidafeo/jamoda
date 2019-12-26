@@ -2,12 +2,17 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    generate-ddl: true
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/jamoda?useUnicode=true&serverTimezone=UTC
     username: root
     password: 51019097
   freemarker:
     expose-request-attributes: true
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
   servlet:
     multipart:
       max-file-size: 5MB

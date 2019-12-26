@@ -17,12 +17,18 @@ public class MainController {
     private ClothesService clothesService;
 
     @GetMapping("/")
-    public String main(Model model, @PageableDefault Pageable pageable) {
+    public String main(Model model, @PageableDefault(size = 12) Pageable pageable) {
         model.addAttribute("page", clothesService.getClothesPopular(pageable));
         //model.addAttribute("page", clothesService.getClothesPopular(pageable));
-        model.addAttribute("url", "/");
+        model.addAttribute("url", "/?");
         mainService.getSessionModel(model);
         return "main";
+    }
+
+    @GetMapping("/register")
+    public String register(Model model) {
+        mainService.getSessionModel(model);
+        return "registration";
     }
 
     @GetMapping("/about")
