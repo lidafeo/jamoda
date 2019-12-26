@@ -41,7 +41,7 @@ public class Clothes {
         this.name = name;
         this.price = price;
     }
-
+/*
     public Clothes(Clothes clothes, String article, List<Image> images) {
         this.name = clothes.name;
         this.price = clothes.price;
@@ -51,6 +51,8 @@ public class Clothes {
         this.attributeValues = clothes.attributeValues;
         this.images = images;
     }
+
+ */
 
     public String getStringSizes(){
         String sizes = "";
