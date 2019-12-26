@@ -32,12 +32,12 @@
                     </li>
                 </#if>
                 <form action="/logout" class="form-inline mr-lg-4 my-lg-2" method="post">
-                    <button type="button" class="btn btn-outline-light">Выйти</button>
+                    <input type="submit" class="btn btn-outline-light" value="Выйти" />
                     <input type="hidden" name="_csrf" value="${_csrf.token}">
                 </form>
             <#else>
                 <li class="nav-item">
-                    <a class="btn btn-outline-light mr-lg-4 my-lg-1" href="/cabinet">Войти </a>
+                    <a class="btn btn-outline-light mr-lg-4 my-lg-2" href="/cabinet">Войти </a>
                 </li>
             </#if>
             <li class="nav-item">

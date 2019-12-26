@@ -42,6 +42,16 @@ public class Clothes {
         this.price = price;
     }
 
+    public Clothes(Clothes clothes, String article, List<Image> images) {
+        this.name = clothes.name;
+        this.price = clothes.price;
+        this.article = article;
+        this.category = clothes.category;
+        this.attributeGroups = clothes.attributeGroups;
+        this.attributeValues = clothes.attributeValues;
+        this.images = images;
+    }
+
     public String getStringSizes(){
         String sizes = "";
         for(Warehouse warehouse: this.warehouses) {

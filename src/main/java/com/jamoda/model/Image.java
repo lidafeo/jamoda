@@ -6,6 +6,8 @@ import javax.persistence.*;
 @Table(name="images")
 public class Image {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     @Column(name="name", length = 100)
     private String name;
     @Column(name="article", length = 100)
