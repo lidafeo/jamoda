@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="mx-auto" style="width: 740px;">
+        <div class="mx-auto" style="max-width: 740px;">
             <div class="form-center">
                 <form action="/login" method="post">
                     <div class="form-group row">
@@ -16,7 +16,10 @@
                         <h2>Вход в личный кабинет</h2>
                     </div>
                     <hr>
-                    <div class="form-group row text-danger" id="err-mess"></div>
+                    <div class="form-group row">
+                        <div class="col-sm-1"></div>
+                        <div id="err-mess" class="text-danger"></div>
+                    </div>
                     <div class="form-group row">
                         <label for="login" class="col-sm-3 col-form-label col-form-label-lg">Логин</label>
                         <div class="col-sm-9">

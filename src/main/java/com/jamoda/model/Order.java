@@ -27,6 +27,10 @@ public class Order {
     @OneToMany(targetEntity = OrderProduct.class, mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderProduct> products = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private Customer customer;
+
     public Order() {
     }
 
@@ -112,5 +116,17 @@ public class Order {
 
     public void setProducts(List<OrderProduct> products) {
         this.products = products;
+    }
+
+    public void setSum(int sum) {
+        this.sum = sum;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

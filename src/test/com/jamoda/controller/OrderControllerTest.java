@@ -1,7 +1,10 @@
 package com.jamoda.controller;
 
 import com.jamoda.model.Cart;
+import com.jamoda.model.Customer;
 import com.jamoda.model.Order;
+import com.jamoda.model.User;
+import com.jamoda.service.CustomerService;
 import com.jamoda.service.OrderService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
@@ -19,13 +22,21 @@ class OrderControllerTest {
     void order() {
         Model model = Mockito.mock(Model.class);
         OrderController orderController = new OrderController();
+        CustomerService customerService = Mockito.mock(CustomerService.class);
+        orderController.setCustomerService(customerService);
+
+        User user = new User();
+        user.setLogin("qwerty");
+        Customer customer = new Customer();
+        customer.setUser(user);
 
         Model model1 = Mockito.mock(Model.class);
         model1.addAttribute("count", 1);
         model1.addAttribute("price", 2);
+        Mockito.when(customerService.findByUser(user)).thenReturn(customer);
 
         Assert.assertEquals("parts/order",
-                orderController.order(1, 1, model));
+                orderController.order(1, 1, model, user));
 
         Assert.assertEquals( model.containsAttribute("1"),
                 model1.containsAttribute("1"));

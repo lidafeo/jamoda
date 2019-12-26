@@ -27,10 +27,16 @@ class OrderServiceTest {
         OrderService orderService = new OrderService();
         OrderRepository orderRepMock = Mockito.mock(OrderRepository.class);
         OrderProductRepository orderProductRepMock = Mockito.mock(OrderProductRepository.class);
+        CustomerRepository customerRepository = Mockito.mock(CustomerRepository.class);
         orderService.setOrderRepository(orderRepMock);
         orderService.setOrderProductRepository(orderProductRepMock);
+        orderService.setCustomerRepository(customerRepository);
 
+        Customer customer = new Customer();
+        customer.setEmail("123");
         Order order = new Order();
+
+        Mockito.when(customerRepository.findByEmail(order.getEmail())).thenReturn(customer);
         Assertions.assertEquals(orderRepMock.saveAndFlush(order),
                 orderService.saveOrder(order));
 

@@ -2,6 +2,7 @@ package com.jamoda.controller;
 
 import com.jamoda.controller.admin.ImageAdminController;
 import com.jamoda.model.Clothes;
+import com.jamoda.model.User;
 import com.jamoda.service.ClothesService;
 import com.jamoda.service.MainService;
 import org.junit.jupiter.api.Assertions;
@@ -25,6 +26,8 @@ class ClothesControllerTest {
         ClothesService clothesService = Mockito.mock(ClothesService.class);
         clothesController.setClothesService(clothesService);
 
+        User user = new User();
+        user.setLogin("qwerty");
         Model model = mock(Model.class);
         Clothes clothes = new Clothes();
         clothes.setName("cl");
@@ -38,8 +41,8 @@ class ClothesControllerTest {
 
 
         Assertions.assertNotNull(clothesController.getClothes(
-                "qwerty", model));
+                "qwerty", model, user));
         Assertions.assertEquals( "clothes",
-                clothesController.getClothes("qwerty", model));
+                clothesController.getClothes("qwerty", model, user));
     }
 }

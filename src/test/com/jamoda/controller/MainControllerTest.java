@@ -4,6 +4,7 @@ import com.jamoda.controller.MainController;
 import com.jamoda.model.Cart;
 import com.jamoda.model.Category;
 import com.jamoda.model.Clothes;
+import com.jamoda.model.User;
 import com.jamoda.service.CategoryService;
 import com.jamoda.service.ClothesService;
 import com.jamoda.service.MainService;
@@ -51,6 +52,8 @@ class MainControllerTest {
         Page<Clothes> page = new PageImpl<>(list, PageRequest.of(1, 12),
                 1);
 
+        User user = new User();
+        user.setLogin("qwerty");
         Model model = mock(Model.class);
         model.addAttribute("string", 123);
 
@@ -68,7 +71,7 @@ class MainControllerTest {
 //                andExpect(status().isOk()).
 //                andExpect(MockMvcResultMatchers.model().attribute("page", page)).
 //                andExpect(MockMvcResultMatchers.model().attribute("url","/"));
-        Assert.assertEquals("main", mainController.main(model, pageable));
+        Assert.assertEquals("main", mainController.main(model, pageable, user));
     }
 
     @Test
@@ -86,10 +89,12 @@ class MainControllerTest {
 // clothes2.setName("труселя");
 // clothes2.setVisit(10);
         List<Clothes> clothess = List.of(clothes1);
+        User user = new User();
+        user.setLogin("qwerty");
 
         mainController.setMainService(mainService);
 
         verify(model, times(1)).addAttribute("0", 0);
-        Assert.assertEquals("about", mainController.about(model));
+        Assert.assertEquals("about", mainController.about(model, user));
     }
 }

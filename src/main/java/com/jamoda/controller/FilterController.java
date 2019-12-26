@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,10 @@ public class FilterController {
     @GetMapping
     public String mainFilter(@RequestParam Map<String, String> params,
                              Model model,
-                             @PageableDefault(size = 12) Pageable pageable) {
+                             @PageableDefault(size = 12) Pageable pageable,
+                             @AuthenticationPrincipal User user) {
         mainService.getSessionModel(model);
+        model.addAttribute("customer", user);
 
         Category category = null;
         if(params.get("category") != null) {
@@ -53,7 +56,9 @@ public class FilterController {
     @PostMapping
     public String applyFilter(@RequestParam Map<String, String> params,
                               Model model,
-                              @PageableDefault Pageable pageable) {
+                              @PageableDefault Pageable pageable,
+                              @AuthenticationPrincipal User user) {
+        model.addAttribute("customer", user);
         Map<Attribute, List<String>> filters = filterService.getFilters(params);
         int sort = 1;
         if(params.get("sorting") != null && params.get("sorting").trim() != "")
@@ -134,6 +139,7 @@ public class FilterController {
                 return clothesService.getClothesPopular(pageable);
         }
     }
+
 
     public Page<Clothes> getClothesWithoutFilters(int sort, Category category, Pageable pageable) {
         if(sort == 0) {
