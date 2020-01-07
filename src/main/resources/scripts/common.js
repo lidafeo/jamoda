@@ -167,7 +167,15 @@ function updateSizeAtPage() {
     }
 
     //применение фильтров
+/*
     $('#apply_filter').click(function (e) {
+        e.preventDefault();
+        let params = getUrlVars();
+        sendRequest(params, 0, -1);
+    });
+ */
+    $("#form_filter").submit(function (e) {
+        console.log("зашел");
         e.preventDefault();
         let params = getUrlVars();
         sendRequest(params, 0, -1);

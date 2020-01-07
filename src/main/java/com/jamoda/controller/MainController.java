@@ -24,6 +24,7 @@ public class MainController {
                        @AuthenticationPrincipal User user) {
         model.addAttribute("page", clothesService.getClothesPopular(pageable));
         model.addAttribute("customer", user);
+        model.addAttribute("max_price", clothesService.getMaxPriceAllClothes() + "");
         //model.addAttribute("page", clothesService.getClothesPopular(pageable));
         model.addAttribute("url", "/?");
         mainService.getSessionModel(model);
