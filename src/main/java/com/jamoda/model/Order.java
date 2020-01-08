@@ -129,4 +129,8 @@ public class Order {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    public String getNumberString() {
+        return this.id + "";
+    }
 }

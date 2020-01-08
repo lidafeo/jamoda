@@ -1,6 +1,6 @@
 <br>
 <#if customer.orders?size != 0>
-    <table class="table">
+    <table class="table" id="orders-table" data-token="${_csrf.token}">
         <thead class="thead-dark">
         <tr>
             <th scope="col">Номер заказа</th>
@@ -13,7 +13,7 @@
         <tbody>
         <#list customer.orders as order>
             <tr>
-                <th scope="row">Z-${order.id}</th>
+                <th scope="row"><a class="detail" href="#" data-number="${order.getNumberString()}">Z-${order.id}</a></th>
                 <td>${order.address}</td>
                 <td>${order.sum} руб.</td>
                 <#if order.paid == true>
@@ -30,6 +30,7 @@
         </#list>
         </tbody>
     </table>
+    <div id="detail-div"></div>
 <#else>
     <div>Здесь будут отображаться Ваши заказы</div>
 </#if>

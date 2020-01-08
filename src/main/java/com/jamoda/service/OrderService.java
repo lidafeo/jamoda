@@ -29,6 +29,10 @@ public class OrderService {
         return orderProductRepository.saveAndFlush(orderProduct);
     }
 
+    public Order findById(int id) {
+        return orderRepository.findById(id);
+    }
+
     public List<OrderProduct> getOrderProduct(Cart cart, Order order) {
         List<OrderProduct> orderProducts = new LinkedList<>();
         for(ProductInCart product: cart.getCart()) {
