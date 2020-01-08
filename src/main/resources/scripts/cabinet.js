@@ -20,6 +20,7 @@ $(document).ready(function() {
                 $('#detail-div').html(data);
             },
             error: function (err) {
+                location.reload();
                 console.log(err);
             }
         });

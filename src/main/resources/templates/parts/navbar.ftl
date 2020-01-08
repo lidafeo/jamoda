@@ -21,6 +21,10 @@
             </li>
         </ul>
         <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+            <form class="form-inline my-2 my-lg-0" method="get" action="/search">
+                <input class="form-control mr-sm-2" type="search" name="q" placeholder="Блисс" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0 mr-lg-4 my-lg-2" type="submit">Поиск</button>
+            </form>
             <#if customer??>
                 <#if customer.login??>
                     <li class="nav-item">

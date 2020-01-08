@@ -99,6 +99,7 @@ $('#cart-div').on('click', "#in-order", function (e) {
         },
         error: function (err) {
             console.log(err);
+            location.reload();
         }
     });
 });

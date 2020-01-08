@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ClothesRepository extends JpaRepository<Clothes, Integer> {
+public interface ClothesRepository extends JpaRepository<Clothes, Integer>, ClothesCustom {
     @Query("SELECT max(price) FROM Clothes")
     Integer findMaxPrice();
 

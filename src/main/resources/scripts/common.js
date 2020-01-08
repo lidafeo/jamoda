@@ -240,6 +240,7 @@ function updateSizeAtPage() {
             },
             error: function (err) {
                 console.log(err);
+                location.reload();
             }
         });
     }
