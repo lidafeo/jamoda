@@ -13,8 +13,15 @@
     </head>
     <body>
         <#include "navbarAdmin.ftl">
-        <div class="container">
-            <#nested>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 bd-sidebar pl-0">
+                    <#include "menu.ftl">
+                </div>
+                <div class="col-sm-9 mt-3">
+                    <#nested>
+                </div>
+            </div>
         </div>
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->

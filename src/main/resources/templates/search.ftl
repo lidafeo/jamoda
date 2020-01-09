@@ -23,4 +23,6 @@
             </div>
         </#if>
     </div>
+    <#include "parts/modal.ftl">
+    <#include "parts/inputSize.ftl">
 </@c.page>

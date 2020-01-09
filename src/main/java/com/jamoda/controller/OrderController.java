@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Date;
 
 @Controller
 public class OrderController {
@@ -69,6 +70,7 @@ public class OrderController {
         }
 
         order.setSum(cart.getPrice());
+        order.setDate(new Date());
         if(order.getPayment().equals("online")) {
             order.setPaid(true);
         }

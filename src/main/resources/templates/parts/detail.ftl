@@ -22,7 +22,7 @@
         </tr>
         <tr>
             <th scope="row">Сумма заказа</th>
-            <td>${order.sum}</td>
+            <td>${order.sum} руб.</td>
         </tr>
         <tr>
             <th scope="row">Комментарий к заказу</th>
