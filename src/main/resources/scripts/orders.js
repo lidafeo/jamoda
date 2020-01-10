@@ -8,7 +8,7 @@ $(document).ready(function() {
         e.preventDefault();
         let number = $(this).data("number");
 
-        $("#orders-table").hide();
+        $("#orders").hide();
 
         $.ajax({
             url: '/detail',
@@ -28,7 +28,7 @@ $(document).ready(function() {
 
     $("#detail-div").on("click", "#back-order", function (e) {
         e.preventDefault();
-        $("#orders-table").show();
+        $("#orders").show();
         $("#detail-div").html("");
     });
 });

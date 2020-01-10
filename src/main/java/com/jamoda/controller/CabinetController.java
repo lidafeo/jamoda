@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collections;
 
 @Controller
@@ -53,7 +54,7 @@ public class CabinetController {
                                  Model model) {
         Customer customer = customerService.findByUser(user);
         Order order = orderService.findById(number);
-        if(order.getCustomer() == customer) {
+        if((order.getCustomer() == customer && customer != null) || user.getRoles().contains(Role.ADMIN)) {
             model.addAttribute("order", order);
         }
         return "parts/detail";

@@ -16,7 +16,7 @@ public class OrderAdminController {
 
     @GetMapping("/admin/list_orders")
     public String pageListOrders(Model model,
-                                 @PageableDefault(size = 10) Pageable pageable) {
+                                 @PageableDefault(size = 12) Pageable pageable) {
         Page<Order> orders = orderService.getOrders(pageable);
         model.addAttribute("page", orders);
         return "admin/listOrders";
