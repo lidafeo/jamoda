@@ -10,7 +10,7 @@
                 <label for="name" class="col-sm-3 col-form-label">Имя</label>
                 <div class="col-sm-9">
                     <input type="text" name="name" class="form-control" id="name"
-                            <#if customer.name??>value="${customer.name}"</#if>
+                            <#if customer??>value="${customer.name?if_exists}"</#if>
                            autocomplete="off" required/>
                 </div>
             </div>
@@ -18,14 +18,14 @@
                 <label for="phone" class="col-sm-3 col-form-label">Телефон</label>
                 <div class="col-sm-9">
                     <input type="text" name="phone" class="form-control"
-                           <#if customer.phone??>value="${customer.phone}"</#if> id="phone" required/>
+                           <#if customer??>value="${customer.phone?if_exists}"</#if> id="phone" required/>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="email" class="col-sm-3 col-form-label">Электронная почта</label>
                 <div class="col-sm-9">
                     <input type="email" name="email" class="form-control"
-                           <#if customer.email??>value="${customer.email}"</#if> id="email" required/>
+                           <#if customer??>value="${customer.email?if_exists}"</#if> id="email" required/>
                 </div>
             </div>
             <div class="form-group row">
@@ -35,7 +35,7 @@
                 <label for="address" class="col-sm-3 col-form-label">Адрес доставки</label>
                 <div class="col-sm-9">
                     <textarea name="address" id="address"
-                              <#if customer.address??>value="${customer.address}"</#if> class="form-control" required></textarea>
+                              <#if customer??>value="${customer.address?if_exists}"</#if> class="form-control" required></textarea>
                 </div>
             </div>
             <div class="form-group row">

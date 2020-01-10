@@ -6,7 +6,7 @@
 </#if>
     <div class="card my-card" style="width: 15rem;">
         <#if clothes.images?size != 0>
-            <img src="/img/${clothes.images?first.name}" class="card-img-top" alt="${clothes.name}">
+            <a href="/clothes?article=${clothes.article}"><img src="/img/${clothes.images?first.name}" class="card-img-top" alt="${clothes.name}"></a>
         </#if>
         <div class="card-body">
             <h6 class="card-title">${clothes.name}</h6>

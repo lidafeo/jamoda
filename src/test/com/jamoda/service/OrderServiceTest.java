@@ -77,6 +77,21 @@ class OrderServiceTest {
     }
 
     @Test
+    void findbyId() {
+        OrderService orderServ = new OrderService();
+        OrderRepository oRepMock = Mockito.mock(OrderRepository.class);
+        orderServ.setOrderRepository(oRepMock);
+
+       Order order = new Order();
+       order.setName("qwerty");
+        Mockito.when(oRepMock.findById(1)).thenReturn(order);
+
+        Assertions.assertEquals(orderServ.findById(1),
+                order);
+    }
+
+
+    @Test
     void checkProductInWarehouse() {
         OrderService orderService = new OrderService();
         WarehouseRepository whRepMock = Mockito.mock(WarehouseRepository.class);

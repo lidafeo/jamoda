@@ -22,8 +22,6 @@ class CategoryServiceTest {
         catServMock.setCategoryRepository(catRepMock);
 
         Category category = new Category();
-//        when(clRepMock.saveAndFlush(clothes))
-//                .thenAnswer(i -> i.getArguments()[0]);
         Assertions.assertEquals(catServMock.saveCategory(category),
                 catRepMock.saveAndFlush(category));
     }

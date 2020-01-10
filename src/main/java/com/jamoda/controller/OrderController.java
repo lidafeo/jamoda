@@ -23,9 +23,7 @@ public class OrderController {
                         @RequestParam("price") Integer price,
                         Model model,
                         @AuthenticationPrincipal User user) {
-        //model.addAttribute("categories", categoryService.findMainCategory());
-        //model.addAttribute("cart", cartService.getCart(session));
-        if(user != null) {
+      if(user != null) {
             model.addAttribute("customer", customerService.findByUser(user));
         }
         else {
@@ -35,19 +33,6 @@ public class OrderController {
         model.addAttribute("price", price);
         return "parts/order";
     }
-/*
-    @PostMapping("/stripe")
-    public String stripe(@RequestParam("count") Integer count,
-                        @RequestParam("price") Integer price,
-                        Model model,
-                         @AuthenticationPrincipal User user) {
-        //model.addAttribute("categories", categoryService.findMainCategory());
-        //model.addAttribute("cart", cartService.getCart(session));
-        model.addAttribute("count", count);
-        model.addAttribute("price", price);
-        model.addAttribute("customer", user);
-        return "parts/order";
-    }*/
 
     @PostMapping(value = "/order", produces = "application/json")
     public String saveOrder(@RequestParam String mycart,

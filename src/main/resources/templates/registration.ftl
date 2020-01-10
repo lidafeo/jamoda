@@ -9,8 +9,13 @@
 <body>
 <div class="container">
     <div class="mx-auto" style="max-width: 880px;">
-        <div class="register">
+        <div class="register login-block">
             <form action="/register" method="post" id="form-login">
+                <div class="form-group row justify-content-end">
+                    <a href="/" class="close" aria-label="Close">
+                        <span aria-hidden="true" >&times;</span>
+                    </a>
+                </div>
                 <div class="form-group row">
                     <div class="col-sm-4"></div>
                     <h1> Регистрация </h1>
@@ -41,8 +46,10 @@
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <br>
                 <div class="form-group row">
-                    <div class="col-sm-4"></div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-6">
+                        <a class="nav-link" href="/cabinet">Уже зарегистрирован, войти</a>
+                    </div>
+                    <div class="col-sm-6">
                         <button type="submit" name="submit" class="btn btn-primary btn-lg"> Зарегистрироваться </button>
                     </div>
                 </div>

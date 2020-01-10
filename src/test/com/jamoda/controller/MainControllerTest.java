@@ -65,12 +65,6 @@ class MainControllerTest {
         mainController.setMainService(mainService);
         mainController.setClothesService(clothesService);
 
-//        this.mockMvc.perform(MockMvcRequestBuilders.get("/").
-//                requestAttr("pageable", pageable)).
-//                andDo(MockMvcResultHandlers.print()).
-//                andExpect(status().isOk()).
-//                andExpect(MockMvcResultMatchers.model().attribute("page", page)).
-//                andExpect(MockMvcResultMatchers.model().attribute("url","/"));
         Assert.assertEquals("main", mainController.main(model, pageable, user));
     }
 
@@ -96,5 +90,17 @@ class MainControllerTest {
 
         verify(model, times(1)).addAttribute("0", 0);
         Assert.assertEquals("about", mainController.about(model, user));
+    }
+
+    @Test
+    public void register() {
+        MainController mainController = new MainController();
+        MainService mainService = Mockito.mock(MainService.class);
+        mainController.setMainService(mainService);
+        Model model = mock(Model.class);
+        Mockito.when(mainService.getSessionModel(model)).thenReturn(model);
+        Assert.assertEquals("registration",
+                mainController.register(model));
+
     }
 }

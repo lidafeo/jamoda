@@ -21,13 +21,18 @@ import static org.mockito.Mockito.*;
 class UserServiceTest {
 
     @Test
-    void findByLoginTest() {
+    void findByLoginTest() throws NullPointerException{
         UserService userService = new UserService();
         UserRepository userRepository = Mockito.mock(UserRepository.class);
         userService.setUserRepository(userRepository);
+        User user = new User();
+        user.setName("123");
+        user.setLogin("123");
+        Mockito.when(userRepository.findByLogin("123")).thenReturn(user);
+        userService.loadUserByUsername(user.getUsername());
 
-        Assertions.assertEquals(userRepository.findByLogin("example"),
-                userService.findByLogin("example"));
+        Assertions.assertEquals(userService.findByLogin("123"),
+                user);
     }
 
     @Test

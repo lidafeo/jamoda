@@ -334,162 +334,162 @@ class ClothesAdminControllerTest {
                 clothesAdminController.pageAddAttributeGroup(model));
     }
 
-    @Test
-    void addAttributeGroup() {
-        ClothesAdminController clothesAdminController = new ClothesAdminController();
-        AttributeGroupService attributeGroupService = Mockito.mock(AttributeGroupService.class);
-        clothesAdminController.setAttributeGroupService(attributeGroupService);
-        AttributeService attributeService = Mockito.mock(AttributeService.class);
-        clothesAdminController.setAttributeService(attributeService);
-        ClothesService сlothesService = Mockito.mock(ClothesService.class);
-        clothesAdminController.setClothesService(сlothesService);
-        AttributeValueService attributeValueService = Mockito.mock(AttributeValueService.class);
-        clothesAdminController.setAttributeValueService(attributeValueService);
+//    @Test
+//    void addAttributeGroup() {
+//        ClothesAdminController clothesAdminController = new ClothesAdminController();
+//        AttributeGroupService attributeGroupService = Mockito.mock(AttributeGroupService.class);
+//        clothesAdminController.setAttributeGroupService(attributeGroupService);
+//        AttributeService attributeService = Mockito.mock(AttributeService.class);
+//        clothesAdminController.setAttributeService(attributeService);
+//        ClothesService сlothesService = Mockito.mock(ClothesService.class);
+//        clothesAdminController.setClothesService(сlothesService);
+//        AttributeValueService attributeValueService = Mockito.mock(AttributeValueService.class);
+//        clothesAdminController.setAttributeValueService(attributeValueService);
+//
+//        Model model = mock(Model.class);
+//
+//        Category category = new Category();
+//        category.setId(1);
+//        List<Category> catlist = new ArrayList<>();
+//        catlist.add(category);
+//        Attribute attribute = new Attribute();
+//        attribute.setName("qwerty");
+//        List<Attribute> attlist = new ArrayList<>();
+//        attlist.add(attribute);
+//        Set<Attribute> ags = new HashSet<>();
+//        ags.add(attribute);
+//        AttributeGroup attributeGroup = new AttributeGroup();
+//        attributeGroup.setAttributes(ags);
+//        List<AttributeGroup> attglist = new ArrayList<>();
+//        attglist.add(attributeGroup);
+//        AttributeValue attributeValue = new AttributeValue();
+//        attributeValue.setAttribute(attribute);
+//
+//        Clothes clothes = new Clothes();
+//        clothes.setCategory(category);//Id 1
+//        List<Clothes> cllist = new ArrayList<>();
+//        cllist.add(clothes);
+//
+//        Long[] masl = {1l};
+//        String[] mass = {"123"};
+//
+//        when(attributeGroupService.findAll()).thenReturn(attglist);
+//        when(сlothesService.findAll()).thenReturn(cllist);
+//        when(сlothesService.findByArticle("123")).thenReturn(clothes);
+//        when(attributeGroupService.findById(1L)).thenReturn(attributeGroup);
+//        when(сlothesService.findByAttributeGroupsContainsAndArticle(
+//                attributeGroup,clothes.getArticle())).
+//                thenReturn(clothes);
+//        when(сlothesService.saveClothes(clothes)).thenReturn(clothes);
+//
+//        Assertions.assertNotNull(clothesAdminController.addAttributeGroup(
+//                 1L, "123", model));
+//        Assertions.assertEquals( "admin/addAttributeGroup",
+//                clothesAdminController.addAttributeGroup(
+//                        1L, "123", model));
+//    }
 
-        Model model = mock(Model.class);
-
-        Category category = new Category();
-        category.setId(1);
-        List<Category> catlist = new ArrayList<>();
-        catlist.add(category);
-        Attribute attribute = new Attribute();
-        attribute.setName("qwerty");
-        List<Attribute> attlist = new ArrayList<>();
-        attlist.add(attribute);
-        Set<Attribute> ags = new HashSet<>();
-        ags.add(attribute);
-        AttributeGroup attributeGroup = new AttributeGroup();
-        attributeGroup.setAttributes(ags);
-        List<AttributeGroup> attglist = new ArrayList<>();
-        attglist.add(attributeGroup);
-        AttributeValue attributeValue = new AttributeValue();
-        attributeValue.setAttribute(attribute);
-
-        Clothes clothes = new Clothes();
-        clothes.setCategory(category);//Id 1
-        List<Clothes> cllist = new ArrayList<>();
-        cllist.add(clothes);
-
-        Long[] masl = {1l};
-        String[] mass = {"123"};
-
-        when(attributeGroupService.findAll()).thenReturn(attglist);
-        when(сlothesService.findAll()).thenReturn(cllist);
-        when(сlothesService.findByArticle("123")).thenReturn(clothes);
-        when(attributeGroupService.findById(1L)).thenReturn(attributeGroup);
-        when(сlothesService.findByAttributeGroupsContainsAndArticle(
-                attributeGroup,clothes.getArticle())).
-                thenReturn(clothes);
-        when(сlothesService.saveClothes(clothes)).thenReturn(clothes);
-
-        Assertions.assertNotNull(clothesAdminController.addAttributeGroup(
-                 1L, "123", model));
-        Assertions.assertEquals( "admin/addAttributeGroup",
-                clothesAdminController.addAttributeGroup(
-                        1L, "123", model));
-    }
-
-    @Test
-    void addAttributeGroup1() {
-        ClothesAdminController clothesAdminController = new ClothesAdminController();
-        AttributeGroupService attributeGroupService = Mockito.mock(AttributeGroupService.class);
-        clothesAdminController.setAttributeGroupService(attributeGroupService);
-        AttributeService attributeService = Mockito.mock(AttributeService.class);
-        clothesAdminController.setAttributeService(attributeService);
-        ClothesService сlothesService = Mockito.mock(ClothesService.class);
-        clothesAdminController.setClothesService(сlothesService);
-        AttributeValueService attributeValueService = Mockito.mock(AttributeValueService.class);
-        clothesAdminController.setAttributeValueService(attributeValueService);
-
-        Model model = mock(Model.class);
-
-        Category category = new Category();
-        category.setId(1);
-        List<Category> catlist = new ArrayList<>();
-        catlist.add(category);
-        Attribute attribute = new Attribute();
-        attribute.setName("qwerty");
-        List<Attribute> attlist = new ArrayList<>();
-        attlist.add(attribute);
-        Set<Attribute> ags = new HashSet<>();
-        ags.add(attribute);
-        AttributeGroup attributeGroup = new AttributeGroup();
-        attributeGroup.setAttributes(ags);
-        List<AttributeGroup> attglist = new ArrayList<>();
-        attglist.add(attributeGroup);
-        AttributeValue attributeValue = new AttributeValue();
-        attributeValue.setAttribute(attribute);
-
-        Clothes clothes = new Clothes();
-        clothes.setCategory(category);//Id 1
-        List<Clothes> cllist = new ArrayList<>();
-        cllist.add(clothes);
-
-
-        when(attributeGroupService.findAll()).thenReturn(attglist);
-        when(сlothesService.findAll()).thenReturn(cllist);
-        when(сlothesService.findByArticle("123")).thenReturn(null);
-        when(attributeGroupService.findById(1L)).thenReturn(attributeGroup);
-        when(сlothesService.findByAttributeGroupsContainsAndArticle(
-                attributeGroup,clothes.getArticle())).
-                thenReturn(clothes);
-        when(сlothesService.saveClothes(clothes)).thenReturn(clothes);
-
-        Assertions.assertNotNull(clothesAdminController.addAttributeGroup(
-                1L, "123", model));
-        Assertions.assertEquals( "admin/addAttributeGroup",
-                clothesAdminController.addAttributeGroup(
-                        1L, "123", model));
-    }
-    @Test
-    void addAttributeGroup2() {
-        ClothesAdminController clothesAdminController = new ClothesAdminController();
-        AttributeGroupService attributeGroupService = Mockito.mock(AttributeGroupService.class);
-        clothesAdminController.setAttributeGroupService(attributeGroupService);
-        AttributeService attributeService = Mockito.mock(AttributeService.class);
-        clothesAdminController.setAttributeService(attributeService);
-        ClothesService сlothesService = Mockito.mock(ClothesService.class);
-        clothesAdminController.setClothesService(сlothesService);
-        AttributeValueService attributeValueService = Mockito.mock(AttributeValueService.class);
-        clothesAdminController.setAttributeValueService(attributeValueService);
-
-        Model model = mock(Model.class);
-
-        Category category = new Category();
-        category.setId(1);
-        List<Category> catlist = new ArrayList<>();
-        catlist.add(category);
-        Attribute attribute = new Attribute();
-        attribute.setName("qwerty");
-        List<Attribute> attlist = new ArrayList<>();
-        attlist.add(attribute);
-        Set<Attribute> ags = new HashSet<>();
-        ags.add(attribute);
-        AttributeGroup attributeGroup = new AttributeGroup();
-        attributeGroup.setAttributes(ags);
-        List<AttributeGroup> attglist = new ArrayList<>();
-        attglist.add(attributeGroup);
-        AttributeValue attributeValue = new AttributeValue();
-        attributeValue.setAttribute(attribute);
-
-        Clothes clothes = new Clothes();
-        clothes.setCategory(category);//Id 1
-        List<Clothes> cllist = new ArrayList<>();
-        cllist.add(clothes);
-
-        when(attributeGroupService.findAll()).thenReturn(attglist);
-        when(сlothesService.findAll()).thenReturn(cllist);
-        when(сlothesService.findByArticle("123")).thenReturn(clothes);
-        when(attributeGroupService.findById(1L)).thenReturn(null);
-        when(сlothesService.findByAttributeGroupsContainsAndArticle(
-                attributeGroup,clothes.getArticle())).
-                thenReturn(clothes);
-        when(сlothesService.saveClothes(clothes)).thenReturn(clothes);
-
-        Assertions.assertNotNull(clothesAdminController.addAttributeGroup(
-                1L, "123", model));
-        Assertions.assertEquals( "admin/addAttributeGroup",
-                clothesAdminController.addAttributeGroup(
-                        1L, "123", model));
-    }
+//    @Test
+//    void addAttributeGroup1() {
+//        ClothesAdminController clothesAdminController = new ClothesAdminController();
+//        AttributeGroupService attributeGroupService = Mockito.mock(AttributeGroupService.class);
+//        clothesAdminController.setAttributeGroupService(attributeGroupService);
+//        AttributeService attributeService = Mockito.mock(AttributeService.class);
+//        clothesAdminController.setAttributeService(attributeService);
+//        ClothesService сlothesService = Mockito.mock(ClothesService.class);
+//        clothesAdminController.setClothesService(сlothesService);
+//        AttributeValueService attributeValueService = Mockito.mock(AttributeValueService.class);
+//        clothesAdminController.setAttributeValueService(attributeValueService);
+//
+//        Model model = mock(Model.class);
+//
+//        Category category = new Category();
+//        category.setId(1);
+//        List<Category> catlist = new ArrayList<>();
+//        catlist.add(category);
+//        Attribute attribute = new Attribute();
+//        attribute.setName("qwerty");
+//        List<Attribute> attlist = new ArrayList<>();
+//        attlist.add(attribute);
+//        Set<Attribute> ags = new HashSet<>();
+//        ags.add(attribute);
+//        AttributeGroup attributeGroup = new AttributeGroup();
+//        attributeGroup.setAttributes(ags);
+//        List<AttributeGroup> attglist = new ArrayList<>();
+//        attglist.add(attributeGroup);
+//        AttributeValue attributeValue = new AttributeValue();
+//        attributeValue.setAttribute(attribute);
+//
+//        Clothes clothes = new Clothes();
+//        clothes.setCategory(category);//Id 1
+//        List<Clothes> cllist = new ArrayList<>();
+//        cllist.add(clothes);
+//
+//
+//        when(attributeGroupService.findAll()).thenReturn(attglist);
+//        when(сlothesService.findAll()).thenReturn(cllist);
+//        when(сlothesService.findByArticle("123")).thenReturn(null);
+//        when(attributeGroupService.findById(1L)).thenReturn(attributeGroup);
+//        when(сlothesService.findByAttributeGroupsContainsAndArticle(
+//                attributeGroup,clothes.getArticle())).
+//                thenReturn(clothes);
+//        when(сlothesService.saveClothes(clothes)).thenReturn(clothes);
+//
+//        Assertions.assertNotNull(clothesAdminController.addAttributeGroup(
+//                1L, "123", model));
+//        Assertions.assertEquals( "admin/addAttributeGroup",
+//                clothesAdminController.addAttributeGroup(
+//                        1L, "123", model));
+//    }
+//    @Test
+//    void addAttributeGroup2() {
+//        ClothesAdminController clothesAdminController = new ClothesAdminController();
+//        AttributeGroupService attributeGroupService = Mockito.mock(AttributeGroupService.class);
+//        clothesAdminController.setAttributeGroupService(attributeGroupService);
+//        AttributeService attributeService = Mockito.mock(AttributeService.class);
+//        clothesAdminController.setAttributeService(attributeService);
+//        ClothesService сlothesService = Mockito.mock(ClothesService.class);
+//        clothesAdminController.setClothesService(сlothesService);
+//        AttributeValueService attributeValueService = Mockito.mock(AttributeValueService.class);
+//        clothesAdminController.setAttributeValueService(attributeValueService);
+//
+//        Model model = mock(Model.class);
+//
+//        Category category = new Category();
+//        category.setId(1);
+//        List<Category> catlist = new ArrayList<>();
+//        catlist.add(category);
+//        Attribute attribute = new Attribute();
+//        attribute.setName("qwerty");
+//        List<Attribute> attlist = new ArrayList<>();
+//        attlist.add(attribute);
+//        Set<Attribute> ags = new HashSet<>();
+//        ags.add(attribute);
+//        AttributeGroup attributeGroup = new AttributeGroup();
+//        attributeGroup.setAttributes(ags);
+//        List<AttributeGroup> attglist = new ArrayList<>();
+//        attglist.add(attributeGroup);
+//        AttributeValue attributeValue = new AttributeValue();
+//        attributeValue.setAttribute(attribute);
+//
+//        Clothes clothes = new Clothes();
+//        clothes.setCategory(category);//Id 1
+//        List<Clothes> cllist = new ArrayList<>();
+//        cllist.add(clothes);
+//
+//        when(attributeGroupService.findAll()).thenReturn(attglist);
+//        when(сlothesService.findAll()).thenReturn(cllist);
+//        when(сlothesService.findByArticle("123")).thenReturn(clothes);
+//        when(attributeGroupService.findById(1L)).thenReturn(null);
+//        when(сlothesService.findByAttributeGroupsContainsAndArticle(
+//                attributeGroup,clothes.getArticle())).
+//                thenReturn(clothes);
+//        when(сlothesService.saveClothes(clothes)).thenReturn(clothes);
+//
+//        Assertions.assertNotNull(clothesAdminController.addAttributeGroup(
+//                1L, "123", model));
+//        Assertions.assertEquals( "admin/addAttributeGroup",
+//                clothesAdminController.addAttributeGroup(
+//                        1L, "123", model));
+//    }
 }

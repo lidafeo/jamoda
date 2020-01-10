@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.*;
 
 @Controller
@@ -47,9 +48,10 @@ public class FilterController {
         }
         else {
             model.addAttribute("choosedCategory", category);
-            clothes = getClothesWithoutFilters(1, category, pageable);
+            clothes = getClothesWithoutFilters(1, category, pageable, -1, -1);
         }
         model.addAttribute("page", clothes);
+        model.addAttribute("max_price", clothesService.getMaxPriceByClothesIn(categoryService.getChildrenCategory(category)) + "");
         return "main";
     }
 
@@ -74,8 +76,21 @@ public class FilterController {
             model.addAttribute("url", "/?");
         }
 
+        //определяем диапазон цены
+        int price_min = -1;
+        int price_max = -1;
+        if(params.get("price_min") != null && params.get("price_max") != null) {
+            try {
+                price_min = Integer.parseInt(params.get("price_min").trim());
+                price_max = Integer.parseInt(params.get("price_max").trim());
+            }
+            catch (NumberFormatException e) {
+                System.out.println(e);
+            }
+        }
+
         if(filters.size() == 0) {
-            model.addAttribute("page", getClothesWithoutFilters(sort, category, pageable));
+            model.addAttribute("page", getClothesWithoutFilters(sort, category, pageable, price_min, price_max));
             return "filterClothes";
         }
         List<AttributeValue> attributeValue = filterService.findArticleClothesWithFilter(filters, categoryService.getChildrenCategory(category));
@@ -96,59 +111,59 @@ public class FilterController {
                 clothes.add(clo.getArticle());
             }
         }
-        model.addAttribute("page", sortClothes(clothes, sort, pageable));
+        model.addAttribute("page", sortClothes(clothes, sort, pageable, price_min, price_max));
         return "filterClothes";
     }
 
-    public Page<Clothes> sortClothes(List<String> articles, int sort, Pageable pageable) {
+    public Page<Clothes> sortClothes(List<String> articles, int sort, Pageable pageable, int priceMin, int priceMax) {
         switch (sort) {
             case 1:
-                return clothesService.findAllByArticleInOrderByPresenceDescVisitDesc(articles, pageable);
+                return clothesService.findAllByArticleInOrderByPresenceDescVisitDesc(articles, pageable, priceMin, priceMax);
             case 2:
-                return clothesService.findAllByArticleInOrderByPresenceDescPriceAsc(articles, pageable);
+                return clothesService.findAllByArticleInOrderByPresenceDescPriceAsc(articles, pageable, priceMin, priceMax);
             case 3:
-                return clothesService.findAllByArticleInOrderByPresenceDescPriceDesc(articles, pageable);
+                return clothesService.findAllByArticleInOrderByPresenceDescPriceDesc(articles, pageable, priceMin, priceMax);
             default:
-                return clothesService.findAllByArticleInOrderByPresenceDescVisitDesc(articles, pageable);
+                return clothesService.findAllByArticleInOrderByPresenceDescVisitDesc(articles, pageable, priceMin, priceMax);
         }
     }
 
-    public Page<Clothes> sortFullClothes(int sort, Pageable pageable) {
+    public Page<Clothes> sortFullClothes(int sort, Pageable pageable, int priceMin, int priceMax) {
         switch (sort) {
             case 1:
-                return clothesService.getClothesPopular(pageable);
+                return clothesService.getClothesPopular(pageable, priceMin, priceMax);
             case 2:
-                return clothesService.findAllByOrderByPresenceDescPriceAsc(pageable);
+                return clothesService.findAllByOrderByPresenceDescPriceAsc(pageable, priceMin, priceMax);
             case 3:
-                return clothesService.findAllByOrderByPresenceDescPriceDesc(pageable);
+                return clothesService.findAllByOrderByPresenceDescPriceDesc(pageable, priceMin, priceMax);
             default:
-                return clothesService.getClothesPopular(pageable);
+                return clothesService.getClothesPopular(pageable, priceMin, priceMax);
         }
     }
 
     //for sort with category
-    public Page<Clothes> sortWithCategory(List<Category> categories, int sort, Pageable pageable) {
+    public Page<Clothes> sortWithCategory(List<Category> categories, int sort, Pageable pageable, int priceMin, int priceMax) {
         switch (sort) {
             case 1:
-                return clothesService.findAllByCategoryInOrderByPresenceDescVisitDesc(categories, pageable);
+                return clothesService.findAllByCategoryInOrderByPresenceDescVisitDesc(categories, pageable, priceMin, priceMax);
             case 2:
-                return clothesService.findAllByCategoryInOrderByPresenceDescPriceAsc(categories, pageable);
+                return clothesService.findAllByCategoryInOrderByPresenceDescPriceAsc(categories, pageable, priceMin, priceMax);
             case 3:
-                return clothesService.findAllByCategoryInOrderByPresenceDescPriceDesc(categories, pageable);
+                return clothesService.findAllByCategoryInOrderByPresenceDescPriceDesc(categories, pageable, priceMin, priceMax);
             default:
-                return clothesService.getClothesPopular(pageable);
+                return clothesService.getClothesPopular(pageable, priceMin, priceMax);
         }
     }
 
 
-    public Page<Clothes> getClothesWithoutFilters(int sort, Category category, Pageable pageable) {
+    public Page<Clothes> getClothesWithoutFilters(int sort, Category category, Pageable pageable, int priceMin, int priceMax) {
         if(sort == 0) {
             sort = 1;
         }
         if(category == null) {
-           return sortFullClothes(sort, pageable);
+           return sortFullClothes(sort, pageable, priceMin, priceMax);
         }
-        return sortWithCategory(categoryService.getChildrenCategory(category), sort, pageable);
+        return sortWithCategory(categoryService.getChildrenCategory(category), sort, pageable, priceMin, priceMax);
     }
 
     @Autowired

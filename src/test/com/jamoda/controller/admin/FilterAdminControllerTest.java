@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 
 class FilterAdminControllerTest {
@@ -132,7 +134,48 @@ class FilterAdminControllerTest {
     }
 
     @Test
-    void getErrorFilter() {
+    void addFilter3() {
+        FilterAdminController filterAdminController = new FilterAdminController();
+        FilterService filterService = Mockito.mock(FilterService.class);
+        filterAdminController.setFilterService(filterService);
+        AttributeService attributeService = Mockito.mock(AttributeService.class);
+        filterAdminController.setAttributeService(attributeService);
+
+        Model model = mock(Model.class);
+        Filter filter = new Filter();
+        filter.setName("йцукен");
+        filter.setNameEn("qwerty");
+
+        Mockito.when(attributeService.findById(1l)).thenReturn(null);
+
+        Assertions.assertEquals( "admin/addFilter",
+                filterAdminController.addFilter(
+                        filter, 1, model));
     }
 
+    @Test
+    void addFilter4() {
+        FilterAdminController filterAdminController = new FilterAdminController();
+        FilterService filterService = Mockito.mock(FilterService.class);
+        filterAdminController.setFilterService(filterService);
+        AttributeService attributeService = Mockito.mock(AttributeService.class);
+        filterAdminController.setAttributeService(attributeService);
+
+        Attribute attribute = new Attribute();
+        attribute.setName("qwerty");
+        Model model = mock(Model.class);
+        Filter filter = new Filter();
+        List<String> strlist = new ArrayList<>();
+        strlist.add("val1");
+        filter.setName("йцукен");
+        filter.setValues(strlist);
+
+        Mockito.when(attributeService.findById(1l)).thenReturn(attribute);
+        Mockito.when(filterService.findByNameEnOrNameOrAttribute(
+                any(), any(), any())).thenReturn(null);
+
+        Assertions.assertEquals( "admin/addFilter",
+                filterAdminController.addFilter(
+                        filter, 1, model));
+    }
 }

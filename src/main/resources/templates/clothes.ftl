@@ -1,5 +1,12 @@
 <#import "parts/common.ftl" as c>
 <@c.page "/clothes.js">
+        <nav aria-label="breadcrumb bg-white">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Главная</a></li>
+                <li class="breadcrumb-item"><a href="/filter?category=Underwear">Платье</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Data</li>
+            </ol>
+        </nav>
     <div class="row main-clothes">
         <#if clothes.images?size != 0>
         <div class="col-sm-5">

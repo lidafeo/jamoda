@@ -37,7 +37,7 @@ class AttributeGroupAdminControllerTest {
         attribute.setName("qwerty");
         Set<Attribute> ags = new HashSet<>();
         ags.add(attribute);
-        AttributeGroup ag = new AttributeGroup();
+        AttributeGroup ag = new AttributeGroup("ag");
         ag.setAttributes(ags);
 
         Mockito.when(attributeGroupService.findByName(ag.getName())).thenReturn(ag);
@@ -58,7 +58,7 @@ class AttributeGroupAdminControllerTest {
         attribute.setName("qwerty");
         Set<Attribute> ags = new HashSet<>();
         ags.add(attribute);
-        AttributeGroup ag = new AttributeGroup();
+        AttributeGroup ag = new AttributeGroup("ag");
         ag.setAttributes(ags);
 
         Mockito.when(attributeGroupService.findByName(ag.getName())).thenReturn(null);

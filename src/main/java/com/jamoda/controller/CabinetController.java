@@ -1,10 +1,12 @@
 package com.jamoda.controller;
 
 import com.jamoda.model.Customer;
+import com.jamoda.model.Order;
 import com.jamoda.model.Role;
 import com.jamoda.model.User;
 import com.jamoda.service.CustomerService;
 import com.jamoda.service.MainService;
+import com.jamoda.service.OrderService;
 import com.jamoda.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,6 +23,7 @@ public class CabinetController {
     private MainService mainService;
     private UserService userService;
     private CustomerService customerService;
+    private OrderService orderService;
 
     @GetMapping("/cabinet")
     public String cabinet(Model model, @AuthenticationPrincipal User user) {
@@ -42,6 +45,18 @@ public class CabinetController {
         model.addAttribute("customer", customerService.updateInfo(customerFromDb, customer));
         model.addAttribute("message", "Информация сохранена");
         return "cabinet";
+    }
+
+    @PostMapping("/detail")
+    public String getDetailOrder(int number,
+                                 @AuthenticationPrincipal User user,
+                                 Model model) {
+        Customer customer = customerService.findByUser(user);
+        Order order = orderService.findById(number);
+        if(order.getCustomer() == customer) {
+            model.addAttribute("order", order);
+        }
+        return "parts/detail";
     }
 
     @PostMapping("/register")
@@ -69,5 +84,9 @@ public class CabinetController {
     @Autowired
     public void setCustomerService(CustomerService customerService) {
         this.customerService = customerService;
+    }
+    @Autowired
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
     }
 }

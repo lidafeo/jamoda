@@ -35,8 +35,8 @@ class AttributeServiceTest {
         aservMock.setAttributeRepository(aRepMock);
 
         AttributeValue av = new AttributeValue();
-        Attribute a = new Attribute();
-        a.setName("qwerty");
+        Attribute a = new Attribute("qwerty");
+        a.setNameEn("qwerty");
         av.setAttribute(a);
 
         Assertions.assertEquals(
@@ -51,8 +51,7 @@ class AttributeServiceTest {
         aservMock.setAttributeRepository(aRepMock);
 
         AttributeValue av = new AttributeValue();
-        Attribute a = new Attribute();
-        a.setName("qwerty");
+        Attribute a = new Attribute("qwerty");
         av.setAttribute(a);
 
         Assertions.assertEquals(
@@ -67,8 +66,7 @@ class AttributeServiceTest {
         aservMock.setAttributeRepository(aRepMock);
 
         AttributeValue av = new AttributeValue();
-        Attribute a = new Attribute();
-        a.setName("1");
+        Attribute a = new Attribute("1");
         av.setAttribute(a);
 
         Assertions.assertEquals(

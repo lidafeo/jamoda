@@ -44,54 +44,26 @@ class OrderControllerTest {
                 model1.containsAttribute("2"));
     }
 
-//    @Test
-//    void saveOrderNotOk() throws Exception{
-//        Order order = new Order();
-//        Mockito.when(orderServMock.saveOrder(order)).thenReturn(order);
-//        Model model = mock(Model.class);
-//        model.addAttribute("0", 0);
-//        OrderController orderController = new OrderController();
-//        orderController.setOrderService(orderServMock);
-//
-//        Assert.assertEquals("json",
-//                orderController.saveOrder(
-//                        "{\"cart\":" +
-//                                "[{\"article\":\"0001\"," +
-//                                "\"size\":\"44\"," +
-//                                "\"count\":1," +
-//                                "\"price\":1000}]," +
-//                                "\"price\":1000," +
-//                                "\"count\":1}",
-//                        order, model));
-//    }
-//
-//    @Test
-//    void saveOrderOk() throws Exception{
-//        Order order = new Order();
-//        order.setPayment("online");
-//        Mockito.when(orderServMock.saveOrder(order)).thenReturn(order);
-//        Model model = mock(Model.class);
-//        model.addAttribute("0", 0);
-//
-//        Mockito.when(orderServMock.checkProductInWarehouse(any())).
-//                thenReturn(true);
-//
-//        OrderController orderController = new OrderController();
-//        orderController.setOrderService(orderServMock);
-//
-//        Mockito.when(orderServMock.saveOrder(order)).
-//                thenReturn(order);
-//        Assert.assertEquals("json",
-//                orderController.saveOrder(
-//                        "{\"cart\":" +
-//                                "[{\"article\":\"0001\"," +
-//                                "\"size\":\"44\"," +
-//                                "\"count\":0," +
-//                                "\"price\":1000}]," +
-//                                "\"price\":0," +
-//                                "\"count\":1}",
-//                        order, model));
-//    }
+    @Test
+    void ordernulluser() {
+        Model model = Mockito.mock(Model.class);
+        OrderController orderController = new OrderController();
+        CustomerService customerService = Mockito.mock(CustomerService.class);
+        orderController.setCustomerService(customerService);
+
+        User user = new User();
+        user.setLogin("qwerty");
+        Customer customer = new Customer();
+        customer.setUser(user);
+
+        Model model1 = Mockito.mock(Model.class);
+        model1.addAttribute("count", 1);
+        model1.addAttribute("price", 2);
+        Mockito.when(customerService.findByUser(user)).thenReturn(customer);
+
+        Assert.assertEquals("parts/order",
+                orderController.order(1, 1, model, null));
+    }
 
 
     @Test
@@ -135,6 +107,27 @@ class OrderControllerTest {
                                 "\"count\":1," +
                                 "\"price\":1000}]," +
                                 "\"price\":1000," +
+                                "\"count\":1}",
+                        order, model));
+    }
+
+    @Test
+    void saveOrder0countprice() throws Exception{
+        Order order = new Order();
+        Mockito.when(orderServMock.saveOrder(order)).thenReturn(order);
+        Model model = mock(Model.class);
+        model.addAttribute("0", 0);
+        OrderController orderController = new OrderController();
+        orderController.setOrderService(orderServMock);
+
+        Assert.assertEquals("json",
+                orderController.saveOrder(
+                        "{\"cart\":" +
+                                "[{\"article\":\"0001\"," +
+                                "\"size\":\"44\"," +
+                                "\"count\":0," +
+                                "\"price\":0}]," +
+                                "\"price\":0," +
                                 "\"count\":1}",
                         order, model));
     }

@@ -1,6 +1,20 @@
 <ul class="list-group">
     <div>
             <form action="#" method="post" id="form_filter">
+                <li class="list-group-item">
+                    <label for="filter_price_min"><h6>Цена</h6></label>
+                    <div class="form-group form-row">
+                        <label for="price" class="col-sm-1 col-form-label">от</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="number" name="price_min" id="filter_price_min" min="0" max="9000000" value="0" required>
+                        </div>
+                        <label class="col-sm-1 col-form-label">до</label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="number" name="price_max" id="filter_price_max" min="0" max="9000000" value="${max_price}" required>
+                        </div>
+                        <label class="col-sm-1 col-form-label">руб.</label>
+                    </div>
+                </li>
                 <#list filters as filter>
                     <#if filter.values?size gt 0>
                         <li class="list-group-item">
