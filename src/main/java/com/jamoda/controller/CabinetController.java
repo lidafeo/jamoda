@@ -55,6 +55,9 @@ public class CabinetController {
         Customer customer = customerService.findByUser(user);
         Order order = orderService.findById(number);
         if((order.getCustomer() == customer && customer != null) || user.getRoles().contains(Role.ADMIN)) {
+            if(user.getRoles().contains(Role.ADMIN) && !user.getRoles().contains(Role.USER)) {
+                model.addAttribute("admin", true);
+            }
             model.addAttribute("order", order);
         }
         return "parts/detail";

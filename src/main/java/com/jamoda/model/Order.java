@@ -25,6 +25,7 @@ public class Order {
     private int sum;
     private Boolean paid = false;
     private Boolean completed = false;
+    private Boolean confirm = false;
 
     @OneToMany(targetEntity = OrderProduct.class, mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderProduct> products = new ArrayList<>();
@@ -142,5 +143,13 @@ public class Order {
 
     public String getNumberString() {
         return this.id + "";
+    }
+
+    public Boolean getConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(Boolean confirm) {
+        this.confirm = confirm;
     }
 }

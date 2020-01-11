@@ -31,4 +31,30 @@ $(document).ready(function() {
         $("#orders").show();
         $("#detail-div").html("");
     });
+
+    $("#orders,#detail-div").on("click", ".confirm", function (e) {
+        e.preventDefault();
+        //let choose = $(this);
+        let id = $(this).data("id");
+        $.ajax({
+            url: '/confirm',
+            method: 'post',
+            dataType: 'json',
+            data: {"id" : $(this).data("id"),
+                "_csrf" : $("#orders-table").data("token")},
+            success: function(data){
+                console.log(data);
+                debugger;
+                if(data['message']) {
+                    //choose.parent().html("Подтвержден");
+                    $(".conf-" + id).html("Подтвержден");
+                    //$('#conf').html("Подтвержден");
+                }
+            },
+            error: function (err) {
+                location.reload();
+                console.log(err);
+            }
+        });
+    });
 });

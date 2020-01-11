@@ -7,9 +7,10 @@
             <tr>
                 <th scope="col">Номер заказа</th>
                 <th scope="col">Дата</th>
-                <th scope="col">Адрес доставки</th>
-                <th scope="col">Сумма заказа</th>
+                <th scope="col">Имя покупателя</th>
+                <th scope="col">Телефон</th>
                 <th scope="col">Статус</th>
+                <th scope="col">Отметка</th>
             </tr>
             </thead>
             <tbody>
@@ -17,12 +18,17 @@
                 <tr>
                     <th scope="row"><a class="detail" href="#" data-number="${order.getNumberString()}">Z-${order.getNumberString()}</a></th>
                     <td><#if order.date??>${order.date}<#else>нет данных</#if></td>
-                    <td>${order.address}</td>
-                    <td>${order.sum} руб.</td>
+                    <td>${order.name}</td>
+                    <td>${order.phone}</td>
                     <#if order.completed == true>
                         <td>Получен</td>
                     <#else>
                         <td>Доставка</td>
+                    </#if>
+                    <#if order.confirm?? && order.confirm == true>
+                        <td>Подтвержден</td>
+                    <#else>
+                        <td class="conf-${order.getNumberString()}"><a data-id="${order.getNumberString()}" class="confirm" href="#"><span class="badge badge-pill badge-primary">подтвердить</span></a></td>
                     </#if>
                 </tr>
             </#list>

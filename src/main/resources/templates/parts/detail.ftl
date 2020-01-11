@@ -31,6 +31,10 @@
         </tbody>
     </table>
 
+    <#if admin?? && admin == true && (!order.confirm?? || order.confirm == false)>
+        <div class="conf-${order.getNumberString()}"><a data-id="${order.getNumberString()}" class="btn btn-primary confirm" href="#">Подтвердить заказ</a></div>
+    </#if>
+
     <br><h2>Информация о товарах заказа</h2><br>
     <div class="card-deck">
         <#list order.products as product>

@@ -30,6 +30,7 @@ public class SearchController {
                         @PageableDefault(size = 12) Pageable pageable,
                         @AuthenticationPrincipal User user) {
         model.addAttribute("categories", categoryService.findMainCategory());
+        model.addAttribute("customer", user);
         model.addAttribute("q", q.trim());
         if(q.trim() == null || q.trim().equals("")) {
             model.addAttribute("error", "Задан пустой поисковый запрос");

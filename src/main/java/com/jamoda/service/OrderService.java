@@ -31,6 +31,12 @@ public class OrderService {
         return orderProductRepository.saveAndFlush(orderProduct);
     }
 
+    public Order confirmOrder(int id) {
+        Order order = orderRepository.findById(id);
+        order.setConfirm(true);
+        return orderRepository.saveAndFlush(order);
+    }
+
     public Order findById(int id) {
         return orderRepository.findById(id);
     }
