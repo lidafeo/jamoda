@@ -31,9 +31,14 @@
         </tbody>
     </table>
 
-    <#if admin?? && admin == true && (!order.confirm?? || order.confirm == false)>
-        <div class="conf-${order.getNumberString()}"><a data-id="${order.getNumberString()}" class="btn btn-primary confirm" href="#">Подтвердить заказ</a></div>
-    </#if>
+    <div class="row">
+        <#if admin?? && admin == true && (!order.confirm?? || order.confirm == false)>
+            <div class="col-sm conf-${order.getNumberString()}"><a data-id="${order.getNumberString()}" class="btn btn-primary confirm" href="#">Подтвердить заказ</a></div>
+        </#if>
+        <#if order.completed == false>
+            <div class="col-sm deliv-${order.getNumberString()}"><a data-id="${order.getNumberString()}" class="btn btn-primary delivery" href="#">Подтвердить доставку</a></div>
+        </#if>
+    </div>
 
     <br><h2>Информация о товарах заказа</h2><br>
     <div class="card-deck">

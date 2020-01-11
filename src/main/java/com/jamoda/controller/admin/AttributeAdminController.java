@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 public class AttributeAdminController {
 
@@ -29,18 +28,15 @@ public class AttributeAdminController {
                                @RequestParam(name="groupId") long groupId,
                                Model model) {
         model.addAttribute("groups", attributeGroupService.findAll());
-
         Attribute attributeFromDb = attributeService.findByName(attribute.getName());
         if(attributeFromDb != null) {
             model.addAttribute("error", "Такой атрибут уже существует!");
             return "admin/addAttribute";
         }
-
         AttributeGroup attributeGroup = attributeGroupService.findById(groupId);
         if(attributeGroup != null) {
             attribute.setGroup(attributeGroup);
         }
-
         attributeService.saveAttribute(attribute);
         model.addAttribute("message", "Атрибут успешно добавлен");
         return "admin/addAttribute";

@@ -1,24 +1,18 @@
 package com.jamoda.service;
 
-import com.jamoda.model.Attribute;
-import com.jamoda.model.AttributeValue;
-import com.jamoda.model.Category;
-import com.jamoda.model.Filter;
+import com.jamoda.model.*;
 import com.jamoda.repository.AttributeValueRepository;
 import com.jamoda.repository.FilterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class FilterService {
 
-    FilterRepository filterRepository;
-    AttributeValueRepository attributeValueRepository;
+    private FilterRepository filterRepository;
+    private AttributeValueRepository attributeValueRepository;
 
     public Map<Attribute, List<String>> getFilters(Map<String, String> params) {
         Map<Attribute, List<String>> filters = new HashMap<>();
@@ -34,9 +28,41 @@ public class FilterService {
         return  filters;
     }
 
-    public  List<AttributeValue> findArticleClothesWithFilter(Map<Attribute,
-                                                              List<String>> filters,
-                                                              List<Category> categories){
+    public List<Filter> getActiveFilter() {
+        List<Filter> filters = filterRepository.findAllByActive(true);
+        for(int i = 0; i < filters.size(); i++) {
+            if(!filters.get(i).isSearchAll()) {
+                continue;
+            }
+            Attribute attribute = filters.get(i).getAttribute();
+            List<String> values = attributeValueRepository.findDistinctValueByAttribute(attribute);
+            filters.get(i).setValues(values);
+        }
+        return filters;
+    }
+
+    public List<String> getFilteredClothes(List<AttributeValue> attributeValue,
+                                           Map<Attribute, List<String>> filters) {
+        Map<Clothes, Integer> map = new HashMap<>();
+        //смотрим сколько совпало
+        for(AttributeValue val : attributeValue) {
+            if(map.get(val.getClothes()) == null) {
+                map.put(val.getClothes(), 1);
+            }
+            else {
+                map.put(val.getClothes(), map.get(val.getClothes()) + 1);
+            }
+        }
+        List<String> clothes = new ArrayList<>();
+        for (Clothes clo : map.keySet()) {
+            if(map.get(clo) == filters.size()) {
+                clothes.add(clo.getArticle());
+            }
+        }
+        return clothes;
+    }
+
+    public  List<AttributeValue> findArticleClothesWithFilter(Map<Attribute, List<String>> filters, List<Category> categories) {
         return  attributeValueRepository.findArticleClothesWithFilter(filters, categories);
     }
 

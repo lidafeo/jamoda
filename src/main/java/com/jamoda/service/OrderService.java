@@ -37,6 +37,13 @@ public class OrderService {
         return orderRepository.saveAndFlush(order);
     }
 
+    public Order setCompletedOrder(int id) {
+        Order order = orderRepository.findById(id);
+        order.setCompleted(true);
+        order.setPaid(true);
+        return orderRepository.saveAndFlush(order);
+    }
+
     public Order findById(int id) {
         return orderRepository.findById(id);
     }

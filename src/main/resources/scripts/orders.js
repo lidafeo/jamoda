@@ -43,11 +43,34 @@ $(document).ready(function() {
             data: {"id" : $(this).data("id"),
                 "_csrf" : $("#orders-table").data("token")},
             success: function(data){
-                console.log(data);
-                debugger;
                 if(data['message']) {
                     //choose.parent().html("Подтвержден");
                     $(".conf-" + id).html("Подтвержден");
+                    //$('#conf').html("Подтвержден");
+                }
+            },
+            error: function (err) {
+                location.reload();
+                console.log(err);
+            }
+        });
+    });
+
+    $("#detail-div").on("click", ".delivery", function (e) {
+        e.preventDefault();
+        //let choose = $(this);
+        let id = $(this).data("id");
+        $.ajax({
+            url: '/confirm_delivery',
+            method: 'post',
+            dataType: 'json',
+            data: {"id" : $(this).data("id"),
+                "_csrf" : $("#orders-table").data("token")},
+            success: function(data){
+                if(data['message']) {
+                    //choose.parent().html("Подтвержден");
+                    $(".deliv-" + id).html("Получен");
+                    $(".payment-" + id).html("Оплачен");
                     //$('#conf').html("Подтвержден");
                 }
             },

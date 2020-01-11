@@ -31,7 +31,6 @@ public class WarehouseAdminController {
             model.addAttribute("error", "Такого товара не существует!");
             return "admin/addToWarehouse";
         }
-
         Warehouse warehouseFromDb = warehouseService.findByClothesAndSize(clothesFromDb, warehouse.getSize());
         if(warehouseFromDb == null) {
             warehouseFromDb = new Warehouse(clothesFromDb, warehouse.getSize(), warehouse.getCount());

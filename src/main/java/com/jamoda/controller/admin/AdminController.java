@@ -12,5 +12,4 @@ public class AdminController {
     public String admin(Model model) {
         return "admin/admin";
     }
-
 }

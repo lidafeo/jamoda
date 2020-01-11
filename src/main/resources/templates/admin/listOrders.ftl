@@ -23,7 +23,7 @@
                     <#if order.completed == true>
                         <td>Получен</td>
                     <#else>
-                        <td>Доставка</td>
+                        <td class="deliv-${order.getNumberString()}">Доставка</td>
                     </#if>
                     <#if order.confirm?? && order.confirm == true>
                         <td>Подтвержден</td>

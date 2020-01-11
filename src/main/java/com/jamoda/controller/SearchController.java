@@ -5,7 +5,6 @@ import com.jamoda.model.User;
 import com.jamoda.service.CategoryService;
 import com.jamoda.service.ClothesService;
 import com.jamoda.service.SearchService;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +39,6 @@ public class SearchController {
         if(clothes != null) {
             return ("redirect:/clothes?article=" + clothes.getArticle());
         }
-
         Page<Clothes> clothesList = searchService.findClothesByQ(q, pageable);
         model.addAttribute("clothes", clothesList);
         return "search";

@@ -20,12 +20,12 @@
                     <#if order.paid == true>
                         <td>Оплачен</td>
                     <#else>
-                        <td>Не оплачен</td>
+                        <td class="payment-${order.getNumberString()}">Не оплачен</td>
                     </#if>
                     <#if order.completed == true>
                         <td>Получен</td>
                     <#else>
-                        <td>Доставка</td>
+                        <td class="deliv-${order.getNumberString()}">Доставка</td>
                     </#if>
                 </tr>
             </#list>
