@@ -90,6 +90,9 @@ public class ClothesService {
         return clothesRepository.findAllByPriceBetweenOrderByPresenceDescPriceDesc(priceMin, priceMax, pageable);
     }
 
+    public List<Clothes> findClothesPresence() {
+        return clothesRepository.findAllByPresence(true);
+    }
     public Page<Clothes> findAllByOrderByPresenceDescPriceAsc(Pageable pageable) {
         return clothesRepository.findAllByOrderByPresenceDescPriceAsc(pageable);
     }

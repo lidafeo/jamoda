@@ -15,6 +15,21 @@
                         <label class="col-sm-1 col-form-label">руб.</label>
                     </div>
                 </li>
+                <li class="list-group-item">
+                    <label for="filter_size"><h6>Размер</h6></label>
+                    <div class="form-group form-row">
+                        <div id="filter_size" class="custom-control custom-checkbox form-check">
+                            <#list [40, 42, 44, 46, 48, 50, 52] as i>
+                                <div>
+                                    <input class="custom-control-input" type="checkbox" name="size_clothes" id="size_${i}" value="${i}" autocomplete="off">
+                                    <label class="custom-control-label" for="size_${i}">
+                                        ${i}
+                                    </label>
+                                </div>
+                            </#list>
+                        </div>
+                    </div>
+                </li>
                 <#list filters as filter>
                     <#if filter.values?size gt 0>
                         <li class="list-group-item">

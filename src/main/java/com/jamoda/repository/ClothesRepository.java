@@ -53,4 +53,7 @@ public interface ClothesRepository extends JpaRepository<Clothes, Integer>, Clot
     Page<Clothes> findAllByCategoryInAndPriceBetweenOrderByPresenceDescPriceAsc(List<Category> categories, int minPrice, int maxPrice, Pageable pageable);
 
     Clothes findByAttributeGroupsContainsAndArticle(AttributeGroup attributeGroup, String article);
+
+    List<Clothes> findAllByPresenceAndCategoryIn(Boolean presence, List<Category> categories);
+    List<Clothes> findAllByPresence(Boolean presence);
 }
