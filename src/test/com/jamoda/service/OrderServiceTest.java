@@ -9,9 +9,6 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import com.jamoda.model.*;
-import com.jamoda.repository.AttributeValueRepository;
-import com.jamoda.repository.FilterRepository;
 import com.jamoda.repository.OrderProductRepository;
 import com.jamoda.repository.OrderRepository;
 import org.springframework.data.domain.Page;
@@ -19,9 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.*;
 
 class OrderServiceTest {

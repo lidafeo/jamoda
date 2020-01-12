@@ -66,10 +66,6 @@ class ImageServiceTest {
 //    }
 
     @Test
-    void addImages() {
-    }
-
-    @Test
     void saveImageToDb() {
         ImageService imgServMock = new ImageService();
         ImageRepository imgRepMock = mock(ImageRepository.class);

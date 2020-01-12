@@ -29,6 +29,7 @@ class SearchControllerTest {
     CategoryService categoryService = Mockito.mock(CategoryService.class);
     ClothesService clothesService = Mockito.mock(ClothesService.class);
     SearchService searchService = Mockito.mock(SearchService.class);
+    Model model = Mockito.mock(Model.class);
 
 
     @Test
@@ -45,7 +46,6 @@ class SearchControllerTest {
         List<Category> catlist = new ArrayList<>();
         catlist.add(category);
         Mockito.when(categoryService.findMainCategory()).thenReturn(catlist);
-        Model model = mock(Model.class);
         Pageable pageable = PageRequest.of(0, 8);
 
         Assertions.assertEquals( "search",
@@ -66,7 +66,6 @@ class SearchControllerTest {
         Clothes clothes = new Clothes();
         clothes.setArticle("article");
         Mockito.when(clothesService.findByArticle(any())).thenReturn(clothes);
-        Model model = mock(Model.class);
         Pageable pageable = PageRequest.of(0, 8);
         String[] str = {"q"};
         User user = new User();
@@ -90,7 +89,6 @@ class SearchControllerTest {
         Clothes clothes = new Clothes();
         clothes.setArticle("article");
         Mockito.when(clothesService.findByArticle(any())).thenReturn(null);
-        Model model = mock(Model.class);
         Pageable pageable = PageRequest.of(0, 8);
         String[] str = {"q"};
 

@@ -1,25 +1,21 @@
 package com.jamoda.controller.admin;
 
 import com.jamoda.model.Category;
-import com.jamoda.service.AttributeGroupService;
 import com.jamoda.service.CategoryService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.ui.Model;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-
 class CategoryAdminControllerTest {
 
     CategoryService categoryService = Mockito.mock(CategoryService.class);
+    Model model = Mockito.mock(Model.class);
 
     @Test
     void pageAddCategory() {
         CategoryAdminController categoryAdminController = new CategoryAdminController();
         categoryAdminController.setCategoryService(categoryService);
-        Model model = mock(Model.class);
 
         Assertions.assertNotNull(categoryAdminController.pageAddCategory(model));
         Assertions.assertEquals( "admin/addCategory",
@@ -30,7 +26,6 @@ class CategoryAdminControllerTest {
     void addCategory() {
         CategoryAdminController categoryAdminController = new CategoryAdminController();
         categoryAdminController.setCategoryService(categoryService);
-        Model model = mock(Model.class);
 
         long parentId = 1;
         Category category = new Category();
@@ -47,5 +42,4 @@ class CategoryAdminControllerTest {
         Assertions.assertEquals( "admin/addCategory",
                 categoryAdminController.addCategory(category, parentId, model));
     }
-
 }

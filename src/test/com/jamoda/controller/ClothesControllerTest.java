@@ -21,6 +21,7 @@ class ClothesControllerTest {
 
     CategoryService categoryService = Mockito.mock(CategoryService.class);
     ClothesService clothesService = Mockito.mock(ClothesService.class);
+    Model model = Mockito.mock(Model.class);
 
     @Test
     void getClothes() {
@@ -30,7 +31,6 @@ class ClothesControllerTest {
 
         User user = new User();
         user.setLogin("qwerty");
-        Model model = mock(Model.class);
         Category category = new Category();
         category.setNameRus("name");
         Clothes clothes = new Clothes();

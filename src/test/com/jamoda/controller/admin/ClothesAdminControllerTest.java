@@ -8,20 +8,16 @@ import org.mockito.Mockito;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
-import org.w3c.dom.Attr;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.ArgumentMatchers.*;;
 import static org.mockito.Mockito.when;
 
 class ClothesAdminControllerTest {
@@ -32,6 +28,7 @@ class ClothesAdminControllerTest {
     ClothesService сlothesService = Mockito.mock(ClothesService.class);
     ImageService imageService = Mockito.mock(ImageService.class);
     AttributeValueService attributeValueService = Mockito.mock(AttributeValueService.class);
+    Model model = Mockito.mock(Model.class);
 
     @Test
     void pageAddClothes() {
@@ -39,7 +36,6 @@ class ClothesAdminControllerTest {
         clothesAdminController.setCategoryService(categoryService);
         clothesAdminController.setAttributeService(attributeService);
         clothesAdminController.setAttributeGroupService(attributeGroupService);
-        Model model = mock(Model.class);
 
         Category category = new Category();
         category.setId(1);
@@ -72,8 +68,6 @@ class ClothesAdminControllerTest {
         clothesAdminController.setAttributeGroupService(attributeGroupService);
         clothesAdminController.setClothesService(сlothesService);
         clothesAdminController.setImageService(imageService);
-
-        Model model = mock(Model.class);
 
         Category category = new Category();
         category.setId(1);
@@ -130,8 +124,6 @@ class ClothesAdminControllerTest {
         clothesAdminController.setImageService(imageService);
         clothesAdminController.setAttributeValueService(attributeValueService);
 
-        Model model = mock(Model.class);
-
         Category category = new Category();
         category.setId(1);
         List<Category> catlist = new ArrayList<>();
@@ -182,8 +174,6 @@ class ClothesAdminControllerTest {
         clothesAdminController.setClothesService(сlothesService);
         clothesAdminController.setAttributeService(attributeService);
 
-        Model model = mock(Model.class);
-
         Assertions.assertEquals( "admin/addAttributeValue",
                 clothesAdminController.pageAddAttributeValue(model));
     }
@@ -194,8 +184,6 @@ class ClothesAdminControllerTest {
         clothesAdminController.setAttributeService(attributeService);
         clothesAdminController.setClothesService(сlothesService);
         clothesAdminController.setAttributeValueService(attributeValueService);
-
-        Model model = mock(Model.class);
 
         Category category = new Category();
         category.setId(1);
@@ -264,8 +252,6 @@ class ClothesAdminControllerTest {
         clothesAdminController.setAttributeGroupService(attributeGroupService);
         clothesAdminController.setClothesService(сlothesService);
 
-        Model model = mock(Model.class);
-
         Category category = new Category();
         category.setId(1);
         List<Category> catlist = new ArrayList<>();
@@ -330,7 +316,6 @@ class ClothesAdminControllerTest {
         ClothesAdminController clothesAdminController = new ClothesAdminController();
         clothesAdminController.setClothesService(сlothesService);
         clothesAdminController.setAttributeGroupService(attributeGroupService);
-        Model model = mock(Model.class);
 
         Attribute attribute = new Attribute();
         attribute.setName("qwerty");

@@ -23,6 +23,7 @@ class CabinetControllerTest {
     CategoryService categoryService = Mockito.mock(CategoryService.class);
     OrderService orderService = Mockito.mock(OrderService.class);
     UserService userService = Mockito.mock(UserService.class);
+    Model model = Mockito.mock(Model.class);
 
     @Test
     void cabinet() {
@@ -34,7 +35,6 @@ class CabinetControllerTest {
         user.setLogin("qwerty");
         Customer customer = new Customer();
         customer.setUser(user);
-        Model model = Mockito.mock(Model.class);
         Category category = new Category();
         category.setNameRus("name");
         List<Category> catlist = new ArrayList<>();
@@ -56,7 +56,6 @@ class CabinetControllerTest {
         user.setLogin("qwerty");
         Customer customer = new Customer();
         customer.setUser(user);
-        Model model = Mockito.mock(Model.class);
         Category category = new Category();
         List<Category> catlist = new ArrayList<>();
         catlist.add(category);
@@ -87,7 +86,6 @@ class CabinetControllerTest {
         Order order = new Order();
         order.setName("name");
         order.setCustomer(customer);
-        Model model = Mockito.mock(Model.class);
 
         Mockito.when(customerService.findByUser(user)).thenReturn(customer);
         Mockito.when(orderService.findById(1)).thenReturn(order);
@@ -105,17 +103,14 @@ class CabinetControllerTest {
         CabinetController cabinetController = new CabinetController();
         cabinetController.setOrderService(orderService);
 
-        Model model = Mockito.mock(Model.class);
         Order order = new Order();
         order.setName("name");
 
         Mockito.when(orderService.setCompletedOrder(1)).thenReturn(order);
-
         Assertions.assertEquals( "json",
                 cabinetController.setCompletedOrder(1, model));
 
         Mockito.when(orderService.setCompletedOrder(1)).thenReturn(null);
-
         Assertions.assertEquals( "json",
                 cabinetController.setCompletedOrder(1, model));
     }
@@ -133,7 +128,6 @@ class CabinetControllerTest {
         Order order = new Order();
         order.setName("name");
         order.setCustomer(customer);
-        Model model = Mockito.mock(Model.class);
 
         Mockito.when(userService.findByLogin(user.getLogin())).
                 thenReturn(user);
@@ -155,7 +149,6 @@ class CabinetControllerTest {
         Order order = new Order();
         order.setName("name");
         order.setCustomer(customer);
-        Model model = Mockito.mock(Model.class);
 
         Mockito.when(userService.findByLogin(user.getLogin())).
                 thenReturn(null);

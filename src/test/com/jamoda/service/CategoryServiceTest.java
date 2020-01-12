@@ -1,11 +1,7 @@
 package com.jamoda.service;
 
-import com.jamoda.model.Attribute;
 import com.jamoda.model.Category;
-import com.jamoda.model.Clothes;
-import com.jamoda.model.Filter;
 import com.jamoda.repository.CategoryRepository;
-import com.jamoda.repository.ClothesRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

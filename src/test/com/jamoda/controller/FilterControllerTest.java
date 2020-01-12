@@ -26,6 +26,7 @@ class FilterControllerTest {
     ClothesService clothesService = Mockito.mock(ClothesService.class);
     FilterService filterService = Mockito.mock(FilterService.class);
     SortService sortService = Mockito.mock(SortService.class);
+    Model model = Mockito.mock(Model.class);
 
     @Test
     void mainFilter() {
@@ -34,7 +35,6 @@ class FilterControllerTest {
         filterController.setClothesService(clothesService);
         filterController.setFilterService(filterService);
 
-        Model model = mock(Model.class);
         Pageable pageable = PageRequest.of(0, 8);
         Category category = new Category();
         category.setNameRus("name");
@@ -62,7 +62,6 @@ class FilterControllerTest {
         filterController.setFilterService(filterService);
         filterController.setSortService(sortService);
 
-        Model model = mock(Model.class);
         Pageable pageable = PageRequest.of(0, 8);
         Category category = new Category();
         category.setNameRus("name");
@@ -95,7 +94,6 @@ class FilterControllerTest {
         filterController.setClothesService(clothesService);
         filterController.setSortService(sortService);
 
-        Model model = mock(Model.class);
         Pageable pageable = PageRequest.of(0, 8);
         User user = new User();
         user.setName("name");
@@ -124,7 +122,6 @@ class FilterControllerTest {
         Mockito.when(sortService.getClothesWithoutFilters(
                 1, category, pageable, priceMin, priceMax)).thenReturn(page);
 
-
         Mockito.when(clothesService.findAllByArticleInOrderByPresenceDescVisitDesc(
                 articles, pageable, priceMin, priceMax)).thenReturn(page);
         Mockito.when(clothesService.findAllByArticleInOrderByPresenceDescPriceAsc(
@@ -145,7 +142,6 @@ class FilterControllerTest {
         filterController.setClothesService(clothesService);
         filterController.setSortService(sortService);
 
-        Model model = mock(Model.class);
         Pageable pageable = PageRequest.of(0, 8);
         User user = new User();
         user.setName("name");
@@ -191,7 +187,6 @@ class FilterControllerTest {
         filterController.setClothesService(clothesService);
         filterController.setSortService(sortService);
 
-        Model model = mock(Model.class);
         Pageable pageable = PageRequest.of(0, 8);
         User user = new User();
         user.setName("name");

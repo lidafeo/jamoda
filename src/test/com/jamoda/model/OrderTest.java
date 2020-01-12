@@ -51,5 +51,6 @@ class OrderTest {
         Assertions.assertEquals(order.getDate(), date);
         order.setConfirm(true);
         Assertions.assertEquals(order.getConfirm(), true);
+        Assertions.assertNotNull(order.getNumberString());
     }
 }

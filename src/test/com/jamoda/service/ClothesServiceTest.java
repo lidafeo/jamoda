@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -374,6 +375,7 @@ class ClothesServiceTest {
         clServMock.setClothesRepository(clRepMock);
         Pageable pageable = PageRequest.of(0, 8);
 
+
         Assertions.assertEquals(clServMock.findAllByOrderByPresenceDescPriceDesc(pageable),
                 clRepMock.findAllByOrderByPresenceDescPriceDesc(pageable));
     }
@@ -383,9 +385,34 @@ class ClothesServiceTest {
         ClothesService clServMock = new ClothesService();
         clServMock.setClothesRepository(clRepMock);
         Pageable pageable = PageRequest.of(0, 8);
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        List<Clothes> list = new ArrayList<>();
+        list.add(clothes);
+        Page<Clothes> page = new PageImpl<>(list, pageable, 1l);
+        Mockito.when( clRepMock.findAllByOrderByPresenceDescPriceAsc(pageable)).
+                thenReturn(page);
 
         Assertions.assertEquals(clServMock.findAllByOrderByPresenceDescPriceAsc(pageable),
-                clRepMock.findAllByOrderByPresenceDescPriceAsc(pageable));
+                page);
+    }
+
+    @Test
+    void findClothesPresence() {
+        ClothesService clServMock = new ClothesService();
+        clServMock.setClothesRepository(clRepMock);
+
+        Pageable pageable = PageRequest.of(0, 8);
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        List<Clothes> list = new ArrayList<>();
+        list.add(clothes);
+
+        Mockito.when(clRepMock.findAllByPresence(true)).
+                thenReturn(list);
+
+        Assertions.assertEquals(clServMock.findClothesPresence(),
+                list);
     }
 
     @Test
@@ -397,8 +424,17 @@ class ClothesServiceTest {
         category.setId(1);
         List<Category> c = List.of(category);
 
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        List<Clothes> list = new ArrayList<>();
+        list.add(clothes);
+        Page<Clothes> page = new PageImpl<>(list, pageable, 1l);
+
+        Mockito.when(clRepMock.findAllByCategoryInOrderByPresenceDescPriceAsc(c, pageable)).
+                thenReturn(page);
+
         Assertions.assertEquals(clServMock.findAllByCategoryInOrderByPresenceDescPriceAsc(c, pageable),
-                clRepMock.findAllByCategoryInOrderByPresenceDescPriceAsc(c, pageable));
+                page);
     }
 
     @Test
@@ -409,9 +445,17 @@ class ClothesServiceTest {
         Category category = new Category();
         category.setId(1);
         List<Category> c = List.of(category);
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        List<Clothes> list = new ArrayList<>();
+        list.add(clothes);
+        Page<Clothes> page = new PageImpl<>(list, pageable, 1l);
+
+        Mockito.when(clRepMock.findAllByCategoryInOrderByPresenceDescVisitDesc(c, pageable)).
+                thenReturn(page);
 
         Assertions.assertEquals(clServMock.findAllByCategoryInOrderByPresenceDescVisitDesc(c, pageable),
-                clRepMock.findAllByCategoryInOrderByPresenceDescVisitDesc(c, pageable));
+               page);
     }
 
     @Test
@@ -422,9 +466,17 @@ class ClothesServiceTest {
         Category category = new Category();
         category.setId(1);
         List<Category> c = List.of(category);
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        List<Clothes> list = new ArrayList<>();
+        list.add(clothes);
+        Page<Clothes> page = new PageImpl<>(list, pageable, 1l);
+
+        Mockito.when(clRepMock.findAllByCategoryInOrderByPresenceDescPriceDesc(c, pageable)).
+                thenReturn(page);
 
         Assertions.assertEquals(clServMock.findAllByCategoryInOrderByPresenceDescPriceDesc(c, pageable),
-                clRepMock.findAllByCategoryInOrderByPresenceDescPriceDesc(c, pageable));
+                page);
     }
 
 
@@ -434,17 +486,23 @@ class ClothesServiceTest {
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        List<Clothes> list = new ArrayList<>();
+        list.add(clothes);
+        Page<Clothes> page = new PageImpl<>(list, pageable, 1l);
+
+        Mockito.when(clRepMock.findAllByOrderByPresenceDescPriceDesc(pageable)).
+                thenReturn(page);
 
         Assertions.assertEquals(
                 clServMock.findAllByOrderByPresenceDescPriceDesc(
                          pageable, -1, 1),
-                clServMock.findAllByOrderByPresenceDescPriceDesc(
-                         pageable));
+                page);
         Assertions.assertEquals(
                 clServMock.findAllByOrderByPresenceDescPriceDesc(
                          pageable, 1, -1),
-                clServMock.findAllByOrderByPresenceDescPriceDesc(
-                         pageable));
+               page);
     }
 
     @Test
@@ -453,12 +511,20 @@ class ClothesServiceTest {
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        List<Clothes> list = new ArrayList<>();
+        list.add(clothes);
+        Page<Clothes> page = new PageImpl<>(list, pageable, 1l);
+
+        Mockito.when(clRepMock.findAllByPriceBetweenOrderByPresenceDescPriceDesc(
+                0, 1, pageable)).
+                thenReturn(page);
 
         Assertions.assertEquals(
                 clServMock.findAllByOrderByPresenceDescPriceDesc(
                          pageable, 0, 1),
-                clRepMock.findAllByPriceBetweenOrderByPresenceDescPriceDesc(
-                         0, 1, pageable));
+                page);
     }
 
     @Test
@@ -467,17 +533,23 @@ class ClothesServiceTest {
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        List<Clothes> list = new ArrayList<>();
+        list.add(clothes);
+        Page<Clothes> page = new PageImpl<>(list, pageable, 1l);
+
+        Mockito.when(clRepMock.findAllByOrderByPresenceDescPriceAsc(pageable)).
+                thenReturn(page);
 
         Assertions.assertEquals(
                 clServMock.findAllByOrderByPresenceDescPriceAsc(
                         pageable, -1, 1),
-                clServMock.findAllByOrderByPresenceDescPriceAsc(
-                        pageable));
+               page);
         Assertions.assertEquals(
                 clServMock.findAllByOrderByPresenceDescPriceAsc(
                         pageable, 1, -1),
-                clServMock.findAllByOrderByPresenceDescPriceAsc(
-                        pageable));
+                page);
     }
 
     @Test
@@ -486,12 +558,19 @@ class ClothesServiceTest {
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        List<Clothes> list = new ArrayList<>();
+        list.add(clothes);
+        Page<Clothes> page = new PageImpl<>(list, pageable, 1l);
+
+        Mockito.when(clRepMock.findAllByPriceBetweenOrderByPresenceDescPriceAsc(
+                0, 1, pageable)).thenReturn(page);
 
         Assertions.assertEquals(
                 clServMock.findAllByOrderByPresenceDescPriceAsc(
                         pageable, 0, 1),
-                clRepMock.findAllByPriceBetweenOrderByPresenceDescPriceAsc(
-                        0, 1, pageable));
+               page);
     }
 
     @Test
@@ -503,17 +582,23 @@ class ClothesServiceTest {
         Category category = new Category();
         category.setId(1L);
         List<Category> categories = List.of(category);
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        List<Clothes> list = new ArrayList<>();
+        list.add(clothes);
+        Page<Clothes> page = new PageImpl<>(list, pageable, 1l);
+
+        Mockito.when(clRepMock.findAllByCategoryInOrderByPresenceDescVisitDesc(
+                categories, pageable)).thenReturn(page);
 
         Assertions.assertEquals(
                 clServMock.findAllByCategoryInOrderByPresenceDescVisitDesc(
                         categories, pageable, -1, 1),
-                clServMock.findAllByCategoryInOrderByPresenceDescVisitDesc(
-                        categories, pageable));
+              page);
         Assertions.assertEquals(
                 clServMock.findAllByCategoryInOrderByPresenceDescVisitDesc(
                         categories, pageable, 1, -1),
-                clServMock.findAllByCategoryInOrderByPresenceDescVisitDesc(
-                        categories, pageable));
+                page);
     }
 
     @Test
@@ -525,12 +610,19 @@ class ClothesServiceTest {
         Category category = new Category();
         category.setId(1L);
         List<Category> categories = List.of(category);
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        List<Clothes> list = new ArrayList<>();
+        list.add(clothes);
+        Page<Clothes> page = new PageImpl<>(list, pageable, 1l);
+
+        Mockito.when(clRepMock.findAllByCategoryInAndPriceBetweenOrderByPresenceDescVisitDesc(
+                categories, 0, 1, pageable)).thenReturn(page);
 
         Assertions.assertEquals(
                 clServMock.findAllByCategoryInOrderByPresenceDescVisitDesc(
                         categories, pageable, 0, 1),
-                clRepMock.findAllByCategoryInAndPriceBetweenOrderByPresenceDescVisitDesc(
-                        categories, 0, 1, pageable));
+                page);
     }
 
     @Test
@@ -542,17 +634,23 @@ class ClothesServiceTest {
         Category category = new Category();
         category.setId(1L);
         List<Category> categories = List.of(category);
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        List<Clothes> list = new ArrayList<>();
+        list.add(clothes);
+        Page<Clothes> page = new PageImpl<>(list, pageable, 1l);
+
+        Mockito.when(clRepMock.findAllByCategoryInOrderByPresenceDescPriceDesc(
+                categories, pageable)).thenReturn(page);
 
         Assertions.assertEquals(
                 clServMock.findAllByCategoryInOrderByPresenceDescPriceDesc(
                         categories, pageable, -1, 1),
-                clServMock.findAllByCategoryInOrderByPresenceDescPriceDesc(
-                        categories, pageable));
+              page);
         Assertions.assertEquals(
                 clServMock.findAllByCategoryInOrderByPresenceDescPriceDesc(
                         categories, pageable, 1, -1),
-                clServMock.findAllByCategoryInOrderByPresenceDescPriceDesc(
-                        categories, pageable));
+               page);
     }
 
     @Test
@@ -564,12 +662,19 @@ class ClothesServiceTest {
         Category category = new Category();
         category.setId(1L);
         List<Category> categories = List.of(category);
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        List<Clothes> list = new ArrayList<>();
+        list.add(clothes);
+        Page<Clothes> page = new PageImpl<>(list, pageable, 1l);
+
+        Mockito.when(clRepMock.findAllByCategoryInAndPriceBetweenOrderByPresenceDescPriceDesc(
+                categories, 0, 1, pageable)).thenReturn(page);
 
         Assertions.assertEquals(
                 clServMock.findAllByCategoryInOrderByPresenceDescPriceDesc(
                         categories, pageable, 0, 1),
-                clRepMock.findAllByCategoryInAndPriceBetweenOrderByPresenceDescPriceDesc(
-                        categories, 0, 1, pageable));
+                page);
     }
 
     @Test
@@ -581,17 +686,22 @@ class ClothesServiceTest {
         Category category = new Category();
         category.setId(1L);
         List<Category> categories = List.of(category);
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        List<Clothes> list = new ArrayList<>();
+        list.add(clothes);
+        Page<Clothes> page = new PageImpl<>(list, pageable, 1l);
 
+        Mockito.when(clRepMock.findAllByCategoryInOrderByPresenceDescPriceAsc(
+                categories,  pageable)).thenReturn(page);
         Assertions.assertEquals(
                 clServMock.findAllByCategoryInOrderByPresenceDescPriceAsc(
                         categories, pageable, -1, 1),
-                clServMock.findAllByCategoryInOrderByPresenceDescPriceAsc(
-                        categories, pageable));
+               page);
         Assertions.assertEquals(
                 clServMock.findAllByCategoryInOrderByPresenceDescPriceAsc(
                         categories, pageable, 1, -1),
-                clServMock.findAllByCategoryInOrderByPresenceDescPriceAsc(
-                        categories, pageable));
+                page);
     }
 
     @Test
@@ -603,11 +713,18 @@ class ClothesServiceTest {
         Category category = new Category();
         category.setId(1L);
         List<Category> categories = List.of(category);
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        List<Clothes> list = new ArrayList<>();
+        list.add(clothes);
+        Page<Clothes> page = new PageImpl<>(list, pageable, 1l);
+
+        Mockito.when(clRepMock.findAllByCategoryInAndPriceBetweenOrderByPresenceDescPriceAsc(
+                categories,0, 1,  pageable)).thenReturn(page);
 
         Assertions.assertEquals(
                 clServMock.findAllByCategoryInOrderByPresenceDescPriceAsc(
                         categories, pageable, 0, 1),
-                clRepMock.findAllByCategoryInAndPriceBetweenOrderByPresenceDescPriceAsc(
-                        categories, 0, 1, pageable));
+                page);
     }
 }

@@ -66,7 +66,8 @@ public class FilterService {
         return clothes;
     }
 
-    public List<String> filteredSize(String sizesClothes, List<Category> categories) {
+    public List<String> filteredSize(String sizesClothes,
+                                     List<Category> categories) {
         String[] sizes = sizesClothes.trim().split(",");
         List<String> clothes = new ArrayList<>();
         List<Clothes> allClothes;

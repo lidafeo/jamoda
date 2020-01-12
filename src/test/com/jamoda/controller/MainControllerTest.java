@@ -30,10 +30,10 @@ import static org.mockito.Mockito.*;
 
 class MainControllerTest {
 
-    //    private MockMvc mockMvc;
     ClothesService clothesService = Mockito.mock(ClothesService.class);
     CategoryService categoryService = Mockito.mock(CategoryService.class);
     FilterService filterService = Mockito.mock(FilterService.class);
+    Model model = Mockito.mock(Model.class);
 
     @Test
     public void main() throws Exception {
@@ -41,7 +41,6 @@ class MainControllerTest {
         mainController.setCategoryService(categoryService);
         mainController.setClothesService(clothesService);
         mainController.setFilterService(filterService);
-//        mockMvc = MockMvcBuilders.standaloneSetup(mainController).build();
 
         Clothes clothes = new Clothes();
         clothes.setName("труселя");
@@ -50,7 +49,6 @@ class MainControllerTest {
                 1);
         User user = new User();
         user.setLogin("qwerty");
-        Model model = mock(Model.class);
         model.addAttribute("string", 123);
         Pageable pageable = PageRequest.of(0, 8);
         Filter filter = new Filter();
@@ -65,24 +63,12 @@ class MainControllerTest {
         Mockito.when(clothesService.getClothesPopular(pageable)).thenReturn(page);
         Mockito.when(clothesService.getMaxPriceAllClothes()).thenReturn(1);
         Mockito.when(filterService.getActiveFilter()).thenReturn(flist);
-
-//        this.mockMvc.perform(get("/")).
-//                andDo(print()).
-//                andExpect(status().isOk()).
-//                andExpect(model().attribute("page", "article")).
-//                andExpect(model().attribute("customer", "qwerty")).
-//                andExpect(model().attribute("mx_price", "1")).
-//                andExpect(model().attribute("url", "/?")).
-//                andExpect(model().attribute("categories", "name")).
-//                andExpect(model().attribute("filters", "name"));
-
         Assert.assertEquals("main", mainController.main(model, pageable, user));
     }
 
     @Test
     public void about() throws Exception{
         MainController mainController = new MainController();
-        Model model = mock(Model.class);
         model.addAttribute("0", 0);
         mainController.setCategoryService(categoryService);
         mainController.setFilterService(filterService);
@@ -108,7 +94,6 @@ class MainControllerTest {
     public void register() {
         MainController mainController = new MainController();
         mainController.setCategoryService(categoryService);
-        Model model = mock(Model.class);
         Category category = new Category();
         category.setNameRus("name");
         List<Category> catlist = new ArrayList<>();

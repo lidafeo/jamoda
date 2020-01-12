@@ -1,6 +1,5 @@
 package com.jamoda.controller.admin;
 
-import com.jamoda.model.Clothes;
 import com.jamoda.model.Order;
 import com.jamoda.service.OrderService;
 import org.junit.jupiter.api.Assertions;
@@ -15,12 +14,10 @@ import org.springframework.ui.Model;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-
 class OrderAdminControllerTest {
 
     OrderService orderService = Mockito.mock(OrderService.class);
+    Model model = Mockito.mock(Model.class);
 
     @Test
     void pageListOrders() {
@@ -34,7 +31,6 @@ class OrderAdminControllerTest {
         list.add(order);
         Page<Order> page = new PageImpl<Order>(list, pageable, 1l);
         Mockito.when(orderService.getOrders(pageable)).thenReturn(page);
-        Model model = mock(Model.class);
 
         Assertions.assertEquals( "admin/listOrders",
                 orderAdminController.pageListOrders( model, pageable));
@@ -50,7 +46,6 @@ class OrderAdminControllerTest {
         Order order = new Order();
         order.setName("name");
         Mockito.when(orderService.confirmOrder(1)).thenReturn(order);
-        Model model = mock(Model.class);
 
         Assertions.assertEquals( "json",
                 orderAdminController.confirmOrder( model, 1));

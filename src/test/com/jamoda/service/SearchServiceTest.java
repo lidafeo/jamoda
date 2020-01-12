@@ -1,14 +1,11 @@
 package com.jamoda.service;
 
 import com.jamoda.repository.ClothesRepository;
-import com.jamoda.repository.WarehouseRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class SearchServiceTest {
 

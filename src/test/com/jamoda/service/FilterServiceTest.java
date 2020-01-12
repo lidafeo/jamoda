@@ -1,21 +1,14 @@
 package com.jamoda.service;
 
 import com.jamoda.model.*;
-import com.jamoda.repository.AttributeValueRepository;
-import com.jamoda.repository.FilterRepository;
-import com.jamoda.repository.OrderProductRepository;
-import com.jamoda.repository.OrderRepository;
+import com.jamoda.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.w3c.dom.Attr;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -23,6 +16,7 @@ class FilterServiceTest {
 
     FilterRepository filterRepMock = Mockito.mock(FilterRepository.class);
     AttributeValueRepository attValRepMock = Mockito.mock(AttributeValueRepository.class);
+    ClothesRepository clothesRepository = Mockito.mock(ClothesRepository.class);
 
     @Test
     void getFiltersTest() {
@@ -109,7 +103,7 @@ class FilterServiceTest {
         attributeValue.setClothes(clothes);
 
         Assertions.assertEquals(filterServMock.getFilteredClothes(
-                li, params), str);
+                li, params, null), str);
 
         AttributeValue attributeValue2 = new AttributeValue();
         attributeValue2.setActive(true);
@@ -118,7 +112,7 @@ class FilterServiceTest {
         List<String> str2 = new ArrayList<>();
 
         Assertions.assertEquals(filterServMock.getFilteredClothes(
-                li, params), str2);
+                li, params, "1"), str2);
     }
 
     @Test
@@ -135,10 +129,44 @@ class FilterServiceTest {
         List<String> li = new ArrayList<>();
         li.add("Example");
         filters.put(at, li);
+        AttributeValue attributeValue = new AttributeValue();
+        attributeValue.setValue("1");
+        List<AttributeValue> atlist = new ArrayList<>();
+        atlist.add(attributeValue);
+
+        Mockito.when(attValRepMock.findArticleClothesWithFilter(
+                filters, categories)).thenReturn(atlist);
 
         Assertions.assertEquals(
                 filterServMock.findArticleClothesWithFilter(filters,categories),
                 attValRepMock.findArticleClothesWithFilter(filters,categories));
+    }
+
+
+    @Test
+    void filteredSize() {
+        FilterService filterServMock = new FilterService();
+        filterServMock.setClothesRepository(clothesRepository);
+
+        Category category = new Category();
+        category.setId(1L);
+        List<Category> categories = List.of(category);
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        List<Clothes> clothess = List.of(clothes);
+
+        Mockito.when(clothesRepository.findAllByPresenceAndCategoryIn(
+                true, categories)).thenReturn(clothess);
+        Mockito.when(clothesRepository.findAllByPresence(
+                true)).thenReturn(clothess);
+        List<String> stlist = new ArrayList<>();
+
+        Assertions.assertEquals(
+                filterServMock.filteredSize("1", null),
+                stlist);
+        Assertions.assertEquals(
+                filterServMock.filteredSize("1", categories),
+                stlist);
     }
 
     @Test
@@ -148,6 +176,10 @@ class FilterServiceTest {
 
         Attribute at = new Attribute();
         at.setName("example");
+        Filter filter = new Filter();
+        filter.setName("name");
+        Mockito.when(filterRepMock.findByNameEnOrNameOrAttribute(
+                "exampleEn", "example", at)).thenReturn(filter);
 
         Assertions.assertEquals(
                 filterServMock.findByNameEnOrNameOrAttribute("exampleEn", "example", at),
@@ -164,7 +196,7 @@ class FilterServiceTest {
         at.setName("example");
         Filter filter = new Filter();
         filter.setAttribute(at);
-
+        Mockito.when(filterRepMock.saveAndFlush(filter)).thenReturn(filter);
         when(filterRepMock.saveAndFlush(filter))
                 .thenAnswer(i -> i.getArguments()[0]);
         Assertions.assertEquals(filterServMock.saveFilter(filter),

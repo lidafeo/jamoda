@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CartControllerTest {
 
     CategoryService categoryService = Mockito.mock(CategoryService.class);
+    Model model = Mockito.mock(Model.class);
 
     @Test
     void cart() {
@@ -22,7 +23,6 @@ class CartControllerTest {
 
         User user = new User();
         user.setLogin("qwerty");
-        Model model = Mockito.mock(Model.class);
 
         Assertions.assertEquals( "cart",
                 cartController.cart(model,user));

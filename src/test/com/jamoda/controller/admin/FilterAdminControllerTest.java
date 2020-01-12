@@ -3,33 +3,26 @@ package com.jamoda.controller.admin;
 import com.jamoda.model.Attribute;
 import com.jamoda.model.Filter;
 import com.jamoda.service.AttributeService;
-import com.jamoda.service.CategoryService;
 import com.jamoda.service.FilterService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.ui.Model;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.mock;
 
 class FilterAdminControllerTest {
 
     FilterService filterService = Mockito.mock(FilterService.class);
     AttributeService attributeService = Mockito.mock(AttributeService.class);
+    Model model = Mockito.mock(Model.class);
 
     @Test
     void pageAddFilter() {
         FilterAdminController filterAdminController = new FilterAdminController();
         filterAdminController.setFilterService(filterService);
         filterAdminController.setAttributeService(attributeService);
-
-        Model model = mock(Model.class);
 
         Assertions.assertEquals( "admin/addFilter",
                 filterAdminController.pageAddFilter(model));
@@ -41,7 +34,6 @@ class FilterAdminControllerTest {
         filterAdminController.setFilterService(filterService);
         filterAdminController.setAttributeService(attributeService);
 
-        Model model = mock(Model.class);
         Attribute attribute = new Attribute();
         attribute.setName("qwerty");
         List<Attribute> alist = new ArrayList<>();
@@ -75,7 +67,6 @@ class FilterAdminControllerTest {
         filterAdminController.setFilterService(filterService);
         filterAdminController.setAttributeService(attributeService);
 
-        Model model = mock(Model.class);
         Attribute attribute = new Attribute();
         attribute.setName("qwerty");
         List<Attribute> alist = new ArrayList<>();
@@ -105,7 +96,6 @@ class FilterAdminControllerTest {
         filterAdminController.setFilterService(filterService);
         filterAdminController.setAttributeService(attributeService);
 
-        Model model = mock(Model.class);
         Attribute attribute = new Attribute();
         attribute.setName("qwerty");
         List<Attribute> alist = new ArrayList<>();
@@ -135,7 +125,6 @@ class FilterAdminControllerTest {
         filterAdminController.setFilterService(filterService);
         filterAdminController.setAttributeService(attributeService);
 
-        Model model = mock(Model.class);
         Filter filter = new Filter();
         filter.setName("йцукен");
         filter.setNameEn("qwerty");
@@ -155,7 +144,6 @@ class FilterAdminControllerTest {
 
         Attribute attribute = new Attribute();
         attribute.setName("qwerty");
-        Model model = mock(Model.class);
         Filter filter = new Filter();
         List<String> strlist = new ArrayList<>();
         strlist.add("val1");

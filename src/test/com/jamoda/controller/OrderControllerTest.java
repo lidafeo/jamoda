@@ -18,6 +18,7 @@ class OrderControllerTest {
 
     OrderService orderServMock = mock(OrderService.class);
     CustomerService customerService = Mockito.mock(CustomerService.class);
+    Model model = Mockito.mock(Model.class);
 
     @Test
     void order() {
@@ -69,7 +70,6 @@ class OrderControllerTest {
     void saveOrder() throws Exception{
         Order order = new Order();
         Mockito.when(orderServMock.saveOrder(order)).thenReturn(order);
-        Model model = mock(Model.class);
         model.addAttribute("0", 0);
         OrderController orderController = new OrderController();
         orderController.setOrderService(orderServMock);
@@ -91,7 +91,6 @@ class OrderControllerTest {
         Order order = new Order();
         order.setPayment("online");
         Mockito.when(orderServMock.saveOrder(order)).thenReturn(order);
-        Model model = mock(Model.class);
         model.addAttribute("0", 0);
         OrderController orderController = new OrderController();
         orderController.setOrderService(orderServMock);
@@ -114,7 +113,6 @@ class OrderControllerTest {
     void saveOrder0countprice() throws Exception{
         Order order = new Order();
         Mockito.when(orderServMock.saveOrder(order)).thenReturn(order);
-        Model model = mock(Model.class);
         model.addAttribute("0", 0);
         OrderController orderController = new OrderController();
         orderController.setOrderService(orderServMock);
@@ -130,5 +128,4 @@ class OrderControllerTest {
                                 "\"count\":1}",
                         order, model));
     }
-
 }

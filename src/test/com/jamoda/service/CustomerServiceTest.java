@@ -1,15 +1,11 @@
 package com.jamoda.service;
 
-import com.jamoda.model.Attribute;
 import com.jamoda.model.Customer;
 import com.jamoda.model.User;
-import com.jamoda.repository.AttributeRepository;
 import com.jamoda.repository.CustomerRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 class CustomerServiceTest {

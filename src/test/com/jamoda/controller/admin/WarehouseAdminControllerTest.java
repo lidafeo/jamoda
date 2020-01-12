@@ -9,19 +9,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.ui.Model;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class WarehouseAdminControllerTest {
-
 
     WarehouseService warehouseService = Mockito.mock(WarehouseService.class);
     ClothesService clothesService = Mockito.mock(ClothesService.class);
+    Model model = Mockito.mock(Model.class);
 
     @Test
     void pageAddToWarehouse() {
         WarehouseAdminController warehouseAdminController = new WarehouseAdminController() ;
-
-        Model model = Mockito.mock(Model.class);
 
         Assertions.assertNotNull(warehouseAdminController.pageAddToWarehouse(model));
         Assertions.assertEquals( "admin/addToWarehouse",
@@ -33,7 +29,6 @@ class WarehouseAdminControllerTest {
         WarehouseAdminController warehouseAdminController = new WarehouseAdminController();
         warehouseAdminController.setWarehouseService(warehouseService);
         warehouseAdminController.setClothesService(clothesService);
-        Model model = Mockito.mock(Model.class);
         Warehouse warehouse = new Warehouse();
         warehouse.setCount(10);
         Clothes clothes = new Clothes();
@@ -53,7 +48,6 @@ class WarehouseAdminControllerTest {
         WarehouseAdminController warehouseAdminController = new WarehouseAdminController();
         warehouseAdminController.setWarehouseService(warehouseService);
         warehouseAdminController.setClothesService(clothesService);
-        Model model = Mockito.mock(Model.class);
         Warehouse warehouse = new Warehouse();
         warehouse.setCount(10);
         Clothes clothes = new Clothes();
@@ -75,7 +69,6 @@ class WarehouseAdminControllerTest {
         WarehouseAdminController warehouseAdminController = new WarehouseAdminController();
         warehouseAdminController.setWarehouseService(warehouseService);
         warehouseAdminController.setClothesService(clothesService);
-        Model model = Mockito.mock(Model.class);
         Warehouse warehouse = new Warehouse();
         warehouse.setCount(10);
         Clothes clothes = new Clothes();
