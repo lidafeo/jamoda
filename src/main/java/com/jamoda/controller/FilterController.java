@@ -84,13 +84,20 @@ public class FilterController {
                 System.out.println(e);
             }
         }
+        //определяем размеры одежды
         //фильтры по атрибутам
-        if(filters.size() == 0) {
+        if(filters.size() == 0 && params.get("size_clothes") == null) {
             model.addAttribute("page", sortService.getClothesWithoutFilters(sort, category, pageable, price_min, price_max));
             return "filterClothes";
         }
-        List<AttributeValue> attributeValue = filterService.findArticleClothesWithFilter(filters, categoryService.getChildrenCategory(category));
-        List<String> clothes = filterService.getFilteredClothes(attributeValue, filters);
+        List<String> clothes;
+        if(filters.size() == 0) {
+            clothes = filterService.filteredSize(params.get("size_clothes"), categoryService.getChildrenCategory(category));
+        }
+        else {
+            List<AttributeValue> attributeValue = filterService.findArticleClothesWithFilter(filters, categoryService.getChildrenCategory(category));
+            clothes = filterService.getFilteredClothes(attributeValue, filters, params.get("size_clothes"));
+        }
         model.addAttribute("page", sortService.sortClothes(clothes, sort, pageable, price_min, price_max));
         return "filterClothes";
     }

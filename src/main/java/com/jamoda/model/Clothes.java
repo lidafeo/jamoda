@@ -180,4 +180,20 @@ public class Clothes {
         return season;
     }
 
+    public int checkSizeCount(String[] sizes) {
+        int count = 0;
+        for(Warehouse war: this.getWarehouses()) {
+            for (String c: sizes) {
+                try {
+                    int s = Integer.parseInt(c.trim());
+                    if(war.getSize() == s) {
+                        count += war.getCount();
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println(e);
+                }
+            }
+        }
+        return count;
+    }
 }
