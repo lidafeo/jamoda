@@ -20,18 +20,15 @@ import static org.mockito.Mockito.when;
 
 class WarehouseServiceTest {
 
+    WarehouseRepository whRepMock = Mockito.mock(WarehouseRepository.class);
+
     @Test
     void saveWarehouse() {
         WarehouseService WhServMock = new WarehouseService();
-        WarehouseRepository whRepMock = Mockito.mock(WarehouseRepository.class);
         WhServMock.setWarehouseRepository(whRepMock);
 
         Clothes clothes = new Clothes();
         clothes.setArticle("123");
-//        clothes.setPrice(1000);
-//        clothes.setVisit(10);
-//        clothes.setName("Qwerty");
-//        clothes.setPresence(true);
         Warehouse wh = new Warehouse(clothes, 48, 1);
 
         when(whRepMock.saveAndFlush(wh))
@@ -43,7 +40,6 @@ class WarehouseServiceTest {
     @Test
     void findByClothesAndSize() {
         WarehouseService WhServMock = new WarehouseService();
-        WarehouseRepository whRepMock = Mockito.mock(WarehouseRepository.class);
         WhServMock.setWarehouseRepository(whRepMock);
 
         Clothes clothes = new Clothes();

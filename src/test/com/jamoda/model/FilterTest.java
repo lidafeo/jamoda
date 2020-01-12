@@ -20,6 +20,7 @@ class FilterTest {
         List<String> vals = new ArrayList<>();
         vals.add("123");
         filter.setValues(vals);
+        filter.setSearchAll(true);
         Assertions.assertEquals(filter.getValues(), vals);
     }
 }

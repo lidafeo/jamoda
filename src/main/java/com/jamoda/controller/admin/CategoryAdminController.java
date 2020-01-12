@@ -25,7 +25,6 @@ public class CategoryAdminController {
                               @RequestParam(name="parentId") long parentId,
                               Model model) {
         model.addAttribute("categories", categoryService.findAll());
-
         Category categoryFromDb = categoryService.findByNameEnOrNameRusEquals(category.getNameEn(), category.getNameRus());
         if(categoryFromDb != null) {
             model.addAttribute("error", "Такая категория уже существует!");

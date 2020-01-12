@@ -5,11 +5,15 @@ import com.jamoda.model.User;
 import com.jamoda.repository.UserRepository;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +24,11 @@ import static org.mockito.Mockito.*;
 
 class UserServiceTest {
 
+    UserRepository userRepository = Mockito.mock(UserRepository.class);
+
     @Test
     void findByLoginTest() throws NullPointerException{
         UserService userService = new UserService();
-        UserRepository userRepository = Mockito.mock(UserRepository.class);
         userService.setUserRepository(userRepository);
         User user = new User();
         user.setName("123");
@@ -38,7 +43,6 @@ class UserServiceTest {
     @Test
     void saveUserTest() {
         UserService userService = new UserService();
-        UserRepository userRepository = Mockito.mock(UserRepository.class);
         userService.setUserRepository(userRepository);
 
         User user = new User();
@@ -51,4 +55,24 @@ class UserServiceTest {
                 .thenAnswer(i -> i.getArguments()[0]);
 
     }
+
+    @Test
+    void loadUserByUsername() {
+        UserService userService = new UserService();
+        userService.setUserRepository(userRepository);
+
+        User user = new User();
+        user.setName("1");
+
+        Mockito.when(userRepository.findByLogin("user")).thenReturn(user);
+        boolean is;
+        try {
+            userService.loadUserByUsername("user");
+            is = false;
+        } catch (UsernameNotFoundException thrown) {
+            is = true;
+        }
+        Assertions.assertTrue(is);
+    }
+
 }

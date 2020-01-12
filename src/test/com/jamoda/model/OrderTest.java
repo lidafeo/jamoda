@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import javax.validation.constraints.Max;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,5 +42,14 @@ class OrderTest {
         customer.setName("name");
         order.setCustomer(customer);
         Assertions.assertEquals(order.getCustomer(), customer);
+        order.setPayment("yes");
+        Assertions.assertEquals(order.getPayment(), "yes");
+        order.setSum(1000);
+        Assertions.assertEquals(order.getSum(), (Integer)1000);
+        Date date = new Date(2020, 1,1);
+        order.setDate(date);
+        Assertions.assertEquals(order.getDate(), date);
+        order.setConfirm(true);
+        Assertions.assertEquals(order.getConfirm(), true);
     }
 }

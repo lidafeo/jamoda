@@ -1,10 +1,8 @@
 package com.jamoda.controller;
 
-import com.jamoda.model.Customer;
-import com.jamoda.model.Order;
-import com.jamoda.model.User;
+import com.jamoda.model.*;
+import com.jamoda.service.CategoryService;
 import com.jamoda.service.CustomerService;
-import com.jamoda.service.MainService;
 import com.jamoda.service.OrderService;
 import com.jamoda.service.UserService;
 import org.junit.jupiter.api.Assertions;
@@ -12,28 +10,38 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.ui.Model;
 
-import javax.persistence.ManyToOne;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 
 class CabinetControllerTest {
 
+    CustomerService customerService = Mockito.mock(CustomerService.class);
+    CategoryService categoryService = Mockito.mock(CategoryService.class);
+    OrderService orderService = Mockito.mock(OrderService.class);
+    UserService userService = Mockito.mock(UserService.class);
+
     @Test
     void cabinet() {
         CabinetController cabinetController = new CabinetController();
-        MainService mainService = Mockito.mock(MainService.class);
-        cabinetController.setMainService(mainService);
-        CustomerService customerService = Mockito.mock(CustomerService.class);
         cabinetController.setCustomerService(customerService);
+        cabinetController.setCategoryService(categoryService);
 
         User user = new User();
         user.setLogin("qwerty");
         Customer customer = new Customer();
         customer.setUser(user);
         Model model = Mockito.mock(Model.class);
+        Category category = new Category();
+        category.setNameRus("name");
+        List<Category> catlist = new ArrayList<>();
+        catlist.add(category);
 
         Mockito.when(customerService.findByUser(user)).thenReturn(customer);
+        Mockito.when(categoryService.findMainCategory()).thenReturn(catlist);
        Assertions.assertEquals( "cabinet",
                 cabinetController.cabinet(model, user));
     }
@@ -41,9 +49,7 @@ class CabinetControllerTest {
     @Test
     void editProfileNullCustomer() {
         CabinetController cabinetController = new CabinetController();
-        MainService mainService = Mockito.mock(MainService.class);
-        cabinetController.setMainService(mainService);
-        CustomerService customerService = Mockito.mock(CustomerService.class);
+        cabinetController.setCategoryService(categoryService);
         cabinetController.setCustomerService(customerService);
 
         User user = new User();
@@ -51,9 +57,18 @@ class CabinetControllerTest {
         Customer customer = new Customer();
         customer.setUser(user);
         Model model = Mockito.mock(Model.class);
-
+        Category category = new Category();
+        List<Category> catlist = new ArrayList<>();
+        catlist.add(category);
         Mockito.when(customerService.findByEmail(user.getLogin())).
                 thenReturn(null);
+        Mockito.when(categoryService.findMainCategory()).
+                thenReturn(catlist);
+        Assertions.assertEquals( "cabinet",
+                cabinetController.editProfile(customer, user, model));
+
+        Mockito.when(customerService.findByEmail(user.getLogin())).
+                thenReturn(customer);
         Assertions.assertEquals( "cabinet",
                 cabinetController.editProfile(customer, user, model));
     }
@@ -61,13 +76,12 @@ class CabinetControllerTest {
     @Test
     void getDetailOrder() {
         CabinetController cabinetController = new CabinetController();
-        OrderService orderService = Mockito.mock(OrderService.class);
         cabinetController.setOrderService(orderService);
-        CustomerService customerService = Mockito.mock(CustomerService.class);
         cabinetController.setCustomerService(customerService);
 
         User user = new User();
         user.setLogin("qwerty");
+        user.setRoles(Collections.singleton(Role.ADMIN));
         Customer customer = new Customer();
         customer.setUser(user);
         Order order = new Order();
@@ -80,14 +94,36 @@ class CabinetControllerTest {
 
         Assertions.assertEquals( "parts/detail",
                 cabinetController.getDetailOrder(1, user, model));
+
+        user.setRoles(Collections.singleton(Role.USER));
+        Assertions.assertEquals( "parts/detail",
+                cabinetController.getDetailOrder(1, user, model));
+    }
+
+    @Test
+    void setCompletedOrder() {
+        CabinetController cabinetController = new CabinetController();
+        cabinetController.setOrderService(orderService);
+
+        Model model = Mockito.mock(Model.class);
+        Order order = new Order();
+        order.setName("name");
+
+        Mockito.when(orderService.setCompletedOrder(1)).thenReturn(order);
+
+        Assertions.assertEquals( "json",
+                cabinetController.setCompletedOrder(1, model));
+
+        Mockito.when(orderService.setCompletedOrder(1)).thenReturn(null);
+
+        Assertions.assertEquals( "json",
+                cabinetController.setCompletedOrder(1, model));
     }
 
     @Test
     void registerusernotnull() {
         CabinetController cabinetController = new CabinetController();
-        UserService userService = Mockito.mock(UserService.class);
         cabinetController.setUserService(userService);
-        CustomerService customerService = Mockito.mock(CustomerService.class);
         cabinetController.setCustomerService(customerService);
 
         User user = new User();
@@ -109,9 +145,7 @@ class CabinetControllerTest {
     @Test
     void registerusernull() {
         CabinetController cabinetController = new CabinetController();
-        UserService userService = Mockito.mock(UserService.class);
         cabinetController.setUserService(userService);
-        CustomerService customerService = Mockito.mock(CustomerService.class);
         cabinetController.setCustomerService(customerService);
 
         User user = new User();

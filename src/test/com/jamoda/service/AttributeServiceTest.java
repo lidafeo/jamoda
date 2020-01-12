@@ -13,10 +13,11 @@ import static org.mockito.Mockito.when;
 
 class AttributeServiceTest {
 
+    AttributeRepository aRepMock = Mockito.mock(AttributeRepository.class);
+
     @Test
     void saveAttribute() {
         AttributeService aservMock = new AttributeService();
-        AttributeRepository aRepMock = Mockito.mock(AttributeRepository.class);
         aservMock.setAttributeRepository(aRepMock);
 
         Attribute a = new Attribute();
@@ -31,7 +32,6 @@ class AttributeServiceTest {
     @Test
     void findAll() {
         AttributeService aservMock = new AttributeService();
-        AttributeRepository aRepMock = Mockito.mock(AttributeRepository.class);
         aservMock.setAttributeRepository(aRepMock);
 
         AttributeValue av = new AttributeValue();
@@ -47,7 +47,6 @@ class AttributeServiceTest {
     @Test
     void findById() {
         AttributeService aservMock = new AttributeService();
-        AttributeRepository aRepMock = Mockito.mock(AttributeRepository.class);
         aservMock.setAttributeRepository(aRepMock);
 
         AttributeValue av = new AttributeValue();
@@ -62,7 +61,6 @@ class AttributeServiceTest {
     @Test
     void findByName() {
         AttributeService aservMock = new AttributeService();
-        AttributeRepository aRepMock = Mockito.mock(AttributeRepository.class);
         aservMock.setAttributeRepository(aRepMock);
 
         AttributeValue av = new AttributeValue();

@@ -1,5 +1,5 @@
 <#import "parts/common.ftl" as c>
-<@c.page "/cabinet.js">
+<@c.page "/orders.js">
     <div class="container">
         <br>
         <ul class="nav nav-tabs" id="myTab" role="tablist">

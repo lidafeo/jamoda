@@ -5,7 +5,6 @@ import com.jamoda.model.User;
 import com.jamoda.service.CategoryService;
 import com.jamoda.service.ClothesService;
 import com.jamoda.service.SearchService;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,31 +26,32 @@ public class SearchController {
     @GetMapping("/search")
     public String order(@RequestParam("q") String q,
                         Model model,
-                        @PageableDefault(size = 12) Pageable pageable) {
+                        @PageableDefault(size = 12) Pageable pageable,
+                        @AuthenticationPrincipal User user) {
         model.addAttribute("categories", categoryService.findMainCategory());
+        model.addAttribute("customer", user);
         model.addAttribute("q", q.trim());
         if(q.trim() == null || q.trim().equals("")) {
             model.addAttribute("error", "Задан пустой поисковый запрос");
-            return "search"; }
-
+            return "search";
+        }
         Clothes clothes = clothesService.findByArticle(q.trim());
         if(clothes != null) {
-            return ("redirect:/clothes?article=" + clothes.getArticle()); }
-
+            return ("redirect:/clothes?article=" + clothes.getArticle());
+        }
         Page<Clothes> clothesList = searchService.findClothesByQ(q, pageable);
         model.addAttribute("clothes", clothesList);
-        return "search"; }
+        return "search";
+    }
 
     @Autowired
     public void setCategoryService(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
-
     @Autowired
     public void setClothesService(ClothesService clothesService) {
         this.clothesService = clothesService;
     }
-
     @Autowired
     public void setSearchService(SearchService searchService) {
         this.searchService = searchService;

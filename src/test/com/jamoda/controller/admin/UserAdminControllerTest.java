@@ -22,10 +22,11 @@ import static org.mockito.Mockito.when;
 
 class UserAdminControllerTest {
 
+    UserService userService = Mockito.mock(UserService.class);
+
     @Test
     void pageAddUser() {
         UserAdminController userAdminController = new UserAdminController();
-        UserService userService = Mockito.mock(UserService.class);
         userAdminController.setUserService(userService);
 
         Model model = mock(Model.class);
@@ -38,7 +39,6 @@ class UserAdminControllerTest {
     @Test
     void addUser() throws IOException {
         UserAdminController userAdminController = new UserAdminController();
-        UserService userService = Mockito.mock(UserService.class);
         userAdminController.setUserService(userService);
 
         Model model = mock(Model.class);
@@ -55,7 +55,6 @@ class UserAdminControllerTest {
     @Test
     void addUser1() {
         UserAdminController userAdminController = new UserAdminController();
-        UserService userService = Mockito.mock(UserService.class);
         userAdminController.setUserService(userService);
 
         Model model = mock(Model.class);

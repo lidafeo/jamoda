@@ -12,10 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SearchServiceTest {
 
+    ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
+
     @Test
     void findClothesByQ() {
         SearchService searchService = new SearchService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         searchService.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);

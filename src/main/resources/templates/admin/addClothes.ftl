@@ -4,11 +4,11 @@
 <#if error?? || message ??>
     <@modal.modal "Добавление нового товара" />
 </#if>
-    <div class="mx-auto" style="width: 900px;">
-                <div class="form-center">
+    <div class="mx-auto" style="width: 750px;">
+                <div>
                     <form action="/admin/add_clothes" method="post" id="form" enctype="multipart/form-data">
                         <div class="form-group row">
-                            <h4>Добавление нового товара</h4>
+                            <h3>Добавление нового товара</h3>
                         </div>
                         <div class="form-group row">
                             <label for="category_id" class="col-sm-2 col-form-label">Категория</label>

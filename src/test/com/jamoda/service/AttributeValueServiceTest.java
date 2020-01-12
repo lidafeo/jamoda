@@ -16,10 +16,11 @@ import static org.mockito.Mockito.when;
 
 class AttributeValueServiceTest {
 
+    AttributeValueRepository avRepMock = Mockito.mock(AttributeValueRepository.class);
+
     @Test
     void saveAttributeValue() {
         AttributeValueService avservMock = new AttributeValueService();
-        AttributeValueRepository avRepMock = Mockito.mock(AttributeValueRepository.class);
         avservMock.setAttributeValueRepository(avRepMock);
 
         AttributeValue av = new AttributeValue();
@@ -34,7 +35,6 @@ class AttributeValueServiceTest {
     @Test
     void findById() {
         AttributeValueService avservMock = new AttributeValueService();
-        AttributeValueRepository avRepMock = Mockito.mock(AttributeValueRepository.class);
         avservMock.setAttributeValueRepository(avRepMock);
 
         AttributeValue av = new AttributeValue();

@@ -16,6 +16,9 @@ import static org.mockito.Mockito.mock;
 
 class AttributeGroupAdminControllerTest {
 
+    AttributeGroupService attributeGroupService = Mockito.mock(AttributeGroupService.class);
+
+
     @Test
     void pageAddGroup() {
         AttributeGroupAdminController attributeGroupAdminController = new AttributeGroupAdminController();
@@ -28,7 +31,6 @@ class AttributeGroupAdminControllerTest {
     @Test
     void addGroup() {
         AttributeGroupAdminController attributeGroupAdminController = new AttributeGroupAdminController();
-        AttributeGroupService attributeGroupService = Mockito.mock(AttributeGroupService.class);
         attributeGroupAdminController.setAttributeGroupService(attributeGroupService);
         Model model = mock(Model.class);
         model.addAttribute("0",0);
@@ -49,7 +51,6 @@ class AttributeGroupAdminControllerTest {
 
     void addGroupNull() {
         AttributeGroupAdminController attributeGroupAdminController = new AttributeGroupAdminController();
-        AttributeGroupService attributeGroupService = Mockito.mock(AttributeGroupService.class);
         attributeGroupAdminController.setAttributeGroupService(attributeGroupService);
         Model model = mock(Model.class);
         model.addAttribute("0",0);

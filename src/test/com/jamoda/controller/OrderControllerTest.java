@@ -17,12 +17,12 @@ import static org.mockito.Mockito.*;
 class OrderControllerTest {
 
     OrderService orderServMock = mock(OrderService.class);
+    CustomerService customerService = Mockito.mock(CustomerService.class);
 
     @Test
     void order() {
         Model model = Mockito.mock(Model.class);
         OrderController orderController = new OrderController();
-        CustomerService customerService = Mockito.mock(CustomerService.class);
         orderController.setCustomerService(customerService);
 
         User user = new User();
@@ -48,7 +48,6 @@ class OrderControllerTest {
     void ordernulluser() {
         Model model = Mockito.mock(Model.class);
         OrderController orderController = new OrderController();
-        CustomerService customerService = Mockito.mock(CustomerService.class);
         orderController.setCustomerService(customerService);
 
         User user = new User();
@@ -131,6 +130,5 @@ class OrderControllerTest {
                                 "\"count\":1}",
                         order, model));
     }
-
 
 }

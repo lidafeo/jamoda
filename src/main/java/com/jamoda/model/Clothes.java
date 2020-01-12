@@ -55,14 +55,16 @@ public class Clothes {
     public String getSizesGap() {
         String sizes = "";
         for(Warehouse warehouse: this.warehouses) {
-            sizes += warehouse.getSize() + " ";
+            if(warehouse.getCount() > 0)
+                sizes += warehouse.getSize() + " ";
         }
         return sizes;
     }
     public String getCountsGap() {
         String counts = "";
         for(Warehouse warehouse: this.warehouses) {
-            counts += warehouse.getCount() + " ";
+            if(warehouse.getCount() > 0)
+                counts += warehouse.getCount() + " ";
         }
         return counts;
     }

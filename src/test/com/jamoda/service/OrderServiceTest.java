@@ -14,6 +14,10 @@ import com.jamoda.repository.AttributeValueRepository;
 import com.jamoda.repository.FilterRepository;
 import com.jamoda.repository.OrderProductRepository;
 import com.jamoda.repository.OrderRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -22,12 +26,15 @@ import static org.mockito.ArgumentMatchers.*;
 
 class OrderServiceTest {
 
+    OrderRepository orderRepMock = Mockito.mock(OrderRepository.class);
+    OrderProductRepository orderProductRepMock = Mockito.mock(OrderProductRepository.class);
+    CustomerRepository customerRepository = Mockito.mock(CustomerRepository.class);
+    ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
+    WarehouseRepository whRepMock = Mockito.mock(WarehouseRepository.class);
+
     @Test
     void saveTest() {
         OrderService orderService = new OrderService();
-        OrderRepository orderRepMock = Mockito.mock(OrderRepository.class);
-        OrderProductRepository orderProductRepMock = Mockito.mock(OrderProductRepository.class);
-        CustomerRepository customerRepository = Mockito.mock(CustomerRepository.class);
         orderService.setOrderRepository(orderRepMock);
         orderService.setOrderProductRepository(orderProductRepMock);
         orderService.setCustomerRepository(customerRepository);
@@ -48,7 +55,6 @@ class OrderServiceTest {
     @Test
     void getOrderProduct() {
         OrderService orderService = new OrderService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         orderService.setClothesRepository(clRepMock);
         Clothes clothes = new Clothes();
         clothes.setArticle("123");
@@ -68,33 +74,74 @@ class OrderServiceTest {
         List<OrderProduct> op1 = orderService.getOrderProduct(cart, order);
         Assertions.assertEquals((op.get(0)).getClothes(),
                 (op1.get(0)).getClothes());
-        Assertions.assertEquals((op.get(0)).getCount(),
-                (op1.get(0)).getCount());
-        Assertions.assertEquals((op.get(0)).getSize(),
-                (op1.get(0)).getSize());
-        Assertions.assertEquals((op.get(0)).getPrice(),
-                (op1.get(0)).getPrice());
+    }
+
+    @Test
+    void confirmOrder() {
+        OrderService orderService = new OrderService();
+        orderService.setOrderRepository(orderRepMock);
+
+        Customer customer = new Customer();
+        customer.setEmail("123");
+        Order order = new Order();
+        order.setName("name");
+        Mockito.when(orderRepMock.findById(1)).thenReturn(order);
+        Mockito.when(orderRepMock.saveAndFlush(order)).thenReturn(order);
+
+        Assertions.assertEquals(orderService.confirmOrder(1),
+                orderRepMock.saveAndFlush(order));
+    }
+
+    @Test
+    void setCompletedOrder() {
+        OrderService orderService = new OrderService();
+        orderService.setOrderRepository(orderRepMock);
+
+        Customer customer = new Customer();
+        customer.setEmail("123");
+        Order order = new Order();
+        order.setName("name");
+        Mockito.when(orderRepMock.findById(1)).thenReturn(order);
+        Mockito.when(orderRepMock.saveAndFlush(order)).thenReturn(order);
+
+        Assertions.assertEquals(orderService.setCompletedOrder(1),
+                orderRepMock.saveAndFlush(order));
     }
 
     @Test
     void findbyId() {
         OrderService orderServ = new OrderService();
-        OrderRepository oRepMock = Mockito.mock(OrderRepository.class);
-        orderServ.setOrderRepository(oRepMock);
+        orderServ.setOrderRepository(orderRepMock);
 
-       Order order = new Order();
-       order.setName("qwerty");
-        Mockito.when(oRepMock.findById(1)).thenReturn(order);
+        Order order = new Order();
+        order.setName("qwerty");
+        Mockito.when(orderRepMock.findById(1)).thenReturn(order);
 
         Assertions.assertEquals(orderServ.findById(1),
                 order);
     }
 
+    @Test
+    void getOrders() {
+        OrderService orderService = new OrderService();
+        orderService.setOrderRepository(orderRepMock);
+
+        Pageable pageable = PageRequest.of(0, 8);
+        Order order = new Order();
+        order.setName("name");
+        List<Order> olist = new ArrayList<>();
+        olist.add(order);
+        Page<Order> page = new PageImpl<Order>(olist, pageable, 1l);
+        Mockito.when(orderRepMock.findAllByOrderByDateDesc(pageable)).
+                thenReturn(page);
+
+        Assertions.assertEquals(orderService.getOrders(pageable),
+                orderRepMock.findAllByOrderByDateDesc(pageable));
+    }
 
     @Test
     void checkProductInWarehouse() {
         OrderService orderService = new OrderService();
-        WarehouseRepository whRepMock = Mockito.mock(WarehouseRepository.class);
         orderService.setWarehouseRepository(whRepMock);
 
         Warehouse wh = new Warehouse();
@@ -120,12 +167,10 @@ class OrderServiceTest {
     @Test
     void saveCart() {
         OrderService orderService = new OrderService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         orderService.setClothesRepository(clRepMock);
-        OrderProductRepository opRepMock = Mockito.mock(OrderProductRepository.class);
-        orderService.setOrderProductRepository(opRepMock);
-        WarehouseRepository whRepMock = Mockito.mock(WarehouseRepository.class);
+        orderService.setOrderProductRepository(orderProductRepMock);
         orderService.setWarehouseRepository(whRepMock);
+
         Clothes clothes = new Clothes();
         clothes.setArticle("123");
         Warehouse whh = new Warehouse();
@@ -149,8 +194,15 @@ class OrderServiceTest {
         int id = (int)op.getId();
         Warehouse wh = new Warehouse();
         wh.setCount(10);
-        Mockito.when(whRepMock.findByClothesAndSize(clothes, 48)).thenReturn(wh);
+        Mockito.when(whRepMock.findByClothesAndSize(op.getClothes(), op.getSize())).
+                thenReturn(wh);
+        Mockito.when(whRepMock.saveAndFlush(wh)).
+                thenReturn(wh);
+        Mockito.when(orderProductRepMock.saveAndFlush(op)).
+                thenReturn(op);
+
         orderService.saveCart(cart, order);
-        Assertions.assertNotNull(opRepMock.findById(id));
+
+        Assertions.assertEquals(orderProductRepMock.saveAndFlush(op), op);
     }
 }

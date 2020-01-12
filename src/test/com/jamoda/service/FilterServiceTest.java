@@ -8,6 +8,7 @@ import com.jamoda.repository.OrderRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.w3c.dom.Attr;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,10 +21,12 @@ import static org.mockito.Mockito.when;
 
 class FilterServiceTest {
 
+    FilterRepository filterRepMock = Mockito.mock(FilterRepository.class);
+    AttributeValueRepository attValRepMock = Mockito.mock(AttributeValueRepository.class);
+
     @Test
     void getFiltersTest() {
         FilterService filterServMock = new FilterService();
-        FilterRepository filterRepMock = Mockito.mock(FilterRepository.class);
         filterServMock.setFilterRepository(filterRepMock);
 
         Attribute at = new Attribute();
@@ -48,7 +51,6 @@ class FilterServiceTest {
     @Test
     void getFiltersNullTest() {
         FilterService filterServMock = new FilterService();
-        FilterRepository filterRepMock = Mockito.mock(FilterRepository.class);
         filterServMock.setFilterRepository(filterRepMock);
 
         when(filterRepMock.findByNameEn(any())).thenReturn(null);
@@ -64,9 +66,64 @@ class FilterServiceTest {
     }
 
     @Test
+    void getActiveFilter() {
+        FilterService filterServMock = new FilterService();
+        filterServMock.setFilterRepository(filterRepMock);
+        filterServMock.setAttributeValueRepository(attValRepMock);
+
+        Filter filter = new Filter();
+        Attribute attribute = new Attribute();
+        attribute.setName("name");
+        filter.setName("name");
+        filter.setAttribute(attribute);
+        List<Filter> flist = new ArrayList<>();
+        flist.add(filter);
+        Mockito.when(filterRepMock.findAllByActive(true)).thenReturn(flist);
+        List<String> li = new ArrayList<>();
+        li.add("str");
+        Mockito.when(attValRepMock.findDistinctValueByAttribute(attribute)).
+                thenReturn(li);
+
+        Assertions.assertEquals(filterServMock.getActiveFilter(), flist);
+
+        filter.setSearchAll(true);
+        Assertions.assertEquals(filterServMock.getActiveFilter(), flist);
+    }
+
+    @Test
+    void getFilteredClothes() {
+        FilterService filterServMock = new FilterService();
+
+        AttributeValue attributeValue = new AttributeValue();
+        attributeValue.setActive(true);
+        List<AttributeValue> li = new ArrayList<>();
+        li.add(attributeValue);
+        Attribute attribute = new Attribute();
+        attribute.setName("name");
+        Map<Attribute, List<String>> params = new HashMap<>();
+        List<String> str = new ArrayList<>();
+        str.add("article");
+        params.put(attribute, str);
+        Clothes clothes = new Clothes();
+        clothes.setArticle("article");
+        attributeValue.setClothes(clothes);
+
+        Assertions.assertEquals(filterServMock.getFilteredClothes(
+                li, params), str);
+
+        AttributeValue attributeValue2 = new AttributeValue();
+        attributeValue2.setActive(true);
+        li.add(attributeValue2);
+        attributeValue2.setClothes(clothes);
+        List<String> str2 = new ArrayList<>();
+
+        Assertions.assertEquals(filterServMock.getFilteredClothes(
+                li, params), str2);
+    }
+
+    @Test
     void findArticleClothesWithFilterTest() {
         FilterService filterServMock = new FilterService();
-        AttributeValueRepository attValRepMock = Mockito.mock(AttributeValueRepository.class);
         filterServMock.setAttributeValueRepository(attValRepMock);
 
         Category category = new Category();
@@ -87,7 +144,6 @@ class FilterServiceTest {
     @Test
     void findByNameEnOrNameOrAttributeTest() {
         FilterService filterServMock = new FilterService();
-        FilterRepository filterRepMock = Mockito.mock(FilterRepository.class);
         filterServMock.setFilterRepository(filterRepMock);
 
         Attribute at = new Attribute();
@@ -102,7 +158,6 @@ class FilterServiceTest {
     @Test
     void saveFilterTest() {
         FilterService filterServMock = new FilterService();
-        FilterRepository filterRepMock = Mockito.mock(FilterRepository.class);
         filterServMock.setFilterRepository(filterRepMock);
 
         Attribute at = new Attribute();

@@ -20,17 +20,17 @@ import static org.mockito.Mockito.mock;
 
 class FilterAdminControllerTest {
 
+    FilterService filterService = Mockito.mock(FilterService.class);
+    AttributeService attributeService = Mockito.mock(AttributeService.class);
+
     @Test
     void pageAddFilter() {
         FilterAdminController filterAdminController = new FilterAdminController();
-        FilterService filterService = Mockito.mock(FilterService.class);
         filterAdminController.setFilterService(filterService);
-        AttributeService attributeService = Mockito.mock(AttributeService.class);
         filterAdminController.setAttributeService(attributeService);
 
         Model model = mock(Model.class);
 
-        Assertions.assertNotNull(filterAdminController.pageAddFilter(model));
         Assertions.assertEquals( "admin/addFilter",
                 filterAdminController.pageAddFilter(model));
     }
@@ -38,9 +38,7 @@ class FilterAdminControllerTest {
     @Test
     void addFilter() {
         FilterAdminController filterAdminController = new FilterAdminController();
-        FilterService filterService = Mockito.mock(FilterService.class);
         filterAdminController.setFilterService(filterService);
-        AttributeService attributeService = Mockito.mock(AttributeService.class);
         filterAdminController.setAttributeService(attributeService);
 
         Model model = mock(Model.class);
@@ -60,11 +58,13 @@ class FilterAdminControllerTest {
                 thenReturn(filter);
         Mockito.when(filterService.saveFilter(filter)).thenReturn(filter);
 
-        Assertions.assertNotNull(filterAdminController.addFilter(
-                filter, 1l, model));
         Assertions.assertEquals( "admin/addFilter",
                 filterAdminController.addFilter(
                         filter, 1l, model));
+
+        Assertions.assertEquals( "admin/addFilter",
+                filterAdminController.addFilter(
+                        filter, 0, model));
     }
 
 
@@ -72,9 +72,7 @@ class FilterAdminControllerTest {
     @Test
     void addFilter1() {
         FilterAdminController filterAdminController = new FilterAdminController();
-        FilterService filterService = Mockito.mock(FilterService.class);
         filterAdminController.setFilterService(filterService);
-        AttributeService attributeService = Mockito.mock(AttributeService.class);
         filterAdminController.setAttributeService(attributeService);
 
         Model model = mock(Model.class);
@@ -104,9 +102,7 @@ class FilterAdminControllerTest {
     @Test
     void addFilter2() {
         FilterAdminController filterAdminController = new FilterAdminController();
-        FilterService filterService = Mockito.mock(FilterService.class);
         filterAdminController.setFilterService(filterService);
-        AttributeService attributeService = Mockito.mock(AttributeService.class);
         filterAdminController.setAttributeService(attributeService);
 
         Model model = mock(Model.class);
@@ -136,9 +132,7 @@ class FilterAdminControllerTest {
     @Test
     void addFilter3() {
         FilterAdminController filterAdminController = new FilterAdminController();
-        FilterService filterService = Mockito.mock(FilterService.class);
         filterAdminController.setFilterService(filterService);
-        AttributeService attributeService = Mockito.mock(AttributeService.class);
         filterAdminController.setAttributeService(attributeService);
 
         Model model = mock(Model.class);
@@ -156,9 +150,7 @@ class FilterAdminControllerTest {
     @Test
     void addFilter4() {
         FilterAdminController filterAdminController = new FilterAdminController();
-        FilterService filterService = Mockito.mock(FilterService.class);
         filterAdminController.setFilterService(filterService);
-        AttributeService attributeService = Mockito.mock(AttributeService.class);
         filterAdminController.setAttributeService(attributeService);
 
         Attribute attribute = new Attribute();

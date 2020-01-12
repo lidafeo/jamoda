@@ -17,10 +17,13 @@ import static org.mockito.ArgumentMatchers.*;
 
 class AttributeAdminControllerTest {
 
+    AttributeGroupService agServMock = Mockito.mock(AttributeGroupService.class);
+    AttributeService aServMock = Mockito.mock(AttributeService.class);
+
+
     @Test
     void pageAddAttribute() {
         AttributeAdminController attributeAdminController = new AttributeAdminController();
-        AttributeGroupService agServMock = Mockito.mock(AttributeGroupService.class);
         attributeAdminController.setAttributeGroupService(agServMock);
 
         Model model = Mockito.mock(Model.class);
@@ -38,9 +41,7 @@ class AttributeAdminControllerTest {
     @Test
     void addAttribute() {
         AttributeAdminController attributeAdminController = new AttributeAdminController();
-        AttributeGroupService agServMock = Mockito.mock(AttributeGroupService.class);
         attributeAdminController.setAttributeGroupService(agServMock);
-        AttributeService aServMock = Mockito.mock(AttributeService.class);
         attributeAdminController.setAttributeService(aServMock);
 
         Attribute attribute = new Attribute();
@@ -65,9 +66,7 @@ class AttributeAdminControllerTest {
     @Test
     void addAttribute1() {
         AttributeAdminController attributeAdminController = new AttributeAdminController();
-        AttributeGroupService agServMock = Mockito.mock(AttributeGroupService.class);
         attributeAdminController.setAttributeGroupService(agServMock);
-        AttributeService aServMock = Mockito.mock(AttributeService.class);
         attributeAdminController.setAttributeService(aServMock);
 
         long groupId = 1;
@@ -91,9 +90,7 @@ class AttributeAdminControllerTest {
     @Test
     void addAttribute2() {
         AttributeAdminController attributeAdminController = new AttributeAdminController();
-        AttributeGroupService agServMock = Mockito.mock(AttributeGroupService.class);
         attributeAdminController.setAttributeGroupService(agServMock);
-        AttributeService aServMock = Mockito.mock(AttributeService.class);
         attributeAdminController.setAttributeService(aServMock);
 
         Attribute attribute = new Attribute();

@@ -3,6 +3,8 @@ package com.jamoda.service;
 import com.jamoda.model.*;
 import com.jamoda.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -29,6 +31,19 @@ public class OrderService {
         return orderProductRepository.saveAndFlush(orderProduct);
     }
 
+    public Order confirmOrder(int id) {
+        Order order = orderRepository.findById(id);
+        order.setConfirm(true);
+        return orderRepository.saveAndFlush(order);
+    }
+
+    public Order setCompletedOrder(int id) {
+        Order order = orderRepository.findById(id);
+        order.setCompleted(true);
+        order.setPaid(true);
+        return orderRepository.saveAndFlush(order);
+    }
+
     public Order findById(int id) {
         return orderRepository.findById(id);
     }
@@ -43,6 +58,10 @@ public class OrderService {
                     clothesRepository.findByArticle(product.getArticle())));
         }
         return orderProducts;
+    }
+
+    public Page<Order> getOrders(Pageable pageable) {
+        return orderRepository.findAllByOrderByDateDesc(pageable);
     }
 
     public Boolean checkProductInWarehouse(Cart cart) {

@@ -4,10 +4,7 @@ import com.jamoda.model.Customer;
 import com.jamoda.model.Order;
 import com.jamoda.model.Role;
 import com.jamoda.model.User;
-import com.jamoda.service.CustomerService;
-import com.jamoda.service.MainService;
-import com.jamoda.service.OrderService;
-import com.jamoda.service.UserService;
+import com.jamoda.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -20,22 +17,21 @@ import java.util.Collections;
 @Controller
 public class CabinetController {
 
-    private MainService mainService;
     private UserService userService;
     private CustomerService customerService;
     private OrderService orderService;
+    private CategoryService categoryService;
 
     @GetMapping("/cabinet")
     public String cabinet(Model model, @AuthenticationPrincipal User user) {
         Customer customer = customerService.findByUser(user);
-        mainService.getSessionModel(model);
+        model.addAttribute("categories", categoryService.findMainCategory());
         model.addAttribute("customer", customer);
-        return "cabinet";
-    }
+        return "cabinet"; }
 
     @PostMapping("/cabinet")
     public String editProfile(Customer customer, @AuthenticationPrincipal User user, Model model) {
-        mainService.getSessionModel(model);
+        model.addAttribute("categories", categoryService.findMainCategory());
         Customer customerFromDb = customerService.findByEmail(user.getLogin());
         if(customerFromDb == null) {
             model.addAttribute("customer", customer);
@@ -53,10 +49,25 @@ public class CabinetController {
                                  Model model) {
         Customer customer = customerService.findByUser(user);
         Order order = orderService.findById(number);
-        if(order.getCustomer() == customer) {
+        if((order.getCustomer() == customer && customer != null) || user.getRoles().contains(Role.ADMIN)) {
+            if(user.getRoles().contains(Role.ADMIN) && !user.getRoles().contains(Role.USER)) {
+                model.addAttribute("admin", true); }
             model.addAttribute("order", order);
         }
         return "parts/detail";
+    }
+
+    @PostMapping("/confirm_delivery")
+    public String setCompletedOrder(int id,
+                                 Model model) {
+        Order order = orderService.setCompletedOrder(id);
+        if(order != null) {
+            model.addAttribute("message", id);
+        }
+        else {
+            model.addAttribute("error", "Не удалось подтвердить доставку");
+        }
+        return "json";
     }
 
     @PostMapping("/register")
@@ -74,10 +85,6 @@ public class CabinetController {
     }
 
     @Autowired
-    public void setMainService(MainService mainService) {
-        this.mainService = mainService;
-    }
-    @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
@@ -88,5 +95,9 @@ public class CabinetController {
     @Autowired
     public void setOrderService(OrderService orderService) {
         this.orderService = orderService;
+    }
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 }

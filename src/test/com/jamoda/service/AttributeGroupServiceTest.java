@@ -18,10 +18,12 @@ import static org.mockito.Mockito.when;
 
 class AttributeGroupServiceTest {
 
+    AttributeGroupRepository agRepMock = Mockito.mock(AttributeGroupRepository.class);
+
+
     @Test
     void saveAttributeGroup() {
         AttributeGroupService agservMock = new AttributeGroupService();
-        AttributeGroupRepository agRepMock = Mockito.mock(AttributeGroupRepository.class);
         agservMock.setAttributeGroupRepository(agRepMock);
 
         AttributeGroup ag = new AttributeGroup();
@@ -36,7 +38,6 @@ class AttributeGroupServiceTest {
     @Test
     void findAll() {
         AttributeGroupService agservMock = new AttributeGroupService();
-        AttributeGroupRepository agRepMock = Mockito.mock(AttributeGroupRepository.class);
         agservMock.setAttributeGroupRepository(agRepMock);
 
         AttributeGroup ag = new AttributeGroup();
@@ -51,7 +52,6 @@ class AttributeGroupServiceTest {
     @Test
     void findById() {
         AttributeGroupService agservMock = new AttributeGroupService();
-        AttributeGroupRepository agRepMock = Mockito.mock(AttributeGroupRepository.class);
         agservMock.setAttributeGroupRepository(agRepMock);
 
         AttributeGroup ag = new AttributeGroup();
@@ -64,7 +64,6 @@ class AttributeGroupServiceTest {
     @Test
     void findByName() {
         AttributeGroupService agservMock = new AttributeGroupService();
-        AttributeGroupRepository agRepMock = Mockito.mock(AttributeGroupRepository.class);
         agservMock.setAttributeGroupRepository(agRepMock);
 
         AttributeGroup ag = new AttributeGroup();

@@ -1,36 +1,41 @@
 package com.jamoda.controller;
 
-import com.jamoda.controller.admin.ImageAdminController;
+import com.jamoda.model.Category;
 import com.jamoda.model.Clothes;
 import com.jamoda.model.User;
+import com.jamoda.service.CategoryService;
 import com.jamoda.service.ClothesService;
-import com.jamoda.service.MainService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.ui.Model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 class ClothesControllerTest {
 
+    CategoryService categoryService = Mockito.mock(CategoryService.class);
+    ClothesService clothesService = Mockito.mock(ClothesService.class);
+
     @Test
     void getClothes() {
         ClothesController clothesController = new ClothesController();
-        MainService mainService = Mockito.mock(MainService.class);
-        clothesController.setMainService(mainService);
-        ClothesService clothesService = Mockito.mock(ClothesService.class);
+        clothesController.setCategoryService(categoryService);
         clothesController.setClothesService(clothesService);
 
         User user = new User();
         user.setLogin("qwerty");
         Model model = mock(Model.class);
+        Category category = new Category();
+        category.setNameRus("name");
         Clothes clothes = new Clothes();
         clothes.setName("cl");
+        clothes.setCategory(category);
         Map<String, Integer> sizes = new TreeMap<>();
         sizes.put("40", 0);
         Mockito.when(clothesService.findByArticle("qwerty")).thenReturn(clothes);
@@ -39,9 +44,14 @@ class ClothesControllerTest {
         Mockito.when(clothesService.getCountProductInWarehouse(clothes.getWarehouses())).
                 thenReturn(10);
 
+        List<Category> catlist = new ArrayList<>();
+        catlist.add(category);
+        Mockito.when(categoryService.findMainCategory()).thenReturn(catlist);
 
-        Assertions.assertNotNull(clothesController.getClothes(
-                "qwerty", model, user));
+        Assertions.assertEquals( "clothes",
+                clothesController.getClothes("qwerty", model, user));
+
+        Mockito.when(clothesService.findByArticle("qwerty")).thenReturn(null);
         Assertions.assertEquals( "clothes",
                 clothesController.getClothes("qwerty", model, user));
     }

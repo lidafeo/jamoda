@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -19,20 +20,22 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
+//@TestPropertySource(properties = {
+//        "upload.path=C:/Users/homahel/Desktop/jamoda/uploads"})
 class ImageServiceTest {
 
-//    @Value("${upload.path}")
+    @Value("${upload.path}")
     private String uploadPath = "C:/Users/homahel/Desktop/jamoda/uploads";
 
-    @Test
-    void checkExistsDir() {
-        ImageService imgServMock = new ImageService();
-        //Assertions.assertTrue(imgServMock.checkExistsDir());
-
+//    @Test
+//    void checkExistsDir() {
+//        ImageService imgServMock = new ImageService();
+//        Assertions.assertTrue(imgServMock.checkExistsDir());
+//
 //        Mockito.when(new File(uploadPath)).
 //                thenReturn(new File(uploadPath));
-        //imgServMock.checkExistsDir();
-    }
+//        imgServMock.checkExistsDir();
+//    }
 
 //    @Test
 //    void addFile() throws IOException {

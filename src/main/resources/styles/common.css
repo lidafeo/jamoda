@@ -28,3 +28,14 @@
 .presence {
     opacity: .5;
 }
+
+.hide-block {
+    visibility: hidden;
+    width: 20px;
+    height: 20px;
+}
+
+.badge {
+    width: 20px;
+    height: 20px;
+}

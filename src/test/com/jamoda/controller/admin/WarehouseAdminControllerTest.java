@@ -13,6 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WarehouseAdminControllerTest {
 
+
+    WarehouseService warehouseService = Mockito.mock(WarehouseService.class);
+    ClothesService clothesService = Mockito.mock(ClothesService.class);
+
     @Test
     void pageAddToWarehouse() {
         WarehouseAdminController warehouseAdminController = new WarehouseAdminController() ;
@@ -26,10 +30,8 @@ class WarehouseAdminControllerTest {
 
     @Test
     void addGroup() {
-        WarehouseAdminController warehouseAdminController = new WarehouseAdminController() ;
-        WarehouseService warehouseService = Mockito.mock(WarehouseService.class);
+        WarehouseAdminController warehouseAdminController = new WarehouseAdminController();
         warehouseAdminController.setWarehouseService(warehouseService);
-        ClothesService clothesService = Mockito.mock(ClothesService.class);
         warehouseAdminController.setClothesService(clothesService);
         Model model = Mockito.mock(Model.class);
         Warehouse warehouse = new Warehouse();
@@ -48,10 +50,8 @@ class WarehouseAdminControllerTest {
 
     @Test
     void addGroup1() {
-        WarehouseAdminController warehouseAdminController = new WarehouseAdminController() ;
-        WarehouseService warehouseService = Mockito.mock(WarehouseService.class);
+        WarehouseAdminController warehouseAdminController = new WarehouseAdminController();
         warehouseAdminController.setWarehouseService(warehouseService);
-        ClothesService clothesService = Mockito.mock(ClothesService.class);
         warehouseAdminController.setClothesService(clothesService);
         Model model = Mockito.mock(Model.class);
         Warehouse warehouse = new Warehouse();
@@ -72,10 +72,8 @@ class WarehouseAdminControllerTest {
 
     @Test
     void addGroup2() {
-        WarehouseAdminController warehouseAdminController = new WarehouseAdminController() ;
-        WarehouseService warehouseService = Mockito.mock(WarehouseService.class);
+        WarehouseAdminController warehouseAdminController = new WarehouseAdminController();
         warehouseAdminController.setWarehouseService(warehouseService);
-        ClothesService clothesService = Mockito.mock(ClothesService.class);
         warehouseAdminController.setClothesService(clothesService);
         Model model = Mockito.mock(Model.class);
         Warehouse warehouse = new Warehouse();

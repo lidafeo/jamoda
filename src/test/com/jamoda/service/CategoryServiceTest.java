@@ -15,10 +15,11 @@ import java.util.Optional;
 
 class CategoryServiceTest {
 
+    CategoryRepository catRepMock = Mockito.mock(CategoryRepository.class);
+
     @Test
     void saveCategoryTest() {
         CategoryService catServMock = new CategoryService();
-        CategoryRepository catRepMock = Mockito.mock(CategoryRepository.class);
         catServMock.setCategoryRepository(catRepMock);
 
         Category category = new Category();
@@ -29,7 +30,6 @@ class CategoryServiceTest {
     @Test
     void findAll() {
         CategoryService catServMock = new CategoryService();
-        CategoryRepository catRepMock = Mockito.mock(CategoryRepository.class);
         catServMock.setCategoryRepository(catRepMock);
 
         Assertions.assertEquals(catServMock.findAll(), catRepMock.findAll());
@@ -38,7 +38,6 @@ class CategoryServiceTest {
     @Test
     void findMainCategory() {
         CategoryService catServMock = new CategoryService();
-        CategoryRepository catRepMock = Mockito.mock(CategoryRepository.class);
         catServMock.setCategoryRepository(catRepMock);
         Category category = new Category();
         category.setType("main");
@@ -53,7 +52,6 @@ class CategoryServiceTest {
     @Test
     void findByNameEn() {
         CategoryService catServMock = new CategoryService();
-        CategoryRepository catRepMock = Mockito.mock(CategoryRepository.class);
         catServMock.setCategoryRepository(catRepMock);
 
         Assertions.assertEquals(catServMock.findByNameEn("example"),
@@ -64,7 +62,6 @@ class CategoryServiceTest {
     @Test
     void findById() {
         CategoryService catServMock = new CategoryService();
-        CategoryRepository catRepMock = Mockito.mock(CategoryRepository.class);
         catServMock.setCategoryRepository(catRepMock);
         Category category = new Category();
         category.setId(77);
@@ -79,7 +76,6 @@ class CategoryServiceTest {
     @Test
     void findByNameEnOrNameRusEquals() {
         CategoryService catServMock = new CategoryService();
-        CategoryRepository catRepMock = Mockito.mock(CategoryRepository.class);
         catServMock.setCategoryRepository(catRepMock);
 
         Assertions.assertEquals(
@@ -92,7 +88,6 @@ class CategoryServiceTest {
     @Test
     void getChildrenCategory() {
         CategoryService catServMock = new CategoryService();
-        CategoryRepository catRepMock = Mockito.mock(CategoryRepository.class);
         catServMock.setCategoryRepository(catRepMock);
 
         Category category = new Category();
@@ -103,8 +98,6 @@ class CategoryServiceTest {
         Assertions.assertEquals(
                 catServMock.getChildrenCategory(category), categories1);
 
-        Category category1 = new Category();
-        category1 = null;
-        Assertions.assertNull(catServMock.getChildrenCategory(category1));
+        Assertions.assertNull(catServMock.getChildrenCategory(null));
     }
 }

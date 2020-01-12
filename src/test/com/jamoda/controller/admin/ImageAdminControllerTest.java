@@ -20,10 +20,13 @@ import static org.mockito.Mockito.mock;
 
 class ImageAdminControllerTest {
 
+
+    ClothesService clothesService = Mockito.mock(ClothesService.class);
+    ImageService imageService = Mockito.mock(ImageService.class);
+
     @Test
     void pageAddFile() {
         ImageAdminController imageAdminController = new ImageAdminController();
-        ClothesService clothesService = Mockito.mock(ClothesService.class);
         imageAdminController.setClothesService(clothesService);
 
         Model model = mock(Model.class);
@@ -36,9 +39,7 @@ class ImageAdminControllerTest {
     @Test
     void addFile() throws IOException {
         ImageAdminController imageAdminController = new ImageAdminController();
-        ClothesService clothesService = Mockito.mock(ClothesService.class);
         imageAdminController.setClothesService(clothesService);
-        ImageService imageService = Mockito.mock(ImageService.class);
         imageAdminController.setImageService(imageService);
 
         String article = "qwerty";

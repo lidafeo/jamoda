@@ -4,8 +4,8 @@
     <#if error?? || message ??>
         <@modal.modal "Добавление нового фильтра" />
     </#if>
-    <div class="mx-auto" style="width: 1000px;">
-        <div class="form-center">
+    <div class="mx-auto" style="width: 900px;">
+        <div>
             <form action="/admin/add_filter" method="post">
                 <div class="form-group row">
                     <h4>Добавление фильтра</h4>

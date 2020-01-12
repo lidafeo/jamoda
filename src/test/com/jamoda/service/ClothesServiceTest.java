@@ -20,10 +20,11 @@ import static org.mockito.Mockito.when;
 
 class ClothesServiceTest {
 
+    ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
+
     @Test
     void saveClothesTest() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Clothes clothes = new Clothes();
@@ -37,7 +38,6 @@ class ClothesServiceTest {
     @Test
     void getMaxPriceAllClothes() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Mockito.when(clRepMock.findMaxPrice()).thenReturn(1);
@@ -49,7 +49,6 @@ class ClothesServiceTest {
     @Test
     void getMaxPriceByClothesIn() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Category category = new Category();
@@ -65,7 +64,6 @@ class ClothesServiceTest {
     @Test
     void getClothesPopularTest() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
         Pageable pageable = PageRequest.of(0, 8);
 
@@ -77,7 +75,6 @@ class ClothesServiceTest {
     @Test
     void findByArticleTest() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Clothes clothes = new Clothes();
@@ -91,7 +88,6 @@ class ClothesServiceTest {
     @Test
     void findAllTest() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Assertions.assertEquals(clServMock.findAll(), clRepMock.findAll());
@@ -100,7 +96,6 @@ class ClothesServiceTest {
     @Test
     void getClothesPopular() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
         Pageable pageable = PageRequest.of(0, 8);
 
@@ -112,7 +107,6 @@ class ClothesServiceTest {
     @Test
     void getClothesPopular2right() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -125,7 +119,6 @@ class ClothesServiceTest {
     @Test
     void getClothesPopular2notright() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -142,7 +135,6 @@ class ClothesServiceTest {
     @Test
     void findAllByCategoryInTest() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Category category = new Category();
@@ -157,7 +149,6 @@ class ClothesServiceTest {
     @Test
     void findAllByArticleInOrderByPresenceDescVisitDesc() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         List<String> articles = List.of("qwerty");
@@ -171,7 +162,6 @@ class ClothesServiceTest {
     @Test
     void findAllByArticleInOrderByPresenceDescVisitDesc2notright() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -192,7 +182,6 @@ class ClothesServiceTest {
     @Test
     void findAllByArticleInOrderByPresenceDescVisitDesc2right() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -208,7 +197,6 @@ class ClothesServiceTest {
     @Test
     void findAllByArticleInOrderByPresenceDescPriceDesc() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         List<String> articles = List.of("qwerty");
@@ -222,7 +210,6 @@ class ClothesServiceTest {
     @Test
     void findAllByArticleInOrderByPresenceDescPriceDesc2notright() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -243,7 +230,6 @@ class ClothesServiceTest {
     @Test
     void findAllByArticleInOrderByPresenceDescPriceDesc2right() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -259,7 +245,6 @@ class ClothesServiceTest {
     @Test
     void findAllByArticleInOrderByPresenceDescPriceAsc() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         List<String> articles = List.of("qwerty");
@@ -273,7 +258,6 @@ class ClothesServiceTest {
     @Test
     void findAllByArticleInOrderByPresenceDescPriceAsc2notright() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -294,7 +278,6 @@ class ClothesServiceTest {
     @Test
     void findAllByArticleInOrderByPresenceDescPriceAsc2right() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -310,7 +293,6 @@ class ClothesServiceTest {
     @Test
     void findByAttributeGroupsContainsAndArticleTest() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         List<AttributeGroup> atglist = new ArrayList<>();
@@ -330,7 +312,6 @@ class ClothesServiceTest {
     @Test
     void getCountProductInWarehouse() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Clothes clothes = new Clothes();
@@ -348,7 +329,6 @@ class ClothesServiceTest {
     @Test
     void getSizes() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Clothes clothes = new Clothes();
@@ -372,7 +352,6 @@ class ClothesServiceTest {
     @Test
     void findByAttributeGroupsContainsAndArticle() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         AttributeGroup atg = new AttributeGroup();
@@ -392,7 +371,6 @@ class ClothesServiceTest {
     @Test
     void findAllByOrderByPresenceDescPriceDesc() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
         Pageable pageable = PageRequest.of(0, 8);
 
@@ -403,7 +381,6 @@ class ClothesServiceTest {
     @Test
     void findAllByOrderByPresenceDescPriceAsc() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
         Pageable pageable = PageRequest.of(0, 8);
 
@@ -414,7 +391,6 @@ class ClothesServiceTest {
     @Test
     void findAllByCategoryInOrderByPresenceDescPriceAsc() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
         Pageable pageable = PageRequest.of(0, 8);
         Category category = new Category();
@@ -428,7 +404,6 @@ class ClothesServiceTest {
     @Test
     void findAllByCategoryInOrderByPresenceDescVisitDesc() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
         Pageable pageable = PageRequest.of(0, 8);
         Category category = new Category();
@@ -442,7 +417,6 @@ class ClothesServiceTest {
     @Test
     void findAllByCategoryInOrderByPresenceDescPriceDesc() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
         Pageable pageable = PageRequest.of(0, 8);
         Category category = new Category();
@@ -457,7 +431,6 @@ class ClothesServiceTest {
     @Test
     void findAllByOrderByPresenceDescPriceDesc2notright() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -477,7 +450,6 @@ class ClothesServiceTest {
     @Test
     void findAllByOrderByPresenceDescPriceDesc2right() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -492,7 +464,6 @@ class ClothesServiceTest {
     @Test
     void findAllByOrderByPresenceDescPriceAsc2notright() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -512,7 +483,6 @@ class ClothesServiceTest {
     @Test
     void findAllByOrderByPresenceDescPriceAsc2right() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -527,7 +497,6 @@ class ClothesServiceTest {
     @Test
     void findAllByCategoryInOrderByPresenceDescVisitDesc2notright() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -550,7 +519,6 @@ class ClothesServiceTest {
     @Test
     void findAllByCategoryInOrderByPresenceDescVisitDesc2right() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -568,7 +536,6 @@ class ClothesServiceTest {
     @Test
     void findAllByCategoryInOrderByPresenceDescPriceDesc2notright() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -591,7 +558,6 @@ class ClothesServiceTest {
     @Test
     void findAllByCategoryInOrderByPresenceDescPriceDesc2right() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -609,7 +575,6 @@ class ClothesServiceTest {
     @Test
     void findAllByCategoryInOrderByPresenceDescPriceAsc2notright() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);
@@ -632,7 +597,6 @@ class ClothesServiceTest {
     @Test
     void findAllByCategoryInOrderByPresenceDescPriceAsc2right() {
         ClothesService clServMock = new ClothesService();
-        ClothesRepository clRepMock = Mockito.mock(ClothesRepository.class);
         clServMock.setClothesRepository(clRepMock);
 
         Pageable pageable = PageRequest.of(0, 8);

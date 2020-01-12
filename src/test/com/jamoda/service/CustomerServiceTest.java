@@ -14,10 +14,11 @@ import static org.mockito.Mockito.when;
 
 class CustomerServiceTest {
 
+    CustomerRepository custRepMock = Mockito.mock(CustomerRepository.class);
+
     @Test
     void saveCustomer() {
         CustomerService custServ = new CustomerService();
-        CustomerRepository custRepMock = Mockito.mock(CustomerRepository.class);
         custServ.setCustomerRepository(custRepMock);
 
         Customer a = new Customer();
@@ -32,7 +33,6 @@ class CustomerServiceTest {
     @Test
     void findByUser() {
         CustomerService custServ = new CustomerService();
-        CustomerRepository custRepMock = Mockito.mock(CustomerRepository.class);
         custServ.setCustomerRepository(custRepMock);
 
         User user = new User();
@@ -48,7 +48,6 @@ class CustomerServiceTest {
     @Test
     void findByEmail() {
         CustomerService custServ = new CustomerService();
-        CustomerRepository custRepMock = Mockito.mock(CustomerRepository.class);
         custServ.setCustomerRepository(custRepMock);
 
         User user = new User();
@@ -64,7 +63,6 @@ class CustomerServiceTest {
     @Test
     void updateInfo() {
         CustomerService custServ = new CustomerService();
-        CustomerRepository custRepMock = Mockito.mock(CustomerRepository.class);
         custServ.setCustomerRepository(custRepMock);
 
         Customer customer1 = new Customer();
