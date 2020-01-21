@@ -64,4 +64,8 @@ public class Category {
     public void setParent(Category category) {
         this.parent = category;
     }
+
+    public String getIdString(){
+        return this.id + "";
+    }
 }

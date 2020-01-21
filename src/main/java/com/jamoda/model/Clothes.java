@@ -41,18 +41,18 @@ public class Clothes {
         this.name = name;
         this.price = price;
     }
-/*
-    public Clothes(Clothes clothes, String article, List<Image> images) {
+/////
+    public Clothes(Clothes clothes, String article, List<Image> images,Map<String, AttributeValue> attributeValues) {
         this.name = clothes.name;
         this.price = clothes.price;
         this.article = article;
         this.category = clothes.category;
-        this.attributeGroups = clothes.attributeGroups;
-        this.attributeValues = clothes.attributeValues;
+        this.attributeGroups = new LinkedList<>(clothes.attributeGroups);
+        this.attributeValues = attributeValues;
         this.images = images;
     }
 
- */
+
 
     public String getStringSizes(){
         String sizes = "";

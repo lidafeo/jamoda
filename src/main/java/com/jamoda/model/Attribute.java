@@ -88,4 +88,8 @@ public class Attribute {
     public void setNameEn(String nameEn) {
         this.nameEn = nameEn;
     }
+
+    public String getIdString(){
+        return this.id + "";
+    }
 }

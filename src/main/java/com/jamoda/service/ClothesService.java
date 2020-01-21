@@ -16,8 +16,12 @@ public class ClothesService {
 
     private ClothesRepository clothesRepository;
 
-    public void saveClothes(Clothes clothes) {
-        clothesRepository.saveAndFlush(clothes);
+    public Clothes saveClothes(Clothes clothes) {
+        return clothesRepository.saveAndFlush(clothes);
+    }
+
+    public void deleteClothes(Clothes clothes) {
+        clothesRepository.delete(clothes);
     }
 
     public Integer getMaxPriceAllClothes() {

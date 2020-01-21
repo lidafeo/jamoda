@@ -15,7 +15,7 @@
                             <div class="col-sm-10">
                                 <select name="category_id" id="category_id" class="form-control" required >
                                        <#list category as categoryOne>
-                                      <option value="${categoryOne.id}">${categoryOne.nameRus}</option>
+                                      <option value="${categoryOne.getIdString()}">${categoryOne.nameRus}</option>
                                      </#list>
                                 </select>
                             </div>
@@ -47,7 +47,7 @@
                                        <select name="group_id" id="group_id" class="form-control" required>
                                             <option value="-1">нет</option>
                                             <#list groups as group>
-                                                <option value="${group.id}">${group.name}</option>
+                                                <option value="${group.getIdString()}">${group.name}</option>
                                             </#list>
                                        </select>
                                   </div>
@@ -58,7 +58,7 @@
                                       <div class="col-sm-4">
                                          <select name="attribute" id="attribute" class="form-control">
                                              <#list attributes as attribute>
-                                                 <option value="${attribute.id}">${attribute.name}</option>
+                                                 <option value="${attribute.getIdString()}">${attribute.name}</option>
                                              </#list>
                                          </select>
                                       </div>
