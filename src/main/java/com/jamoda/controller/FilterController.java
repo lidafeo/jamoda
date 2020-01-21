@@ -36,8 +36,7 @@ public class FilterController {
         Category category = null;
         if(params.get("category") != null) {
             category = categoryService.findByNameEn(params.get("category"));
-            model.addAttribute("url", "/filter?category=" + params.get("category") + "&");
-        }
+            model.addAttribute("url", "/filter?category=" + params.get("category") + "&"); }
         else {
             model.addAttribute("url", "/?");
         }
@@ -47,8 +46,7 @@ public class FilterController {
         }
         else {
             model.addAttribute("choosedCategory", category);
-            clothes = sortService.getClothesWithoutFilters(1, category, pageable, -1, -1);
-        }
+            clothes = sortService.getClothesWithoutFilters(1, category, pageable, -1, -1); }
         model.addAttribute("page", clothes);
         model.addAttribute("max_price", clothesService.getMaxPriceByClothesIn(categoryService.getChildrenCategory(category)) + "");
         return "main";

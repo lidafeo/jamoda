@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class OrderAdminController {
+
     private OrderService orderService;
 
     @GetMapping("/admin/list_orders")
@@ -24,8 +25,7 @@ public class OrderAdminController {
     }
 
     @PostMapping("/confirm")
-    public String confirmOrder(Model model,
-                                 int id) {
+    public String confirmOrder(Model model, int id) {
         Order order = orderService.confirmOrder(id);
         if(order != null) {
             model.addAttribute("message", id);

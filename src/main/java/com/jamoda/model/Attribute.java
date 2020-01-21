@@ -21,16 +21,6 @@ public class Attribute {
     @JoinColumn(name = "attribute_group_id", referencedColumnName = "id")
     private AttributeGroup group;
 
-    /*
-    @ManyToMany
-    @JoinTable(
-            name = "group_attribute_product",
-            joinColumns = @JoinColumn(name = "attribute_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id")
-    )
-    private List<AttributeGroup> groups;
-     */
-
     public Attribute() {}
 
     public Attribute(String name) {

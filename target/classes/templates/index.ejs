@@ -1,0 +1,50 @@
+<h1>Корзина</h1>
+<hr>
+<% if(cart.length == 0) {%>
+    <div>Корзина пуста</div>
+<%} else {%>
+<h4><span id="str-count"><%=count%></span> товар(а) на сумму <span id="str-price"><%=price%></span> руб.</h4>
+<br>
+<div class="card-deck">
+    <% for (let i = 0; i < cart.length; i++) {%>
+
+        <div class="col-sm-6" id="card-<%=cart[i].article_clothes%>">
+            <div class="card mb-4" style="max-width: 430px;">
+                <div class="row no-gutters">
+                    <% if (cart[i].image) {%>
+                        <div class="col-md-5">
+                            <a href="/clothes?article=<%=cart[i].article_clothes%>">
+                                <img src="/img/<%=cart[i].image%>" height="100%" class="card-img img-fluid"  alt="<%=cart[i].name%>">
+                            </a>
+                        </div>
+                        <div class="col-md-7">
+                    <%} else {%>
+                         <div class="col-md-12">
+                    <%}%>
+                        <div class="card-body">
+                            <p class="card-text text-right">
+                                <button type="button" class="close drop" aria-label="Close" data-article="<%=cart[i].article_clothes%>" data-size="<%=cart[i].size%>">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </p>
+                            <a href="/clothes?article=<%=cart[i].article_clothes%>"><p class="card-text"><%=cart[i].category %> <b><%=cart[i].name%></b></a></p>
+                            <p class="card-text">Размер - <%=cart[i].size%></p>
+                            <p class="card-text"><%=cart[i].price%> руб. X <b><%=cart[i].count%></b> шт. <a href="#" class="badge btn-dark">-</a><hr><h3><%=(+cart[i].price) * (+cart[i].count)%> руб.</h3></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <%}%>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <button type="button" id="in-order" class="btn btn-primary btn-lg">Перейти к оформлению</button>
+    </div>
+    <div class="col-md-4">
+        <a href="/cart/clean" class="btn btn-primary btn-lg" id="clean-cart">Очистить корзину</a>
+    </div>
+</div>
+<%}%>
+<br>

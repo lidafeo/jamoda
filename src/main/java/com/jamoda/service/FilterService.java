@@ -66,7 +66,8 @@ public class FilterService {
         return clothes;
     }
 
-    public List<String> filteredSize(String sizesClothes, List<Category> categories) {
+    public List<String> filteredSize(String sizesClothes,
+                                     List<Category> categories) {
         String[] sizes = sizesClothes.trim().split(",");
         List<String> clothes = new ArrayList<>();
         List<Clothes> allClothes;
@@ -88,8 +89,8 @@ public class FilterService {
         return  attributeValueRepository.findArticleClothesWithFilter(filters, categories);
     }
 
-    public void saveFilter(Filter filter) {
-        filterRepository.saveAndFlush(filter);
+    public Filter saveFilter(Filter filter) {
+        return filterRepository.saveAndFlush(filter);
     }
 
     public Filter findByNameEnOrNameOrAttribute(String nameEn, String name, Attribute attribute) {

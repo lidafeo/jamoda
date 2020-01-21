@@ -18,6 +18,9 @@ public class MainController {
     private ClothesService clothesService;
     private CategoryService categoryService;
     private FilterService filterService;
+    private Model model;
+    private Pageable pageable;
+    private User user;
 
     @GetMapping("/")
     public String main(Model model,
@@ -35,11 +38,11 @@ public class MainController {
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("categories", categoryService.findMainCategory());
-        return "registration";
-    }
+        return "registration";}
 
     @GetMapping("/about")
-    public String about(Model model, @AuthenticationPrincipal User user) {
+    public String about(Model model,
+                        @AuthenticationPrincipal User user) {
         model.addAttribute("categories", categoryService.findMainCategory());
         model.addAttribute("customer", user);
         return "about";

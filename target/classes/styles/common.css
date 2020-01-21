@@ -1,0 +1,41 @@
+.catalog-menu {
+    position: absolute;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    visibility: hidden;
+    z-index: 99999;
+}
+.main-clothes {
+    margin: 3% 5%;
+}
+
+.about {
+    margin: 8%;
+}
+
+.my-navbar {
+    min-height: 70px !important;
+}
+
+.my-card {
+    margin: 20px auto auto;
+}
+
+.disable-option {
+    color: #b3b3b3;
+}
+.presence {
+    opacity: .5;
+}
+
+.hide-block {
+    visibility: hidden;
+    width: 20px;
+    height: 20px;
+}
+
+.badge {
+    width: 20px;
+    height: 20px;
+}

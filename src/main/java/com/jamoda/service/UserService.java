@@ -30,9 +30,6 @@ public class UserService implements UserDetailsService {
         if(dBuserName == null){
             throw new UsernameNotFoundException("User not authorized.");
         }
-        //GrantedAuthority authority = new SimpleGrantedAuthority(activeUserInfo.getRoles());
-        //UserDetails userDetails = (UserDetails)new User(dBuserName,
-        //        activeUserInfo.getPassword(), Arrays.asList(authority));
         return activeUserInfo;
     }
 

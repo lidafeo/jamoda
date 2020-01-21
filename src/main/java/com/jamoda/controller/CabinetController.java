@@ -27,8 +27,7 @@ public class CabinetController {
         Customer customer = customerService.findByUser(user);
         model.addAttribute("categories", categoryService.findMainCategory());
         model.addAttribute("customer", customer);
-        return "cabinet";
-    }
+        return "cabinet"; }
 
     @PostMapping("/cabinet")
     public String editProfile(Customer customer, @AuthenticationPrincipal User user, Model model) {
@@ -52,8 +51,7 @@ public class CabinetController {
         Order order = orderService.findById(number);
         if((order.getCustomer() == customer && customer != null) || user.getRoles().contains(Role.ADMIN)) {
             if(user.getRoles().contains(Role.ADMIN) && !user.getRoles().contains(Role.USER)) {
-                model.addAttribute("admin", true);
-            }
+                model.addAttribute("admin", true); }
             model.addAttribute("order", order);
         }
         return "parts/detail";

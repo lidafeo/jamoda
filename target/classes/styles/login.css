@@ -1,0 +1,15 @@
+.form-center {
+    margin: 15%;
+}
+.login-block
+{
+    background-color:#fff;
+    padding:60px;
+    -webkit-box-shadow:0 3px 50px 0 rgba(0,0,0,.1);
+    box-shadow:0 3px 50px 0 rgba(0,0,0,.1);
+    text-align:center;
+    border-radius:5px;
+}
+.register {
+    margin: 50px;
+}

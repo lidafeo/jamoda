@@ -15,10 +15,6 @@ public class Image {
     private boolean hide;
     private boolean main;
 
-    //@ManyToOne
-    //@JoinColumn(name = "clothes_article", referencedColumnName = "article")
-    //private Clothes clothes;
-
     public Image() {}
 
     public Image(String name, String article) {
@@ -41,22 +37,4 @@ public class Image {
     public void setArticle(String article) {
         this.article = article;
     }
-/*
-    public boolean isHide() {
-        return hide;
-    }
-
-    public void setHide(boolean hide) {
-        this.hide = hide;
-    }
-
-    public boolean isMain() {
-        return main;
-    }
-
-    public void setMain(boolean main) {
-        this.main = main;
-    }
-
- */
 }

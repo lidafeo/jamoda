@@ -14,8 +14,13 @@ import java.util.List;
 
 @Repository
 public class ClothesRepositoryImpl implements ClothesCustom{
-    @PersistenceContext
+
     private EntityManager entityManager;
+
+    @PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     @Override
     public Page<Clothes> findByStringsContains(String[] arr, Pageable pageable) {
