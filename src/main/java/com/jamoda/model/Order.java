@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,6 +15,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private Date date;
     private String name;
     private String phone;
     private String email;
@@ -23,9 +25,14 @@ public class Order {
     private int sum;
     private Boolean paid = false;
     private Boolean completed = false;
+    private Boolean confirm = false;
 
     @OneToMany(targetEntity = OrderProduct.class, mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderProduct> products = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private Customer customer;
 
     public Order() {
     }
@@ -112,5 +119,37 @@ public class Order {
 
     public void setProducts(List<OrderProduct> products) {
         this.products = products;
+    }
+
+    public void setSum(int sum) {
+        this.sum = sum;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getNumberString() {
+        return this.id + "";
+    }
+
+    public Boolean getConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(Boolean confirm) {
+        this.confirm = confirm;
     }
 }

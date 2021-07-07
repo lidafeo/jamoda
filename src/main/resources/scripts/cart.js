@@ -98,6 +98,48 @@ let cartJS = {
 
     },
 
+    minusProductFromCart: function(product) {
+        let cart = cartJS.getCart();
+        let find = false;
+
+        let commonPrice = +localStorage.getItem("price");
+        let commonCount = +localStorage.getItem("count");
+
+        for(let i = 0; i < cart.length; i++) {
+            if(cart[i]['article_clothes'] == product['article_clothes'] && cart[i]['size'] == product['size']) {
+                find = true;
+                commonPrice -= +cart[i]['price'];
+                commonCount --;
+                cart[i]['count'] --;
+                break;
+            }
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        localStorage.setItem("count", commonCount);
+        localStorage.setItem("price", commonPrice);
+    },
+
+    plusProductFromCart: function(product) {
+        let cart = cartJS.getCart();
+        let find = false;
+
+        let commonPrice = +localStorage.getItem("price");
+        let commonCount = +localStorage.getItem("count");
+
+        for(let i = 0; i < cart.length; i++) {
+            if(cart[i]['article_clothes'] == product['article_clothes'] && cart[i]['size'] == product['size']) {
+                find = true;
+                commonPrice += +cart[i]['price'];
+                commonCount ++;
+                cart[i]['count'] ++;
+                break;
+            }
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        localStorage.setItem("count", commonCount);
+        localStorage.setItem("price", commonPrice);
+    },
+
     getCountProductsInCart: function() {
         let count = 0;
         let cart = cartJS.getCart();

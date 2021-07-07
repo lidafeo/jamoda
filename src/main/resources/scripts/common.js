@@ -167,7 +167,15 @@ function updateSizeAtPage() {
     }
 
     //применение фильтров
+/*
     $('#apply_filter').click(function (e) {
+        e.preventDefault();
+        let params = getUrlVars();
+        sendRequest(params, 0, -1);
+    });
+ */
+    $("#form_filter").submit(function (e) {
+        console.log("зашел");
         e.preventDefault();
         let params = getUrlVars();
         sendRequest(params, 0, -1);
@@ -201,10 +209,7 @@ function updateSizeAtPage() {
         if(size == -1) {
             size = +$(".pagination-size .active a").data("number");
         }
-        console.log(page);
-        console.log(size);
 
-        debugger;
         for(let i = 0; i < data.length; i++) {
             if(names.indexOf(data[i].name) == -1) {
                 names.push(data[i].name);
@@ -232,6 +237,7 @@ function updateSizeAtPage() {
             },
             error: function (err) {
                 console.log(err);
+                location.reload();
             }
         });
     }

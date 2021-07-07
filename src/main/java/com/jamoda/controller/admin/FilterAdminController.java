@@ -31,7 +31,6 @@ public class FilterAdminController {
                              @RequestParam(name="attributeId") long attributeId,
                              Model model) {
         model.addAttribute("attributes", attributeService.findAll());
-
         if( attributeId != 0) {
             Attribute attribute = attributeService.findById(attributeId);
             if(attribute == null) {
@@ -42,12 +41,10 @@ public class FilterAdminController {
         else {
             return getErrorFilter("Выберите атрибут!", model);
         }
-
         Filter filterFromDb = filterService.findByNameEnOrNameOrAttribute(filter.getNameEn(), filter.getName(), filter.getAttribute());
         if(filterFromDb != null) {
             return getErrorFilter("Такой фильтр уже существует!", model);
         }
-
         if (!filter.isSearchAll()) {
             List<String> values = new LinkedList<>();
             for(String value: filter.getValues()) {
@@ -57,7 +54,6 @@ public class FilterAdminController {
             }
             filter.setValues(values);
         }
-
         filterService.saveFilter(filter);
         model.addAttribute("message", "Фильтр успешно добавлен");
         return "admin/addFilter";

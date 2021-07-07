@@ -19,8 +19,33 @@
             <li class="nav-item">
                 <a class="nav-link" href="/about">О нас <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item" id="cart-li">
-                <a class="nav-link" href="/cart" id="cart"><img src="/img/icons8-shopping-bag-32.png" width="34" alt="Корзина"> <span class="badge badge-light" id="count-in-cart"></span></a>
+        </ul>
+        <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+            <form class="form-inline my-2 my-lg-0" method="get" action="/search">
+                <input class="form-control mr-sm-2" type="search" name="q" placeholder="Блисс" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0 mr-lg-4 my-lg-2" type="submit">Поиск</button>
+            </form>
+            <#if customer??>
+                <#if customer.login??>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light mr-lg-4 my-lg-2" href="/cabinet">${customer.login} </a>
+                    </li>
+                <#elseif customer.email??>
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light mr-lg-4 my-lg-2" href="/cabinet">${customer.email} </a>
+                    </li>
+                </#if>
+                <form action="/logout" class="form-inline mr-lg-4 my-lg-2" method="post">
+                    <input type="submit" class="btn btn-outline-light" value="Выйти" />
+                    <input type="hidden" name="_csrf" value="${_csrf.token}">
+                </form>
+            <#else>
+                <li class="nav-item">
+                    <a class="btn btn-outline-light mr-lg-4 my-lg-2" href="/cabinet">Войти </a>
+                </li>
+            </#if>
+            <li class="nav-item">
+                <a class="nav-link mr-lg-5" href="/cart" id="cart"><img src="/img/icons8-shopping-bag-32.png" width="34" alt="Корзина"> <span class="badge badge-light" id="count-in-cart"></span></a>
             </li>
         </ul>
     </div>

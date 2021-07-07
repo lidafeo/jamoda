@@ -20,12 +20,15 @@ public class ImageService {
 
     @Value("${upload.path}")
     private String uploadPath;
+//    private String uploadPath = "C:/Users/homahel/Desktop/jamoda/uploads";
 
-    public void checkExistsDir() {
+    public boolean checkExistsDir() {
         File uploadDir = new File(uploadPath);
         if(!uploadDir.exists()) {
             uploadDir.mkdir();
+            return false;
         }
+        return true;
     }
 
     public void addFile(MultipartFile file, String filename) throws IOException {

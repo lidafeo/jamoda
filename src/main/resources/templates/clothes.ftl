@@ -1,30 +1,43 @@
 <#import "parts/common.ftl" as c>
 <@c.page "/clothes.js">
-    <div class="row main-clothes">
+    <#if error??>
+        <div>
+            ${error}
+        </div>
+    <#else>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-white">
+                <li class="breadcrumb-item"><a href="/">Главная</a></li>
+                <#list list_categories as cat>
+                    <li class="breadcrumb-item"><a href="/filter?category=${cat.nameEn}">${cat.nameRus}</a></li>
+                </#list>
+            </ol>
+        </nav>
+        <div class="row main-clothes">
         <#if clothes.images?size != 0>
-        <div class="col-sm-5">
+            <div class="col-sm-5">
             <div id="carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <#list clothes.images as image>
-                        <#if image?index == 0>
-                            <div class="carousel-item active">
+                    <#if image?index == 0>
+                    <div class="carousel-item active">
                         <#else>
                         <div class="carousel-item">
-                        </#if>
+                            </#if>
                             <img src="/img/${image.name}" class="d-block w-100" width="150" alt="${clothes.name}">
                         </div>
-                    </#list>
+                        </#list>
+                    </div>
+                    <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Предыдущая</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Следующая</span>
+                    </a>
                 </div>
-                <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Предыдущая</span>
-                </a>
-                <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Следующая</span>
-                </a>
             </div>
-        </div>
         </#if>
         <div class="col-sm-1">
         </div>
@@ -91,7 +104,7 @@
                                                 <td>${clothes.attributeValues["${attribute.id}"].value}</td>
                                             </tr>
                                         </#if>
-                                     </#list>
+                                    </#list>
                                 </table>
                             </li>
                         </ul>
@@ -100,6 +113,7 @@
                 </#list>
             </div>
         </div>
-    </div>
-    <#include "parts/modal.ftl">
+        </div>
+        <#include "parts/modal.ftl">
+    </#if>
 </@c.page>

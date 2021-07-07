@@ -8,7 +8,7 @@ let pageRender = `<h1>Корзина</h1>
 <div class="card-deck">
     <% for (let i = 0; i < cart.length; i++) {%>
 
-        <div class="col-sm-6" id="card-<%=cart[i].article_clothes%>">
+        <div class="col-sm-6" id="<%=cart[i].article_clothes%>-<%=cart[i].size%>">
             <div class="card mb-4" style="max-width: 430px;">
                 <div class="row no-gutters">
                     <% if (cart[i].image) {%>
@@ -29,7 +29,18 @@ let pageRender = `<h1>Корзина</h1>
                             </p>
                             <p class="card-text"><a href="/clothes?article=<%=cart[i].article_clothes%>"><%=cart[i].category %> <b><%=cart[i].name%></b></a></p>
                             <p class="card-text">Размер - <%=cart[i].size%></p>
-                            <p class="card-text"><%=cart[i].price%> руб. X <b><%=cart[i].count%></b> шт. <hr><h3><%=(+cart[i].price) * (+cart[i].count)%> руб.</h3></p>
+                            <p class="card-text"><%=cart[i].price%> руб. X <b id="count-pr"><%=cart[i].count%></b> шт. 
+                             <% if (cart[i].count < 10) {%>
+                                <a href="#" data-article="<%=cart[i].article_clothes%>" data-size="<%=cart[i].size%>" data-price="<%=cart[i].price%>" class="badge btn-secondary plus badge">+</a>
+                             <%} else {%>
+                                <a href="#" data-article="<%=cart[i].article_clothes%>" data-size="<%=cart[i].size%>" data-price="<%=cart[i].price%>" class="badge btn-secondary plus hide-block">+</a>
+                             <%}%>
+                             <% if (cart[i].count > 1) {%>
+                                <a href="#" data-article="<%=cart[i].article_clothes%>" data-size="<%=cart[i].size%>" data-price="<%=cart[i].price%>" class="badge btn-secondary minus badge">-</a>
+                             <%} else {%>
+                                <a href="#" data-article="<%=cart[i].article_clothes%>" data-size="<%=cart[i].size%>" data-price="<%=cart[i].price%>" class="badge btn-secondary minus hide-block">-</a>
+                             <%}%>
+                                <hr><h3 id="price-sum"><%=(+cart[i].price) * (+cart[i].count)%> руб.</h3></p>
                         </div>
                     </div>
                 </div>
@@ -99,8 +110,49 @@ $('#cart-div').on('click', "#in-order", function (e) {
         },
         error: function (err) {
             console.log(err);
+            location.reload();
         }
     });
+});
+
+$("#cart-div").on('click', ".minus", function (e) {
+    e.preventDefault();
+    let product = {};
+    product['article_clothes'] = $(this).data("article");
+    product['size'] = $(this).data("size");
+    cartJS.minusProductFromCart(product);
+    cartJS.setCountInNavbar();
+    $("#str-count").html(cartJS.getCommonCount());
+    $("#str-price").html(cartJS.getCommonPrice());
+    let count = cartJS.getProductInCart($(this).data("article"))[$(this).data("size")];
+    $("#" + product['article_clothes'] + "-" + product['size'] + " #count-pr").html(count);
+    $("#" + product['article_clothes'] + "-" + product['size'] + " #price-sum").html(($(this).data("price") * count) + " руб.");
+    if(count == 1) {
+        $(this).css("visibility", "hidden");
+    }
+    if(count <= 10) {
+        $("#" + product['article_clothes'] + "-" + product['size'] + " .plus").css("visibility", "visible");
+    }
+});
+
+$("#cart-div").on('click', ".plus", function (e) {
+    e.preventDefault();
+    let product = {};
+    product['article_clothes'] = $(this).data("article");
+    product['size'] = $(this).data("size");
+    cartJS.plusProductFromCart(product);
+    cartJS.setCountInNavbar();
+    $("#str-count").html(cartJS.getCommonCount());
+    $("#str-price").html(cartJS.getCommonPrice());
+    let count = cartJS.getProductInCart($(this).data("article"))[$(this).data("size")];
+    $("#" + product['article_clothes'] + "-" + product['size'] + " #count-pr").html(count);
+    $("#" + product['article_clothes'] + "-" + product['size'] + " #price-sum").html(($(this).data("price") * count) + " руб.");
+    if(count > 1) {
+        $("#" + product['article_clothes'] + "-" + product['size'] + " .minus").css("visibility", "visible");
+    }
+    if(count >= 10) {
+        $(this).css("visibility", "hidden");
+    }
 });
 
 $("#cart-div").on('submit', "#order-form", function (e) {
@@ -123,12 +175,19 @@ $("#cart-div").on("click", ".drop", function (e) {
         $('#cart-div').html("<h1>Корзина</h1><hr><div>Корзина пуста</div>");
     }
     else {
-        $("#card-" + product['article_clothes']).remove();
+        $("#" + product['article_clothes'] + "-" + product['size']).remove();
         $("#str-count").html(cartJS.getCommonCount());
         $("#str-price").html(cartJS.getCommonPrice());
     }
     cartJS.setCountInNavbar();
 });
+
+$("#cart-div").on('click', "#clean-cart", function (e) {
+    e.preventDefault();
+    cartJS.clearCart();
+    window.location.href = "/cart";
+});
+
 $(document).on("click", "#do_pay", function(e) {
     e.preventDefault();
     $("#form-pay").submit();
@@ -154,6 +213,8 @@ function showPay() {
 }
 
 function sendFormPay() {
+    debugger;
+    console.log("jkj");
     $("#do-order").attr("disabled", true);
     let form = $("#order-form").serializeArray();
     let cart = cartJS.getCart();

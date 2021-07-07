@@ -41,6 +41,18 @@ public class Clothes {
         this.name = name;
         this.price = price;
     }
+/////
+    public Clothes(Clothes clothes, String article, List<Image> images,Map<String, AttributeValue> attributeValues) {
+        this.name = clothes.name;
+        this.price = clothes.price;
+        this.article = article;
+        this.category = clothes.category;
+        this.attributeGroups = new LinkedList<>(clothes.attributeGroups);
+        this.attributeValues = attributeValues;
+        this.images = images;
+    }
+
+
 
     public String getStringSizes(){
         String sizes = "";
@@ -55,14 +67,16 @@ public class Clothes {
     public String getSizesGap() {
         String sizes = "";
         for(Warehouse warehouse: this.warehouses) {
-            sizes += warehouse.getSize() + " ";
+            if(warehouse.getCount() > 0)
+                sizes += warehouse.getSize() + " ";
         }
         return sizes;
     }
     public String getCountsGap() {
         String counts = "";
         for(Warehouse warehouse: this.warehouses) {
-            counts += warehouse.getCount() + " ";
+            if(warehouse.getCount() > 0)
+                counts += warehouse.getCount() + " ";
         }
         return counts;
     }
@@ -178,4 +192,20 @@ public class Clothes {
         return season;
     }
 
+    public int checkSizeCount(String[] sizes) {
+        int count = 0;
+        for(Warehouse war: this.getWarehouses()) {
+            for (String c: sizes) {
+                try {
+                    int s = Integer.parseInt(c.trim());
+                    if(war.getSize() == s) {
+                        count += war.getCount();
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println(e);
+                }
+            }
+        }
+        return count;
+    }
 }

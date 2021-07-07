@@ -20,6 +20,10 @@ public class Category {
 
     private String type;
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public Category() {
     }
 
@@ -63,5 +67,9 @@ public class Category {
 
     public void setParent(Category category) {
         this.parent = category;
+    }
+
+    public String getIdString(){
+        return this.id + "";
     }
 }

@@ -10,7 +10,7 @@ public class OrderProduct {
     private Integer count;
     private Integer size;
     private Integer price;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clothes_id", referencedColumnName = "article")
     private Clothes clothes;
     @ManyToOne
@@ -70,5 +70,16 @@ public class OrderProduct {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public Boolean checkClothesExists() {
+        try {
+            String name = this.clothes.getName();
+            if(name != null)
+                return true;
+            return false;
+        } catch (EntityNotFoundException e) {
+            return false;
+        }
     }
 }

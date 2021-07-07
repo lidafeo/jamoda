@@ -4,18 +4,18 @@
 <#if error?? || message ??>
     <@modal.modal "Добавление нового товара" />
 </#if>
-    <div class="mx-auto" style="width: 900px;">
-                <div class="form-center">
+    <div class="mx-auto" style="width: 750px;">
+                <div>
                     <form action="/admin/add_clothes" method="post" id="form" enctype="multipart/form-data">
                         <div class="form-group row">
-                            <h4>Добавление нового товара</h4>
+                            <h3>Добавление нового товара</h3>
                         </div>
                         <div class="form-group row">
                             <label for="category_id" class="col-sm-2 col-form-label">Категория</label>
                             <div class="col-sm-10">
                                 <select name="category_id" id="category_id" class="form-control" required >
                                        <#list category as categoryOne>
-                                      <option value="${categoryOne.id}">${categoryOne.nameRus}</option>
+                                      <option value="${categoryOne.getIdString()}">${categoryOne.nameRus}</option>
                                      </#list>
                                 </select>
                             </div>
@@ -47,7 +47,7 @@
                                        <select name="group_id" id="group_id" class="form-control" required>
                                             <option value="-1">нет</option>
                                             <#list groups as group>
-                                                <option value="${group.id}">${group.name}</option>
+                                                <option value="${group.getIdString()}">${group.name}</option>
                                             </#list>
                                        </select>
                                   </div>
@@ -58,7 +58,7 @@
                                       <div class="col-sm-4">
                                          <select name="attribute" id="attribute" class="form-control">
                                              <#list attributes as attribute>
-                                                 <option value="${attribute.id}">${attribute.name}</option>
+                                                 <option value="${attribute.getIdString()}">${attribute.name}</option>
                                              </#list>
                                          </select>
                                       </div>

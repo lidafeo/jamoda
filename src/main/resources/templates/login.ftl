@@ -8,15 +8,23 @@
 </head>
 <body>
     <div class="container">
-        <div class="mx-auto" style="width: 740px;">
-            <div class="form-center">
+        <div class="mx-auto" style="max-width: 740px;">
+            <div class="form-center login-block">
                 <form action="/login" method="post">
+                    <div class="form-group row justify-content-end">
+                        <a href="/" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                    </div>
                     <div class="form-group row">
                         <div class="col-sm-1"></div>
                         <h2>Вход в личный кабинет</h2>
                     </div>
                     <hr>
-                    <div class="form-group row text-danger" id="err-mess"></div>
+                    <div class="form-group row">
+                        <div class="col-sm-1"></div>
+                        <div id="err-mess" class="text-danger"></div>
+                    </div>
                     <div class="form-group row">
                         <label for="login" class="col-sm-3 col-form-label col-form-label-lg">Логин</label>
                         <div class="col-sm-9">
@@ -32,7 +40,6 @@
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                     <br>
                     <div class="form-group row">
-                        <div class="col-sm-1"></div>
                         <div class="col-sm-4">
                             <button type="submit" name="submit" id="go_in" class="btn btn-primary btn-lg">  Войти  </button>
                         </div>

@@ -14,7 +14,13 @@ import java.util.Map;
 
 @Repository
 public class AttributeValueRepositoryImpl implements AttributeValueCustom {
+
     @PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    //@PersistenceContext
     private EntityManager entityManager;
     @Override
     public List<AttributeValue> findArticleClothesWithFilter(Map<Attribute, List<String>> filters,

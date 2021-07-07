@@ -1,6 +1,5 @@
 package com.jamoda.model;
 
-
 import javax.persistence.*;
 
 @Entity
@@ -9,10 +8,6 @@ public class AttributeValue {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    //@Column(name = "product_article")
-    //private String productArticle;
-    //@Column(name = "attribute_id")
-    //private long attributeId;
     private String value;
     private Boolean active;
 
